@@ -1,10 +1,11 @@
 "use client";
 import { Phone, Mail, MapPin } from "lucide-react";
-import { COMPANY, NAV_LINKS } from "@/lib/constants";
+import { NAV_LINKS } from "@/lib/constants";
+import type { CompanyData } from "@/lib/types";
 
 const CERTIFS = ["NATE", "EPA 608", "ACCA", "BBB"];
 
-export default function Footer() {
+export default function Footer({ company }: { company: CompanyData }) {
   const year = new Date().getFullYear();
 
   return (
@@ -19,12 +20,12 @@ export default function Footer() {
             <a href="#" className="flex items-center gap-2 mb-5">
               <span className="text-lg" style={{ color: "#FF6B1A" }}>▸</span>
               <span className="font-heading text-2xl font-extrabold tracking-widest uppercase text-white">
-                {COMPANY.name}
+                {company.name}
               </span>
             </a>
             <p className="text-sm leading-relaxed max-w-xs mb-7"
               style={{ color: "rgba(255,255,255,0.35)" }}>
-              Licensed HVAC contractor serving {COMPANY.zone}.
+              Licensed HVAC contractor serving {company.zone}.
               Heating, air conditioning, ventilation, and maintenance —
               done right, every time.
             </p>
@@ -85,28 +86,28 @@ export default function Footer() {
             </p>
             <ul className="space-y-4">
               <li>
-                <a href={`tel:${COMPANY.phone}`}
+                <a href={`tel:${company.phone}`}
                   className="flex items-center gap-3 text-sm transition-colors duration-200"
                   style={{ color: "rgba(255,255,255,0.5)" }}
                   onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#FF6B1A")}
                   onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.5)")}>
                   <Phone size={13} style={{ color: "rgba(255,107,26,0.5)", flexShrink: 0 }} />
-                  <span className="font-data tracking-wider">{COMPANY.phone}</span>
+                  <span className="font-data tracking-wider">{company.phone}</span>
                 </a>
               </li>
               <li>
-                <a href={`mailto:${COMPANY.email}`}
+                <a href={`mailto:${company.email}`}
                   className="flex items-center gap-3 text-sm transition-colors duration-200"
                   style={{ color: "rgba(255,255,255,0.5)" }}
                   onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#FF6B1A")}
                   onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.5)")}>
                   <Mail size={13} style={{ color: "rgba(255,107,26,0.5)", flexShrink: 0 }} />
-                  <span>{COMPANY.email}</span>
+                  <span>{company.email}</span>
                 </a>
               </li>
               <li className="flex items-start gap-3 text-sm" style={{ color: "rgba(255,255,255,0.35)" }}>
                 <MapPin size={13} style={{ color: "rgba(255,107,26,0.5)", flexShrink: 0, marginTop: 2 }} />
-                <span>{COMPANY.zone}</span>
+                <span>{company.zone}</span>
               </li>
             </ul>
 
@@ -127,7 +128,7 @@ export default function Footer() {
           style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
           <p className="font-data text-[10px] tracking-wider"
             style={{ color: "rgba(255,255,255,0.2)" }}>
-            © {year} {COMPANY.name} — All rights reserved · {COMPANY.license}
+            © {year} {company.name} — All rights reserved · {company.license}
           </p>
           <div className="flex items-center gap-6">
             {["Privacy Policy", "Terms of Service", "Sitemap"].map((item) => (

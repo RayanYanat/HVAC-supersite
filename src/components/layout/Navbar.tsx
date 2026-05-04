@@ -1,9 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Phone, Menu, X } from "lucide-react";
-import { COMPANY, NAV_LINKS } from "@/lib/constants";
+import { NAV_LINKS } from "@/lib/constants";
+import type { CompanyData } from "@/lib/types";
 
-export default function Navbar() {
+export default function Navbar({ company }: { company: CompanyData }) {
   const [scrolled, setScrolled]           = useState(false);
   const [menuOpen, setMenuOpen]           = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
@@ -67,7 +68,7 @@ export default function Navbar() {
           style={{ fontSize: scrolled ? "1rem" : "1.25rem" }}
         >
           <span className="text-brand">▸</span>
-          {COMPANY.name}
+          {company.name}
         </a>
 
         {/* Desktop Nav */}
@@ -101,14 +102,14 @@ export default function Navbar() {
         {/* Right: phone + CTA */}
         <div className="hidden lg:flex items-center gap-5">
           <a
-            href={`tel:${COMPANY.phone}`}
+            href={`tel:${company.phone}`}
             className="flex items-center gap-2 transition-colors duration-200"
             style={{ color: "rgba(255,255,255,0.7)" }}
             onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#FF6B1A"; }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"; }}
           >
             <Phone size={14} className="text-brand" />
-            <span className="font-data text-sm tracking-wider">{COMPANY.phone}</span>
+            <span className="font-data text-sm tracking-wider">{company.phone}</span>
           </a>
           <a
             href="#contact"
@@ -122,12 +123,12 @@ export default function Navbar() {
         {/* Mobile: phone + burger */}
         <div className="flex lg:hidden items-center gap-4">
           <a
-            href={`tel:${COMPANY.phone}`}
+            href={`tel:${company.phone}`}
             className="flex items-center gap-1.5 text-brand"
             aria-label="Call us"
           >
             <Phone size={16} />
-            <span className="font-data text-xs">{COMPANY.phone}</span>
+            <span className="font-data text-xs">{company.phone}</span>
           </a>
           <button
             onClick={() => setMenuOpen((v) => !v)}

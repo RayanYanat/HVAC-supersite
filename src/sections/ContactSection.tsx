@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { Phone, Mail, MapPin, Clock, ArrowRight, CheckCircle } from "lucide-react";
-import { COMPANY } from "@/lib/constants";
+import type { CompanyData } from "@/lib/types";
 import FloatingData from "@/components/shared/FloatingData";
 
 const CONTACT_DATA = [
@@ -24,22 +24,24 @@ const NEEDS = [
   { value: "other",       label: "Other / General Inquiry" },
 ];
 
-const CONTACT_DETAILS = [
-  { icon: Phone,  label: "Phone",        value: COMPANY.phone, href: `tel:${COMPANY.phone}` },
-  { icon: Mail,   label: "Email",        value: COMPANY.email, href: `mailto:${COMPANY.email}` },
-  { icon: MapPin, label: "Service Area", value: COMPANY.zone,  href: null },
-  { icon: Clock,  label: "Hours",        value: "Mon–Sat · 8am–7pm · Emergency 24/7", href: null },
-];
+/* CONTACT_DETAILS is built inside the component so it can reference company */
 
 /* Cold palette for this section */
 const COLD = "#38BDF8";
 const COLD_FOCUS_BORDER = "rgba(56,189,248,0.6)";
 const COLD_FOCUS_SHADOW = "0 0 0 1px rgba(56,189,248,0.2)";
 
-export default function ContactSection() {
+export default function ContactSection({ company }: { company: CompanyData }) {
   const sectionRef = useRef<HTMLElement>(null);
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", need: "", message: "" });
+
+  const CONTACT_DETAILS = [
+    { icon: Phone,  label: "Phone",        value: company.phone,         href: `tel:${company.phone}` },
+    { icon: Mail,   label: "Email",        value: company.email ?? "—",  href: company.email ? `mailto:${company.email}` : null },
+    { icon: MapPin, label: "Service Area", value: company.zone,          href: null },
+    { icon: Clock,  label: "Hours",        value: "Mon–Sat · 8am–7pm · Emergency 24/7", href: null },
+  ];
 
   /*
    * "Interface de commande initialisée" — command-line form boot.
@@ -317,15 +319,15 @@ export default function ContactSection() {
                 AC down in the Texas heat?
                 We dispatch within{" "}
                 <span style={{ color: "rgba(255,255,255,0.85)", fontWeight: 600 }}>[X] hours</span> across{" "}
-                <span style={{ color: "rgba(255,255,255,0.85)", fontWeight: 600 }}>{COMPANY.zone}</span>.
+                <span style={{ color: "rgba(255,255,255,0.85)", fontWeight: 600 }}>{company.zone}</span>.
               </p>
-              <a href={`tel:${COMPANY.phone}`}
+              <a href={`tel:${company.phone}`}
                 className="flex items-center gap-2.5 text-sm font-bold tracking-wider transition-colors duration-200"
                 style={{ color: COLD }}
                 onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.textDecoration = "underline")}
                 onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.textDecoration = "none")}>
                 <Phone size={14} />
-                {COMPANY.phone}
+                {company.phone}
               </a>
             </div>
 

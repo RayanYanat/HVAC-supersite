@@ -4,9 +4,9 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Phone, ArrowRight, Settings } from "lucide-react";
 import ThermalCanvas from "@/components/shared/ThermalCanvas";
-import { COMPANY } from "@/lib/constants";
+import type { CompanyData } from "@/lib/types";
 
-export default function HeroSection() {
+export default function HeroSection({ company }: { company: CompanyData }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const layer1Ref = useRef<HTMLDivElement>(null); // deep — slowest
   const layer2Ref = useRef<HTMLDivElement>(null); // mid
@@ -202,7 +202,7 @@ export default function HeroSection() {
             <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
           </span>
           <span className="font-data text-[11px] text-brand/75 tracking-[0.28em] uppercase">
-            NATE Certified &nbsp;·&nbsp; {COMPANY.zone} &nbsp;·&nbsp; 15+ Years of Experience
+            NATE Certified &nbsp;·&nbsp; {company.zone} &nbsp;·&nbsp; 15+ Years of Experience
           </span>
         </div>
 
@@ -226,14 +226,14 @@ export default function HeroSection() {
         <p className="hero-sub max-w-lg text-lg leading-relaxed mb-12" style={{ color: "rgba(255,255,255,0.42)" }}>
           From emergency breakdowns to full system installs —
           we keep{" "}
-          <span className="font-medium" style={{ color: "rgba(255,255,255,0.72)" }}>{COMPANY.zone}</span>{" "}
+          <span className="font-medium" style={{ color: "rgba(255,255,255,0.72)" }}>{company.zone}</span>{" "}
           homes comfortable, year-round. Free estimate, no obligation.
         </p>
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row flex-wrap gap-4 mb-16">
           <a
-            href={`tel:${COMPANY.phone}`}
+            href={`tel:${company.phone}`}
             className="hero-cta group relative flex items-center gap-3 px-7 py-4 bg-brand text-white text-xs font-bold tracking-[0.18em] uppercase overflow-hidden transition-all duration-300 hover:bg-brand-dim glow-brand"
           >
             <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/15 to-transparent" />

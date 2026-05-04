@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { ShieldCheck, Clock, Award, ThumbsUp, Star } from "lucide-react";
-import { COMPANY } from "@/lib/constants";
+import type { CompanyData } from "@/lib/types";
 import FloatingData from "@/components/shared/FloatingData";
 
 const TRUST_DATA = [
@@ -15,12 +15,7 @@ const TRUST_DATA = [
   { text: "SAT: 98.2%",     x: "45%", y: "90%", delay: "2.5s", duration: "12s", opacity: 0.08  },
 ];
 
-const REASONS = [
-  { icon: ShieldCheck, text: "NATE Certified & EPA 608 Licensed — the highest industry standard" },
-  { icon: Clock,       text: "Guaranteed response within [X] hours across " + COMPANY.zone },
-  { icon: Award,       text: "15+ years of HVAC expertise — residential & commercial" },
-  { icon: ThumbsUp,    text: "98% customer satisfaction — verified Google & BBB reviews" },
-];
+/* REASONS is built inside the component so it can reference company.zone */
 
 const CERTIFICATIONS = [
   { label: "NATE",  sub: "Certified Technicians" },
@@ -67,8 +62,15 @@ function StarRow({ count }: { count: number }) {
   );
 }
 
-export default function TrustSection() {
+export default function TrustSection({ company }: { company: CompanyData }) {
   const sectionRef = useRef<HTMLElement>(null);
+
+  const REASONS = [
+    { icon: ShieldCheck, text: "NATE Certified & EPA 608 Licensed — the highest industry standard" },
+    { icon: Clock,       text: `Guaranteed response within [X] hours across ${company.zone}` },
+    { icon: Award,       text: "15+ years of HVAC expertise — residential & commercial" },
+    { icon: ThumbsUp,    text: "98% customer satisfaction — verified Google & BBB reviews" },
+  ];
 
   /*
    * "Vérification système" — system-check activation cascade.
