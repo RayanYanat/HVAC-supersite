@@ -20,8 +20,12 @@ export default function CustomCursor() {
   const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Only activate for fine-pointer devices (mouse / trackpad, not touch)
+    // Only activate for fine-pointer devices (mouse / trackpad, not touch).
+    // Elements are rendered at opacity:0 — reveal them here before starting
+    // the loop so touch devices never see the ring sitting at (0,0).
     if (!window.matchMedia("(pointer: fine)").matches) return;
+    if (dotRef.current)  dotRef.current.style.opacity  = "1";
+    if (ringRef.current) ringRef.current.style.opacity = "1";
 
     const root = document.documentElement;
     root.style.cursor = "none";
@@ -127,6 +131,7 @@ export default function CustomCursor() {
           height:          "4px",
           backgroundColor: "#FF6B1A",
           borderRadius:    "50%",
+          opacity:         0,           /* revealed in useEffect on pointer:fine only */
           willChange:      "transform",
           transition:      "width 0.15s, height 0.15s, background-color 0.15s",
         }}
@@ -142,6 +147,7 @@ export default function CustomCursor() {
           height:       "28px",
           border:       "1px solid rgba(255,107,26,0.35)",
           borderRadius: "3px",   /* slight squareness — tactical / thermal feel */
+          opacity:      0,       /* revealed in useEffect on pointer:fine only */
           willChange:   "transform",
           transition:
             "width 0.25s ease, height 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease",

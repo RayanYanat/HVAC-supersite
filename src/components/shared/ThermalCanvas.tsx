@@ -28,11 +28,12 @@ const PALETTE = [
   [196, 66, 10],    // dark ember
 ];
 
-function spawnParticle(w: number, h: number, noStreak = false): Particle {
+function spawnParticle(w: number, h: number, noStreak = false, noPlume = false): Particle {
   const rand = Math.random();
-  const tier: ParticleTier = noStreak
-    ? (rand < 0.35 ? "plume" : "ember")
-    : rand < 0.06 ? "streak" : rand < 0.28 ? "plume" : "ember";
+  const tier: ParticleTier =
+    noPlume  ? "ember" :
+    noStreak ? (rand < 0.35 ? "plume" : "ember") :
+    rand < 0.06 ? "streak" : rand < 0.28 ? "plume" : "ember";
 
   const col = COLUMNS[Math.floor(Math.random() * COLUMNS.length)];
   const spread = tier === "plume" ? 0.18 : 0.09;
@@ -76,6 +77,9 @@ export default function ThermalCanvas() {
     let particles: Particle[] = [];
     const dpr      = Math.min(window.devicePixelRatio ?? 1, 2);
     const isMobile = window.innerWidth < 768;
+    /* On mobile: embers only (no plumes = no large blurry blobs),
+     * faster ghost-trail clear so traces feel crisp rather than hazy. */
+    const ghostAlpha = isMobile ? 0.28 : 0.13;
 
     /* ── Setup ── */
     const resize = () => {
@@ -92,7 +96,7 @@ export default function ThermalCanvas() {
       const h = canvas.offsetHeight;
       const N = isMobile ? 30 : 110;
       particles = Array.from({ length: N }, () => {
-        const p = spawnParticle(w, h, isMobile);
+        const p = spawnParticle(w, h, isMobile, isMobile);
         p.y = Math.random() * h;
         p.life = Math.random() * p.maxLife * 0.7;
         return p;
@@ -105,8 +109,9 @@ export default function ThermalCanvas() {
       const h = canvas.offsetHeight;
       time += 0.007;
 
-      /* Ghost trail — not a full clear, creates motion blur / persistence */
-      ctx.fillStyle = "rgba(10,12,15,0.13)";
+      /* Ghost trail — partial clear creates motion blur / persistence.
+         Higher alpha on mobile = faster clear = crisper, less hazy look. */
+      ctx.fillStyle = `rgba(10,12,15,${ghostAlpha})`;
       ctx.fillRect(0, 0, w, h);
 
       /* Ambient pulsing glow at each heat column */
@@ -131,7 +136,7 @@ export default function ThermalCanvas() {
         p.life += 1;
 
         if (p.life >= p.maxLife) {
-          particles[i] = spawnParticle(w, h, isMobile);
+          particles[i] = spawnParticle(w, h, isMobile, isMobile);
           continue;
         }
 
@@ -153,7 +158,7 @@ export default function ThermalCanvas() {
         /* Movement */
         if (p.tier === "streak") {
           p.x += p.vx;
-          if (p.x > w + 50) { particles[i] = spawnParticle(w, h, isMobile); continue; }
+          if (p.x > w + 50) { particles[i] = spawnParticle(w, h, isMobile, isMobile); continue; }
         } else {
           /* Column attraction + sinusoidal drift */
           const colX = p.column * w;
@@ -214,11 +219,7 @@ export default function ThermalCanvas() {
     };
 
     init();
-    /* On mobile the canvas adds visual noise without perceived depth benefit —
-     * the hero reads cleaner without it. Skip the frame loop entirely. */
-    if (!isMobile) {
-      frame();
-    }
+    frame();
 
     window.addEventListener("resize", resize);
     return () => {
