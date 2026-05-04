@@ -21,18 +21,41 @@ export default function HeroSection() {
    */
   useGSAP(
     () => {
-      // Set initial states before first paint
-      gsap.set(".hero-badge",      { y: 24, opacity: 0 });
-      gsap.set(".hero-title-1",    { y: 80, opacity: 0 });
-      gsap.set(".hero-title-2",    { y: 80, opacity: 0 });
-      gsap.set(".hero-title-3",    { y: 40, opacity: 0 });
+      const isMobile  = window.innerWidth < 768;
+      const isDesktop = window.innerWidth >= 1024;
+      const isXL      = window.innerWidth >= 1280;
+
+      /*
+       * Y-translate amounts proportional to viewport height.
+       * 80 px on desktop = ~6% of 1080 px — subtle.
+       * 80 px on iPhone 15 = ~9% of 844 px — too violent.
+       * 35 px on mobile = same perceived weight as desktop.
+       */
+      const titleY = isMobile ? 35 : 80;
+      const subY   = isMobile ? 12 : 20;
+      const badgeY = isMobile ? 12 : 24;
+
+      gsap.set(".hero-badge",      { y: badgeY, opacity: 0 });
+      gsap.set(".hero-title-1",    { y: titleY, opacity: 0 });
+      gsap.set(".hero-title-2",    { y: titleY, opacity: 0 });
+      gsap.set(".hero-title-3",    { y: isMobile ? 18 : 40, opacity: 0 });
       gsap.set(".hero-divider",    { scaleX: 0 });
-      gsap.set(".hero-sub",        { y: 20, opacity: 0 });
-      gsap.set(".hero-cta",        { y: 20, opacity: 0 });
+      gsap.set(".hero-sub",        { y: subY, opacity: 0 });
+      gsap.set(".hero-cta",        { y: subY, opacity: 0 });
       gsap.set(".hero-scroll",     { opacity: 0 });
-      gsap.set(".hero-data-strip", { y: 20, opacity: 0 });
-      gsap.set(".hero-frame",      { opacity: 0, scale: 0.94 });
-      gsap.set(".hero-rightbar",   { opacity: 0, x: 16 });
+      gsap.set(".hero-data-strip", { y: subY, opacity: 0 });
+
+      /*
+       * hero-frame and hero-rightbar are hidden via CSS (hidden lg:block / hidden xl:flex)
+       * on mobile, but GSAP inline styles can leak through display:none in some iOS versions.
+       * Guard: only set + animate them when the breakpoint actually shows them.
+       */
+      if (isDesktop) {
+        gsap.set(".hero-frame", { opacity: 0, scale: 0.94 });
+      }
+      if (isXL) {
+        gsap.set(".hero-rightbar", { opacity: 0, x: 16 });
+      }
 
       // Animate to final state
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
@@ -45,9 +68,14 @@ export default function HeroSection() {
         .to(".hero-sub",        { y: 0, opacity: 1, duration: 0.6 }, "-=0.5")
         .to(".hero-cta",        { y: 0, opacity: 1, duration: 0.5, stagger: 0.12 }, "-=0.3")
         .to(".hero-scroll",     { opacity: 1, duration: 0.8 }, "-=0.2")
-        .to(".hero-data-strip", { y: 0, opacity: 1, duration: 0.6 }, "-=0.6")
-        .to(".hero-frame",      { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out" }, "-=1.0")
-        .to(".hero-rightbar",   { opacity: 1, x: 0, duration: 0.8, ease: "power3.out" }, "-=0.8");
+        .to(".hero-data-strip", { y: 0, opacity: 1, duration: 0.6 }, "-=0.6");
+
+      if (isDesktop) {
+        tl.to(".hero-frame", { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out" }, "-=1.0");
+      }
+      if (isXL) {
+        tl.to(".hero-rightbar", { opacity: 1, x: 0, duration: 0.8, ease: "power3.out" }, "-=0.8");
+      }
     },
     { scope: containerRef }
   );
@@ -95,7 +123,7 @@ export default function HeroSection() {
       <div ref={layer2Ref} className="absolute inset-0 pointer-events-none will-change-transform">
         {/* Central deep glow — breathes slowly */}
         <div
-          className="absolute bottom-[-10%] left-[48%] -translate-x-1/2 w-[900px] h-[700px] rounded-full opacity-30"
+          className="hero-atmo-central absolute bottom-[-10%] left-[48%] -translate-x-1/2 w-[900px] h-[700px] rounded-full opacity-30"
           style={{
             background:
               "radial-gradient(ellipse at center, rgba(255,107,26,0.28) 0%, rgba(196,66,10,0.12) 35%, transparent 70%)",
@@ -104,7 +132,7 @@ export default function HeroSection() {
         />
         {/* Left heat column */}
         <div
-          className="absolute bottom-0 left-[18%] w-[280px] h-[65%] opacity-20"
+          className="hero-atmo-side absolute bottom-0 left-[18%] w-[280px] h-[65%] opacity-20"
           style={{
             background:
               "radial-gradient(ellipse at bottom, rgba(255,107,26,0.4) 0%, transparent 70%)",
@@ -113,7 +141,7 @@ export default function HeroSection() {
         />
         {/* Right heat column */}
         <div
-          className="absolute bottom-0 right-[16%] w-[220px] h-[50%] opacity-15"
+          className="hero-atmo-side absolute bottom-0 right-[16%] w-[220px] h-[50%] opacity-15"
           style={{
             background:
               "radial-gradient(ellipse at bottom, rgba(255,133,52,0.35) 0%, transparent 70%)",

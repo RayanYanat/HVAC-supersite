@@ -137,6 +137,20 @@
   opacity: 0;
 }
 
+/* ── Mobile atmospheric blob overrides ──────────────────────────────────────
+ * On smaller screens the 3 hero glows (2 side columns + 1 central) are too
+ * heavy. Suppress the side columns entirely and freeze the central blob
+ * (no breathe animation, halved opacity). The !important overrides both the
+ * Tailwind opacity utility class and the inline animation property.
+ * ─────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 1023px) {
+  .hero-atmo-side    { display: none; }
+  .hero-atmo-central {
+    animation: none !important;
+    opacity:   0.15 !important;
+  }
+}
+
 @keyframes breathe {
   0%, 100% { transform: scale(1);    opacity: 1; }
   50%       { transform: scale(1.12); opacity: 0.75; }

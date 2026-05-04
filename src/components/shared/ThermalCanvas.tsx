@@ -28,10 +28,11 @@ const PALETTE = [
   [196, 66, 10],    // dark ember
 ];
 
-function spawnParticle(w: number, h: number): Particle {
+function spawnParticle(w: number, h: number, noStreak = false): Particle {
   const rand = Math.random();
-  const tier: ParticleTier =
-    rand < 0.06 ? "streak" : rand < 0.28 ? "plume" : "ember";
+  const tier: ParticleTier = noStreak
+    ? (rand < 0.35 ? "plume" : "ember")
+    : rand < 0.06 ? "streak" : rand < 0.28 ? "plume" : "ember";
 
   const col = COLUMNS[Math.floor(Math.random() * COLUMNS.length)];
   const spread = tier === "plume" ? 0.18 : 0.09;
@@ -73,7 +74,8 @@ export default function ThermalCanvas() {
     let raf: number;
     let time = 0;
     let particles: Particle[] = [];
-    const dpr = Math.min(window.devicePixelRatio ?? 1, 2);
+    const dpr      = Math.min(window.devicePixelRatio ?? 1, 2);
+    const isMobile = window.innerWidth < 768;
 
     /* ── Setup ── */
     const resize = () => {
@@ -88,8 +90,9 @@ export default function ThermalCanvas() {
       resize();
       const w = canvas.offsetWidth;
       const h = canvas.offsetHeight;
-      particles = Array.from({ length: 110 }, () => {
-        const p = spawnParticle(w, h);
+      const N = isMobile ? 30 : 110;
+      particles = Array.from({ length: N }, () => {
+        const p = spawnParticle(w, h, isMobile);
         p.y = Math.random() * h;
         p.life = Math.random() * p.maxLife * 0.7;
         return p;
@@ -128,7 +131,7 @@ export default function ThermalCanvas() {
         p.life += 1;
 
         if (p.life >= p.maxLife) {
-          particles[i] = spawnParticle(w, h);
+          particles[i] = spawnParticle(w, h, isMobile);
           continue;
         }
 
@@ -150,7 +153,7 @@ export default function ThermalCanvas() {
         /* Movement */
         if (p.tier === "streak") {
           p.x += p.vx;
-          if (p.x > w + 50) { particles[i] = spawnParticle(w, h); continue; }
+          if (p.x > w + 50) { particles[i] = spawnParticle(w, h, isMobile); continue; }
         } else {
           /* Column attraction + sinusoidal drift */
           const colX = p.column * w;
