@@ -322,7 +322,7 @@ export default function WorkSection() {
             className="font-data text-[11px] tracking-wider uppercase"
             style={{ color: "rgba(255,255,255,0.25)" }}
           >
-            [XX]+ projects completed across [Zone], TX
+            [XX]+ projects completed across [City] &amp; surrounding areas, TX
           </p>
           <a
             href="#contact"

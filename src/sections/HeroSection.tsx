@@ -181,13 +181,13 @@ export default function HeroSection() {
         {/* Title */}
         <div className="mb-8 overflow-hidden">
           <h1 className="hero-title-1 font-heading text-[clamp(4rem,11vw,10.5rem)] leading-[0.88] text-white font-extrabold">
-            [YOUR MAIN
+            Fast, Reliable
           </h1>
           <h1 className="hero-title-2 font-heading text-[clamp(4rem,11vw,10.5rem)] leading-[0.88] text-brand font-extrabold text-glow-brand">
-            HEADLINE]
+            HVAC Service
           </h1>
-          <p className="hero-title-3 font-heading text-[clamp(1.6rem,4.5vw,4.2rem)] leading-[1.05] text-white/25 font-bold mt-3">
-            [Your positioning sub-headline]
+          <p className="hero-title-3 font-heading text-[clamp(1.6rem,4.5vw,4.2rem)] leading-[1.05] font-bold mt-3" style={{ color: "rgba(255,255,255,0.22)" }}>
+            NATE-certified — same-day emergency response.
           </p>
         </div>
 
@@ -195,10 +195,11 @@ export default function HeroSection() {
         <div className="hero-divider w-20 h-[2px] bg-brand origin-left mb-8" />
 
         {/* Subtitle */}
-        <p className="hero-sub max-w-lg text-white/45 text-lg leading-relaxed mb-12">
-          Installation, repairs &amp; maintenance across{" "}
-          <span className="text-white/75 font-medium">{COMPANY.zone}</span>.{" "}
-          Free estimates — same-day response.
+        <p className="hero-sub max-w-lg text-lg leading-relaxed mb-12" style={{ color: "rgba(255,255,255,0.42)" }}>
+          From emergency breakdowns to full system installs —
+          we keep{" "}
+          <span className="font-medium" style={{ color: "rgba(255,255,255,0.72)" }}>{COMPANY.zone}</span>{" "}
+          homes comfortable, year-round. Free estimate, no obligation.
         </p>
 
         {/* CTAs */}
