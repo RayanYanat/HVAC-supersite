@@ -144,11 +144,13 @@
  * Tailwind opacity utility class and the inline animation property.
  * ─────────────────────────────────────────────────────────────────────────── */
 @media (max-width: 1023px) {
-  .hero-atmo-side    { display: none; }
-  .hero-atmo-central {
-    animation: none !important;
-    opacity:   0.15 !important;
-  }
+  /* Corner brackets + rightbar — display:none beats any GSAP inline opacity */
+  .hero-frame    { display: none !important; }
+  .hero-rightbar { display: none !important; }
+
+  /* Atmospheric blobs — fully suppressed on mobile */
+  .hero-atmo-side    { display: none !important; }
+  .hero-atmo-central { display: none !important; }
 }
 
 @keyframes breathe {

@@ -214,7 +214,11 @@ export default function ThermalCanvas() {
     };
 
     init();
-    frame();
+    /* On mobile the canvas adds visual noise without perceived depth benefit —
+     * the hero reads cleaner without it. Skip the frame loop entirely. */
+    if (!isMobile) {
+      frame();
+    }
 
     window.addEventListener("resize", resize);
     return () => {
