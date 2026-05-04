@@ -116,6 +116,25 @@
   }
 }
 
+/* ── Hero initial states ─────────────────────────────────────────────────────
+ * These classes are hidden via CSS so the SSR HTML already has them invisible
+ * before any JavaScript loads. This eliminates the FOUC (flash of visible
+ * content) on first load when the JS bundle is not yet cached.
+ * GSAP's gsap.to() overrides these rules when it animates them into view.
+ * Without this, elements flash visible for ~300ms while the bundle downloads.
+ * ─────────────────────────────────────────────────────────────────────────── */
+.hero-badge,
+.hero-title-1,
+.hero-title-2,
+.hero-title-3,
+.hero-divider,
+.hero-sub,
+.hero-cta,
+.hero-scroll,
+.hero-data-strip {
+  opacity: 0;
+}
+
 @keyframes breathe {
   0%, 100% { transform: scale(1);    opacity: 1; }
   50%       { transform: scale(1.12); opacity: 0.75; }
