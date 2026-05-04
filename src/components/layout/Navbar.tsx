@@ -124,7 +124,7 @@ export default function Navbar({ company }: { company: CompanyData }) {
         <div className="flex lg:hidden items-center gap-4">
           <a
             href={`tel:${company.phone}`}
-            className="flex items-center gap-1.5 text-brand"
+            className="flex items-center gap-1.5 text-brand whitespace-nowrap"
             aria-label="Call us"
           >
             <Phone size={16} />

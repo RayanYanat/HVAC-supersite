@@ -21,6 +21,16 @@ export default function GSAPConfig() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.config({ ignoreMobileResize: true });
+
+    /* Force scroll-to-top on every page load / refresh.
+     * Mobile Safari preserves scroll position across refreshes by default.
+     * Setting scrollRestoration to 'manual' opts out of the browser's
+     * automatic restoration, then the explicit scrollTo(0,0) guarantees
+     * the hero is always the first thing the visitor sees. */
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }, []);
 
   return null;
