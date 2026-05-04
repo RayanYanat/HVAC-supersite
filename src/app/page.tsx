@@ -1,4 +1,5 @@
 import AmbientCanvas    from "@/components/shared/AmbientCanvas";
+import CustomCursor     from "@/components/shared/CustomCursor";
 import GlobalTexture    from "@/components/shared/GlobalTexture";
 import GSAPConfig       from "@/components/shared/GSAPConfig";
 import ThermalNarrative from "@/components/shared/ThermalNarrative";
@@ -23,6 +24,7 @@ export default function Home() {
           root stacking context — guaranteed above main's zIndex:1 bubble.
           On iOS, fixed elements inside a z-indexed parent can be trapped;
           this placement eliminates that class of bug entirely. */}
+      <CustomCursor />
       <Navbar />
 
       <main style={{ position: "relative", zIndex: 1 }}>

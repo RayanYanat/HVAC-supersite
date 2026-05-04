@@ -15,8 +15,6 @@ const TRUST_DATA = [
   { text: "SAT: 98.2%",     x: "45%", y: "90%", delay: "2.5s", duration: "12s", opacity: 0.08  },
 ];
 
-gsap.registerPlugin(ScrollTrigger);
-
 const REASONS = [
   { icon: ShieldCheck, text: "NATE Certified & EPA 608 Licensed — the highest industry standard" },
   { icon: Clock,       text: "Guaranteed response within [X] hours across " + COMPANY.zone },
@@ -89,6 +87,7 @@ export default function TrustSection() {
    */
   useGSAP(
     () => {
+      gsap.registerPlugin(ScrollTrigger);
       gsap.set(".trust-header", { opacity: 0 });
       gsap.set(".trust-reason", { opacity: 0, y: 12 });
       gsap.set(".trust-icon",   { opacity: 0, scale: 0.4, transformOrigin: "center center" });

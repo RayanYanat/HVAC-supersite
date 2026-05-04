@@ -14,8 +14,6 @@ const STATS_DATA = [
   { text: "DELTA.T: 20°",  x: "70%", y: "45%", delay: "1s",   duration: "14s", opacity: 0.075 },
 ];
 
-gsap.registerPlugin(ScrollTrigger);
-
 const BARS = [92, 78, 98, 85];
 
 /* Transition zone — stats get cool steel tones */
@@ -50,6 +48,7 @@ export default function StatsSection() {
    */
   useGSAP(
     () => {
+      gsap.registerPlugin(ScrollTrigger);
       // Header: hidden + horizontally clipped (closed shutter)
       gsap.set(".stats-header", {
         opacity: 0,

@@ -4,39 +4,67 @@ import { Phone, Menu, X } from "lucide-react";
 import { COMPANY, NAV_LINKS } from "@/lib/constants";
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled]           = useState(false);
+  const [menuOpen, setMenuOpen]           = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("");
 
+  /* ── Scroll: shrink trigger ─────────────────────────────────────── */
   useEffect(() => {
-    // Threshold at 5px instead of 40px: the background only disappears at the
-    // absolute top of the page. iOS momentum scroll can never accidentally
-    // dip below this value from mid-page, eliminating background flicker
-    // when scrolling upward.
     const onScroll = () => setScrolled(window.scrollY > 5);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  /* ── Active section: IntersectionObserver ───────────────────────── */
+  useEffect(() => {
+    const sectionIds = NAV_LINKS.map((l) => l.href.slice(1));
+
+    /*
+     * rootMargin "-30% 0px -65% 0px" creates a narrow band ~30% from
+     * the top of the viewport. The section whose heading crosses that
+     * band becomes "active" — gives a tight, accurate reading-position
+     * indicator without needing scroll event math.
+     */
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(`#${entry.target.id}`);
+          }
+        });
+      },
+      { rootMargin: "-30% 0px -65% 0px", threshold: 0 }
+    );
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
-        // bg-[#0A0C0F]/90 and backdrop-blur-md replaced with inline rgba():
-        // Tailwind v4 opacity modifiers on arbitrary/variable colors are unreliable —
-        // they generate color-mix() which iOS Safari can misinterpret.
-        // rgba() is the only guaranteed path across all browsers.
         backgroundColor: scrolled ? "rgba(10,12,15,0.92)" : "transparent",
-        backdropFilter: scrolled ? "blur(12px)" : "none",
-        WebkitBackdropFilter: scrolled ? "blur(12px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.05)" : "none",
+        backdropFilter:        scrolled ? "blur(12px)" : "none",
+        WebkitBackdropFilter:  scrolled ? "blur(12px)" : "none",
+        borderBottom:          scrolled ? "1px solid rgba(255,255,255,0.05)" : "none",
       }}
     >
-      <div className="max-w-7xl mx-auto px-5 lg:px-8 h-16 lg:h-20 flex items-center justify-between gap-8">
+      {/* Inner row — height shrinks on scroll */}
+      <div
+        className="max-w-7xl mx-auto px-5 lg:px-8 flex items-center justify-between gap-8 transition-all duration-500"
+        style={{ height: scrolled ? "48px" : "80px" }}
+      >
 
         {/* Logo */}
         <a
           href="#"
-          className="font-heading text-xl lg:text-2xl font-bold tracking-widest uppercase text-white flex items-center gap-2"
+          className="font-heading font-bold tracking-widest uppercase text-white flex items-center gap-2 transition-all duration-500"
+          style={{ fontSize: scrolled ? "1rem" : "1.25rem" }}
         >
           <span className="text-brand">▸</span>
           {COMPANY.name}
@@ -44,29 +72,48 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-8">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium tracking-widest uppercase text-white/50 hover:text-brand transition-colors duration-200"
-            >
-              {link.label}
-            </a>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const isActive = activeSection === link.href;
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                className="relative text-sm font-medium tracking-widest uppercase transition-colors duration-200 group"
+                style={{ color: isActive ? "#FF6B1A" : "rgba(255,255,255,0.5)" }}
+                onMouseEnter={(e) => {
+                  if (!isActive) (e.currentTarget as HTMLElement).style.color = "#FF6B1A";
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive) (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.5)";
+                }}
+              >
+                {link.label}
+                {/* Animated underline */}
+                <span
+                  className="absolute -bottom-1 left-0 h-px bg-brand transition-all duration-300 ease-out"
+                  style={{ width: isActive ? "100%" : "0%" }}
+                />
+              </a>
+            );
+          })}
         </nav>
 
         {/* Right: phone + CTA */}
         <div className="hidden lg:flex items-center gap-5">
           <a
             href={`tel:${COMPANY.phone}`}
-            className="flex items-center gap-2 text-white/70 hover:text-brand transition-colors duration-200"
+            className="flex items-center gap-2 transition-colors duration-200"
+            style={{ color: "rgba(255,255,255,0.7)" }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#FF6B1A"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"; }}
           >
             <Phone size={14} className="text-brand" />
             <span className="font-data text-sm tracking-wider">{COMPANY.phone}</span>
           </a>
           <a
             href="#contact"
-            className="px-5 py-2.5 bg-brand text-white text-xs font-bold tracking-widest uppercase rounded-none hover:bg-brand-dim transition-colors duration-200 glow-brand"
+            className="px-5 py-2.5 bg-brand text-white text-xs font-bold tracking-widest uppercase rounded-none hover:bg-brand-dim transition-all duration-300 glow-brand"
+            style={{ paddingBlock: scrolled ? "0.5rem" : "0.625rem" }}
           >
             Free Estimate
           </a>
@@ -77,7 +124,7 @@ export default function Navbar() {
           <a
             href={`tel:${COMPANY.phone}`}
             className="flex items-center gap-1.5 text-brand"
-            aria-label="Appeler"
+            aria-label="Call us"
           >
             <Phone size={16} />
             <span className="font-data text-xs">{COMPANY.phone}</span>
@@ -97,22 +144,27 @@ export default function Navbar() {
         <div
           className="lg:hidden px-5 py-6 flex flex-col gap-5"
           style={{
-            backgroundColor: "rgba(10,12,15,0.95)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            borderTop: "1px solid rgba(255,255,255,0.05)",
+            backgroundColor:       "rgba(10,12,15,0.97)",
+            backdropFilter:        "blur(16px)",
+            WebkitBackdropFilter:  "blur(16px)",
+            borderTop:             "1px solid rgba(255,255,255,0.05)",
           }}
         >
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className="text-sm font-bold tracking-widest uppercase text-white/60 hover:text-brand transition-colors"
-            >
-              {link.label}
-            </a>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const isActive = activeSection === link.href;
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className="text-sm font-bold tracking-widest uppercase transition-colors"
+                style={{ color: isActive ? "#FF6B1A" : "rgba(255,255,255,0.6)" }}
+              >
+                {isActive && <span className="mr-2 text-brand">▸</span>}
+                {link.label}
+              </a>
+            );
+          })}
           <a
             href="#contact"
             onClick={() => setMenuOpen(false)}

@@ -15,8 +15,6 @@ const CONTACT_DATA = [
   { text: "STATUS: ONLINE",  x: "50%", y: "5%",  delay: "1s",   duration: "11s", opacity: 0.07  },
 ];
 
-gsap.registerPlugin(ScrollTrigger);
-
 const NEEDS = [
   { value: "",            label: "— Select your service need —" },
   { value: "aircon",      label: "Air Conditioning — AC Repair or Installation" },
@@ -59,6 +57,7 @@ export default function ContactSection() {
    */
   useGSAP(
     () => {
+      gsap.registerPlugin(ScrollTrigger);
       const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
       const xAmp = isMobile ? 25 : 50;
 

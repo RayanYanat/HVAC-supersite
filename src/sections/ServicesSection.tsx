@@ -15,8 +15,6 @@ const SVC_DATA = [
   { text: "TX.ZONE.A",   x: "88%", y: "55%", delay: "2s",   duration: "10s", opacity: 0.07  },
 ];
 
-gsap.registerPlugin(ScrollTrigger);
-
 /* ─── Per-service color tokens ──────────────────────────── */
 const PALETTE = {
   heating:     { accent: "#FF6B1A", dim: "#C4420A", glow: "rgba(255,107,26,0.11)",  bgIcon: "rgba(255,107,26,0.09)"  },
@@ -88,6 +86,7 @@ export default function ServicesSection() {
    */
   useGSAP(
     () => {
+      gsap.registerPlugin(ScrollTrigger);
       gsap.set(".svc-header", { opacity: 0, y: 30 });
       gsap.set(".svc-card", {
         opacity: 0,

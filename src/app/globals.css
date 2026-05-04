@@ -131,7 +131,9 @@
 .hero-sub,
 .hero-cta,
 .hero-scroll,
-.hero-data-strip {
+.hero-data-strip,
+.hero-frame,
+.hero-rightbar {
   opacity: 0;
 }
 

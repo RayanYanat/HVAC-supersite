@@ -6,7 +6,12 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 
-gsap.registerPlugin(ScrollTrigger);
+/*
+ * Column map for 3-col desktop grid (6 items, rows assigned by CSS auto-placement):
+ *   index: 0 → col 1 (row-span-2), 1 → col 2, 2 → col 3,
+ *          3 → col 2,               4 → col 3, 5 → col 1 (row-span-2)
+ */
+const COL_MAP = [1, 2, 3, 2, 3, 1] as const;
 
 const PROJECTS = [
   {
@@ -16,7 +21,7 @@ const PROJECTS = [
     title: "Residential Mini-Split Install",
     location: "[City], TX",
     color: "#38BDF8",
-    size: "large", // spans 2 rows
+    size: "large",
   },
   {
     id: 2,
@@ -68,22 +73,16 @@ const PROJECTS = [
 export default function WorkSection() {
   const sectionRef = useRef<HTMLElement>(null);
 
-  /*
-   * "Scan et révélation" — left-to-right clipPath reveal, column-staggered.
-   *
-   * Cards reveal via inset clip-path animating right edge from 100% → 0%.
-   * On desktop (≥1024px) the stagger is by GRID COLUMN, not by index —
-   * so the entire column 1 reveals first, then column 2, then column 3,
-   * mimicking a horizontal scan across the project portfolio.
-   *
-   * 3-col grid layout with size:large at indices 0 and 5 (row-span-2):
-   *   index → column: [1, 2, 3, 2, 3, 1]
-   *
-   * On smaller viewports the grid collapses to 1 or 2 cols, so a
-   * sequential index-based stagger feels more natural there.
-   */
   useGSAP(
     () => {
+      /*
+       * Must register inside useGSAP (useLayoutEffect) — NOT at module level.
+       * Module-level code in "use client" components runs during Next.js SSR
+       * where browser APIs don't exist, crashing the server build.
+       */
+      gsap.registerPlugin(ScrollTrigger);
+
+      /* ── Entrance: scan-reveal + header ──────────────────────────── */
       gsap.set(".work-header", { opacity: 0, y: 30 });
       gsap.set(".work-card", {
         opacity: 0,
@@ -92,7 +91,8 @@ export default function WorkSection() {
 
       ScrollTrigger.create({
         trigger: sectionRef.current,
-        start: "top 85%", once: true,
+        start: "top 85%",
+        once: true,
         onEnter: () => {
           gsap.to(".work-header", {
             opacity: 1, y: 0,
@@ -102,18 +102,15 @@ export default function WorkSection() {
           const isDesktop = window.innerWidth >= 1024;
 
           if (isDesktop) {
-            // Column-based scan: col-1 → col-2 → col-3
-            const colMap = [1, 2, 3, 2, 3, 1];
             gsap.to(".work-card", {
               opacity: 1,
               clipPath: "inset(0% 0% 0% 0%)",
               duration: 0.85,
               ease: "power3.out",
               delay: 0.25,
-              stagger: (i) => (colMap[i] - 1) * 0.18,
+              stagger: (i) => (COL_MAP[i] - 1) * 0.18,
             });
           } else {
-            // Sequential reveal on tablet/mobile
             gsap.to(".work-card", {
               opacity: 1,
               clipPath: "inset(0% 0% 0% 0%)",
@@ -125,6 +122,34 @@ export default function WorkSection() {
           }
         },
       });
+
+      /* ── Scroll-linked column parallax (desktop only) ─────────────
+       *
+       * Column 1 (col-1): starts 50 px lower, ends 50 px higher  → moves UP
+       * Column 3 (col-3): starts 35 px higher, ends 35 px lower  → moves DOWN
+       * Column 2: stationary reference
+       *
+       * scrub: 1.5  →  slight lag behind scroll for a "weight" feel.
+       * Only activates on desktop (≥1024 px) because the grid collapses to
+       * 1-2 columns on smaller screens where the effect has no visual basis.
+       * ─────────────────────────────────────────────────────────── */
+      if (window.innerWidth >= 1024) {
+        const col1 = sectionRef.current!.querySelectorAll<HTMLElement>("[data-col='1']");
+        const col3 = sectionRef.current!.querySelectorAll<HTMLElement>("[data-col='3']");
+
+        const tlPara = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.5,
+          },
+        });
+
+        tlPara
+          .fromTo(col1, { y: 50  }, { y: -50, ease: "none" }, 0)
+          .fromTo(col3, { y: -35 }, { y: 35,  ease: "none" }, 0);
+      }
     },
     { scope: sectionRef }
   );
@@ -137,21 +162,27 @@ export default function WorkSection() {
       style={{ backgroundColor: "rgba(13,15,18,0.85)" }}
     >
       {/* Top edge */}
-      <div className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(to right, transparent, rgba(56,189,248,0.2), transparent)" }} />
+      <div
+        className="absolute top-0 left-0 right-0 h-px"
+        style={{ background: "linear-gradient(to right, transparent, rgba(56,189,248,0.2), transparent)" }}
+      />
 
       {/* Animated ambient blobs */}
-      <div className="absolute -left-40 top-1/3 w-[550px] h-[550px] rounded-full pointer-events-none"
+      <div
+        className="absolute -left-40 top-1/3 w-[550px] h-[550px] rounded-full pointer-events-none"
         style={{
           background: "radial-gradient(ellipse at center, rgba(255,107,26,0.085) 0%, transparent 60%)",
           animation: "breathe 13s ease-in-out infinite",
           animationDelay: "2s",
-        }} />
-      <div className="absolute -right-32 bottom-1/4 w-[480px] h-[480px] rounded-full pointer-events-none"
+        }}
+      />
+      <div
+        className="absolute -right-32 bottom-1/4 w-[480px] h-[480px] rounded-full pointer-events-none"
         style={{
           background: "radial-gradient(ellipse at center, rgba(56,189,248,0.085) 0%, transparent 60%)",
           animation: "breathe 10s ease-in-out infinite reverse",
-        }} />
+        }}
+      />
 
       <div className="relative max-w-7xl mx-auto px-5 lg:px-8">
 
@@ -160,8 +191,10 @@ export default function WorkSection() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-6 h-px" style={{ backgroundColor: "#38BDF8" }} />
-              <span className="font-data text-[11px] tracking-[0.28em] uppercase"
-                style={{ color: "rgba(56,189,248,0.75)" }}>
+              <span
+                className="font-data text-[11px] tracking-[0.28em] uppercase"
+                style={{ color: "rgba(56,189,248,0.75)" }}
+              >
                 Our Work
               </span>
             </div>
@@ -173,28 +206,32 @@ export default function WorkSection() {
             </h2>
           </div>
           <div className="flex flex-col items-start lg:items-end gap-3">
-            <p className="max-w-xs text-sm leading-relaxed lg:text-right"
-              style={{ color: "rgba(255,255,255,0.35)" }}>
-              A selection of recent installations and service calls
-              across {" "}
+            <p
+              className="max-w-xs text-sm leading-relaxed lg:text-right"
+              style={{ color: "rgba(255,255,255,0.35)" }}
+            >
+              A selection of recent installations and service calls across{" "}
               <span style={{ color: "rgba(255,255,255,0.6)" }}>[City] &amp; surrounding areas, TX</span>.
             </p>
-            <a href="#contact"
+            <a
+              href="#contact"
               className="flex items-center gap-2 text-[11px] font-bold tracking-[0.2em] uppercase transition-colors duration-200"
               style={{ color: "rgba(56,189,248,0.65)" }}
               onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#38BDF8")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "rgba(56,189,248,0.65)")}>
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "rgba(56,189,248,0.65)")}
+            >
               <span>Start your project</span>
               <ArrowUpRight size={13} />
             </a>
           </div>
         </div>
 
-        {/* Photo grid — asymmetric 3-column */}
+        {/* Photo grid — asymmetric 3-column with column parallax data attrs */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[280px]">
-          {PROJECTS.map((project) => (
+          {PROJECTS.map((project, i) => (
             <div
               key={project.id}
+              data-col={COL_MAP[i]}
               className={`work-card group relative overflow-hidden cursor-pointer ${
                 project.size === "large" ? "lg:row-span-2" : ""
               }`}
@@ -209,28 +246,34 @@ export default function WorkSection() {
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
 
-              {/* Base overlay — dark gradient from bottom */}
-              <div className="absolute inset-0 transition-opacity duration-500"
+              {/* Base overlay */}
+              <div
+                className="absolute inset-0 transition-opacity duration-500"
                 style={{
                   background:
                     "linear-gradient(to top, rgba(10,12,15,0.92) 0%, rgba(10,12,15,0.45) 50%, rgba(10,12,15,0.15) 100%)",
-                }} />
+                }}
+              />
 
               {/* Hover overlay — color-tinted */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                 style={{
                   background: `linear-gradient(to top, ${project.color}30 0%, transparent 60%)`,
-                }} />
+                }}
+              />
 
               {/* Top tag */}
               <div className="absolute top-4 left-4">
-                <span className="font-data text-[9px] tracking-[0.25em] uppercase px-2.5 py-1"
+                <span
+                  className="font-data text-[9px] tracking-[0.25em] uppercase px-2.5 py-1"
                   style={{
                     color: project.color,
                     border: `1px solid ${project.color}50`,
                     backgroundColor: "rgba(10,12,15,0.65)",
                     backdropFilter: "blur(6px)",
-                  }}>
+                  }}
+                >
                   {project.type}
                 </span>
               </div>
@@ -240,24 +283,30 @@ export default function WorkSection() {
                 <h3 className="font-heading text-lg font-bold text-white leading-tight mb-1">
                   {project.title}
                 </h3>
-                <p className="font-data text-[10px] tracking-wider uppercase"
-                  style={{ color: "rgba(255,255,255,0.35)" }}>
+                <p
+                  className="font-data text-[10px] tracking-wider uppercase"
+                  style={{ color: "rgba(255,255,255,0.35)" }}
+                >
                   {project.location}
                 </p>
 
                 {/* CTA — visible on hover */}
                 <div className="flex items-center gap-2 mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">
                   <div className="w-5 h-px" style={{ backgroundColor: project.color }} />
-                  <span className="font-data text-[10px] tracking-[0.2em] uppercase"
-                    style={{ color: project.color }}>
+                  <span
+                    className="font-data text-[10px] tracking-[0.2em] uppercase"
+                    style={{ color: project.color }}
+                  >
                     View project
                   </span>
                 </div>
               </div>
 
               {/* Corner arrow */}
-              <div className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-1 -translate-y-1 group-hover:translate-x-0 group-hover:translate-y-0"
-                style={{ backgroundColor: "rgba(10,12,15,0.7)", backdropFilter: "blur(6px)" }}>
+              <div
+                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-1 -translate-y-1 group-hover:translate-x-0 group-hover:translate-y-0"
+                style={{ backgroundColor: "rgba(10,12,15,0.7)", backdropFilter: "blur(6px)" }}
+              >
                 <ArrowUpRight size={14} style={{ color: project.color }} />
               </div>
             </div>
@@ -265,17 +314,23 @@ export default function WorkSection() {
         </div>
 
         {/* Bottom CTA strip */}
-        <div className="mt-8 flex items-center justify-between gap-4 px-6 py-5"
-          style={{ border: "1px solid rgba(56,189,248,0.08)", backgroundColor: "#090B0E" }}>
-          <p className="font-data text-[11px] tracking-wider uppercase"
-            style={{ color: "rgba(255,255,255,0.25)" }}>
+        <div
+          className="mt-8 flex items-center justify-between gap-4 px-6 py-5"
+          style={{ border: "1px solid rgba(56,189,248,0.08)", backgroundColor: "#090B0E" }}
+        >
+          <p
+            className="font-data text-[11px] tracking-wider uppercase"
+            style={{ color: "rgba(255,255,255,0.25)" }}
+          >
             [XX]+ projects completed across [Zone], TX
           </p>
-          <a href="#contact"
-            className="flex items-center gap-2.5 text-xs font-bold tracking-[0.2em] uppercase transition-colors duration-200 flex-shrink-0"
+          <a
+            href="#contact"
+            className="flex items-center gap-2.5 text-xs font-bold tracking-[0.2em] uppercase transition-opacity duration-200 flex-shrink-0"
             style={{ color: "#38BDF8" }}
             onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.opacity = "0.75")}
-            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = "1")}>
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.opacity = "1")}
+          >
             <span>Get a Free Estimate</span>
             <ArrowUpRight size={13} />
           </a>
