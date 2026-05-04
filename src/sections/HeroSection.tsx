@@ -13,19 +13,37 @@ export default function HeroSection() {
   const layer3Ref = useRef<HTMLDivElement>(null); // content — closest
 
   /* ── Entrance animation ─────────────────────────────── */
+  /*
+   * gsap.set() runs inside useGSAP which uses useLayoutEffect — it fires
+   * synchronously BEFORE the browser paints. Elements are hidden before the
+   * first frame, eliminating the 0.5s flash of visible content that gsap.from()
+   * caused (from() sets initial state too late, after SSR HTML is already painted).
+   */
   useGSAP(
     () => {
+      // Set initial states before first paint
+      gsap.set(".hero-badge",      { y: 24, opacity: 0 });
+      gsap.set(".hero-title-1",    { y: 80, opacity: 0 });
+      gsap.set(".hero-title-2",    { y: 80, opacity: 0 });
+      gsap.set(".hero-title-3",    { y: 40, opacity: 0 });
+      gsap.set(".hero-divider",    { scaleX: 0 });
+      gsap.set(".hero-sub",        { y: 20, opacity: 0 });
+      gsap.set(".hero-cta",        { y: 20, opacity: 0 });
+      gsap.set(".hero-scroll",     { opacity: 0 });
+      gsap.set(".hero-data-strip", { y: 20, opacity: 0 });
+
+      // Animate to final state
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
-      tl.from(".hero-badge",      { y: 24, opacity: 0, duration: 0.7 })
-        .from(".hero-title-1",    { y: 80, opacity: 0, duration: 1.0 }, "-=0.2")
-        .from(".hero-title-2",    { y: 80, opacity: 0, duration: 1.0 }, "-=0.75")
-        .from(".hero-title-3",    { y: 40, opacity: 0, duration: 0.7 }, "-=0.6")
-        .from(".hero-divider",    { scaleX: 0, duration: 1.0, ease: "expo.out" }, "-=0.5")
-        .from(".hero-sub",        { y: 20, opacity: 0, duration: 0.6 }, "-=0.5")
-        .from(".hero-cta",        { y: 20, opacity: 0, duration: 0.5, stagger: 0.12 }, "-=0.3")
-        .from(".hero-scroll",     { opacity: 0, duration: 0.8 }, "-=0.2")
-        .from(".hero-data-strip", { y: 20, opacity: 0, duration: 0.6 }, "-=0.6");
+      tl.to(".hero-badge",      { y: 0, opacity: 1, duration: 0.7 })
+        .to(".hero-title-1",    { y: 0, opacity: 1, duration: 1.0 }, "-=0.2")
+        .to(".hero-title-2",    { y: 0, opacity: 1, duration: 1.0 }, "-=0.75")
+        .to(".hero-title-3",    { y: 0, opacity: 1, duration: 0.7 }, "-=0.6")
+        .to(".hero-divider",    { scaleX: 1, duration: 1.0, ease: "expo.out" }, "-=0.5")
+        .to(".hero-sub",        { y: 0, opacity: 1, duration: 0.6 }, "-=0.5")
+        .to(".hero-cta",        { y: 0, opacity: 1, duration: 0.5, stagger: 0.12 }, "-=0.3")
+        .to(".hero-scroll",     { opacity: 1, duration: 0.8 }, "-=0.2")
+        .to(".hero-data-strip", { y: 0, opacity: 1, duration: 0.6 }, "-=0.6");
     },
     { scope: containerRef }
   );
