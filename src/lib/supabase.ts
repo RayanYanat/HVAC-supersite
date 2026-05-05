@@ -13,7 +13,8 @@ import { createClient, SupabaseClient } from "@supabase/supabase-js";
  * as no data is fetched at build time — which is exactly our setup
  * (generateStaticParams returns []).
  */
-let _client: SupabaseClient | null = null;
+let _client:      SupabaseClient | null = null;
+let _adminClient: SupabaseClient | null = null;
 
 export function getSupabase(): SupabaseClient {
   if (!_client) {
@@ -33,4 +34,28 @@ export function getSupabase(): SupabaseClient {
   }
 
   return _client;
+}
+
+/**
+ * Admin client using the service_role key — bypasses RLS entirely.
+ * ONLY used server-side (API routes). Never import in "use client" files.
+ */
+export function getSupabaseAdmin(): SupabaseClient {
+  if (!_adminClient) {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!url || !key) {
+      throw new Error(
+        "SUPABASE_SERVICE_ROLE_KEY is missing.\n" +
+        "Add it to .env.local and Netlify environment variables."
+      );
+    }
+
+    _adminClient = createClient(url, key, {
+      auth: { persistSession: false },
+    });
+  }
+
+  return _adminClient;
 }

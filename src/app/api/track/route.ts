@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSupabase } from "@/lib/supabase";
+import { getSupabase, getSupabaseAdmin } from "@/lib/supabase";
 
 export async function POST(req: NextRequest) {
   try {
@@ -28,9 +28,8 @@ export async function POST(req: NextRequest) {
     const newCount     = (lead.visit_count ?? 0) + 1;
     const now          = new Date().toISOString();
 
-    /* ── Update lead — .select() returns affected rows so we can
-     *   detect silent RLS blocks (0 rows = policy blocked the write) ── */
-    const { data: updated, error: updateError } = await supabase
+    /* ── Update lead — admin client bypasses RLS ──────────────────── */
+    const { data: updated, error: updateError } = await getSupabaseAdmin()
       .from("leads")
       .update({
         visit_count:      newCount,
