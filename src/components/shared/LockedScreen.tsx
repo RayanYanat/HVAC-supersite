@@ -200,7 +200,7 @@ export default function LockedScreen() {
           className="ls-sub text-sm leading-relaxed"
           style={{ color: "rgba(255,255,255,0.45)", maxWidth: "26rem" }}
         >
-          Use the link sent directly to you.
+          Please use the personalized URL provided in your outreach message.
         </p>
 
         {/* Data strip */}
@@ -208,7 +208,7 @@ export default function LockedScreen() {
           <div className="w-8 h-px" style={{ backgroundColor: "rgba(255,107,26,0.2)" }} />
           <span
             className="font-data text-[9px] tracking-[0.3em] uppercase"
-            style={{ color: "rgba(255,255,255,0.12)" }}
+            style={{ color: "rgba(255,255,255,0.28)" }}
           >
             AUTHENTICATED ACCESS ONLY
           </span>
