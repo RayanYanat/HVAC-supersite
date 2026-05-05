@@ -198,9 +198,9 @@ export default function LockedScreen() {
         </p>
         <p
           className="ls-sub text-sm leading-relaxed"
-          style={{ color: "rgba(255,255,255,0.22)", maxWidth: "26rem" }}
+          style={{ color: "rgba(255,255,255,0.45)", maxWidth: "26rem" }}
         >
-          Please use the personalized URL provided in your outreach message.
+          Use the link sent directly to you.
         </p>
 
         {/* Data strip */}
@@ -210,7 +210,7 @@ export default function LockedScreen() {
             className="font-data text-[9px] tracking-[0.3em] uppercase"
             style={{ color: "rgba(255,255,255,0.12)" }}
           >
-            SLUG.REQUIRED &nbsp;·&nbsp; AUTHENTICATED ACCESS ONLY
+            AUTHENTICATED ACCESS ONLY
           </span>
           <div className="w-8 h-px" style={{ backgroundColor: "rgba(255,107,26,0.2)" }} />
         </div>
