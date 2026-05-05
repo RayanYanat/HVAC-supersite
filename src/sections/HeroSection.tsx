@@ -215,7 +215,7 @@ export default function HeroSection({ company }: { company: CompanyData }) {
             HVAC Service
           </h1>
           <p className="hero-title-3 font-heading text-[clamp(1.6rem,4.5vw,4.2rem)] leading-[1.15] font-bold mt-3 pb-1" style={{ color: "rgba(255,255,255,0.22)" }}>
-            {company.zone}
+            NATE-certified — same-day emergency response.
           </p>
         </div>
 
@@ -226,8 +226,8 @@ export default function HeroSection({ company }: { company: CompanyData }) {
         <p className="hero-sub max-w-lg text-lg leading-relaxed mb-12" style={{ color: "rgba(255,255,255,0.42)" }}>
           From emergency breakdowns to full system installs —
           we keep{" "}
-          <span className="font-medium" style={{ color: "rgba(255,255,255,0.72)" }}>{company.city}</span>{" "}
-          homes comfortable, year-round. Free estimate, no obligation.
+          <span className="font-medium" style={{ color: "rgba(255,255,255,0.72)" }}>{company.zone}</span>{" "}
+          comfortable, year-round. Free estimate, no obligation.
         </p>
 
         {/* CTAs */}
