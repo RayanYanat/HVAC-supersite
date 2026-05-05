@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     const now          = new Date().toISOString();
 
     /* ── Update lead ───────────────────────────────────────────────── */
-    await supabase
+    const { error: updateError } = await supabase
       .from("leads")
       .update({
         visit_count:      newCount,
@@ -83,8 +83,14 @@ export async function POST(req: NextRequest) {
       }).catch(() => {});
     }
 
-    return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ ok: true });
+    /* ── DEBUG — remove once tracking is confirmed working ─────────── */
+    return NextResponse.json({
+      ok:        true,
+      hasSlack:  !!slackUrl,
+      updateError: updateError ?? null,
+      newCount,
+    });
+  } catch (e) {
+    return NextResponse.json({ ok: false, caught: String(e) });
   }
 }
