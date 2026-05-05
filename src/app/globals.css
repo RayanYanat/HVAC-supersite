@@ -116,6 +116,19 @@
   }
 }
 
+/* ── Locked screen initial states ───────────────────────────────────────────
+ * Same FOUC-prevention pattern as hero classes below.
+ * Elements are hidden via CSS so SSR HTML is already invisible before JS loads.
+ * ─────────────────────────────────────────────────────────────────────────── */
+.ls-bracket,
+.ls-badge,
+.ls-mark,
+.ls-sub,
+.ls-strip  { opacity: 0; }
+.ls-title-1,
+.ls-title-2 { clip-path: inset(0% 100% 0% 0%); }
+.ls-divider  { transform: scaleX(0); transform-origin: left center; }
+
 /* ── Hero initial states ─────────────────────────────────────────────────────
  * These classes are hidden via CSS so the SSR HTML already has them invisible
  * before any JavaScript loads. This eliminates the FOUC (flash of visible

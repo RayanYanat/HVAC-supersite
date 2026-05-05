@@ -1,10 +1,24 @@
-import { redirect } from "next/navigation";
+import AmbientCanvas  from "@/components/shared/AmbientCanvas";
+import GlobalTexture  from "@/components/shared/GlobalTexture";
+import CustomCursor   from "@/components/shared/CustomCursor";
+import GSAPConfig     from "@/components/shared/GSAPConfig";
+import LockedScreen   from "@/components/shared/LockedScreen";
 
-/*
- * The root "/" route is not a content page — it redirects to the demo slug.
- * Every real visitor lands on a personalised /<slug> URL sent via outreach.
- * The demo slug serves as the public-facing example / portfolio page.
+/**
+ * Root route — shown when a visitor navigates to the bare domain
+ * without a personalized slug (e.g. after removing the slug from the URL).
+ *
+ * Does NOT redirect to the demo slug — that would expose the template
+ * and break the personalization illusion for every other lead.
  */
 export default function Home() {
-  redirect("/demo-hvac-dallas");
+  return (
+    <>
+      <AmbientCanvas />
+      <GlobalTexture />
+      <CustomCursor />
+      <GSAPConfig />
+      <LockedScreen />
+    </>
+  );
 }
