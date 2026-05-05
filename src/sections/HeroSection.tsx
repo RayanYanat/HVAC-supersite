@@ -207,15 +207,15 @@ export default function HeroSection({ company }: { company: CompanyData }) {
         </div>
 
         {/* Title */}
-        <div className="mb-8 overflow-hidden">
+        <div className="mb-8 overflow-x-hidden">
           <h1 className="hero-title-1 font-heading text-[clamp(4rem,11vw,10.5rem)] leading-[0.88] text-white font-extrabold">
             Fast, Reliable
           </h1>
           <h1 className="hero-title-2 font-heading text-[clamp(4rem,11vw,10.5rem)] leading-[0.88] text-brand font-extrabold text-glow-brand">
             HVAC Service
           </h1>
-          <p className="hero-title-3 font-heading text-[clamp(1.6rem,4.5vw,4.2rem)] leading-[1.05] font-bold mt-3" style={{ color: "rgba(255,255,255,0.22)" }}>
-            NATE-certified — same-day emergency response.
+          <p className="hero-title-3 font-heading text-[clamp(1.6rem,4.5vw,4.2rem)] leading-[1.15] font-bold mt-3 pb-1" style={{ color: "rgba(255,255,255,0.22)" }}>
+            {company.zone}
           </p>
         </div>
 
