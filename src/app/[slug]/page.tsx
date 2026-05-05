@@ -38,7 +38,7 @@ export async function generateStaticParams() {
 async function getCompany(slug: string): Promise<CompanyData | null> {
   const { data, error } = await getSupabase()
     .from("leads")
-    .select("slug, name, zone, phone, email, license")
+    .select("slug, name, city, phone, email, license")
     .eq("slug", slug)
     .single();
 
@@ -63,8 +63,8 @@ export async function generateMetadata({
   }
 
   return {
-    title:       `${company.name} — HVAC Experts in ${company.zone}`,
-    description: `Licensed HVAC contractor in ${company.zone}. Emergency response — free estimates. Call ${company.phone}.`,
+    title:       `${company.name} — HVAC Experts in ${company.city}`,
+    description: `Licensed HVAC contractor in ${company.city}. Emergency response — free estimates. Call ${company.phone}.`,
   };
 }
 

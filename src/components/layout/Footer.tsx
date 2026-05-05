@@ -25,7 +25,7 @@ export default function Footer({ company }: { company: CompanyData }) {
             </a>
             <p className="text-sm leading-relaxed max-w-xs mb-7"
               style={{ color: "rgba(255,255,255,0.35)" }}>
-              Licensed HVAC contractor serving {company.zone}.
+              Licensed HVAC contractor serving {company.city} &amp; surrounding areas.
               Heating, air conditioning, ventilation, and maintenance —
               done right, every time.
             </p>
@@ -107,7 +107,7 @@ export default function Footer({ company }: { company: CompanyData }) {
               </li>
               <li className="flex items-start gap-3 text-sm" style={{ color: "rgba(255,255,255,0.35)" }}>
                 <MapPin size={13} style={{ color: "rgba(255,107,26,0.5)", flexShrink: 0, marginTop: 2 }} />
-                <span>{company.zone}</span>
+                <span>{company.city} &amp; surrounding areas</span>
               </li>
             </ul>
 

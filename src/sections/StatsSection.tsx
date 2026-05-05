@@ -21,14 +21,9 @@ const BARS = [92, 78, 98, 85];
 const STAT_COLORS = ["#FF6B1A", "#38BDF8", "#38BDF8", "#94A3B8"];
 
 export default function StatsSection({ company }: { company: CompanyData }) {
-  /* ── City extraction ───────────────────────────────────────────── */
-  const city       = company.zone.split(" & ")[0];
-  const stateMatch = company.zone.match(/, ([A-Z]{2})$/);
-  const state      = stateMatch ? stateMatch[1] : "TX";
-
   const TICKER_ITEMS = [
-    `Service Area: ${city}, ${state}`,
-    `${city} County`,
+    `Service Area: ${company.city}`,
+    `${company.city} County`,
     "Metro & Surrounding Area",
     "NATE Certified", "EPA 608 Licensed",
     "ACCA Member", "BBB Accredited",

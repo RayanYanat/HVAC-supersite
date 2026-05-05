@@ -6,7 +6,7 @@
 export interface CompanyData {
   slug:     string;
   name:     string;
-  zone:     string;
+  city:     string;
   phone:    string;
   email:    string | null;
   license:  string | null;

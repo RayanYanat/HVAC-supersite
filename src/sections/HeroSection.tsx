@@ -202,7 +202,7 @@ export default function HeroSection({ company }: { company: CompanyData }) {
             <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
           </span>
           <span className="font-data text-[11px] text-brand/75 tracking-[0.28em] uppercase">
-            NATE Certified &nbsp;·&nbsp; {company.zone} &nbsp;·&nbsp; 15+ Years of Experience
+            NATE Certified &nbsp;·&nbsp; {company.city} &nbsp;·&nbsp; 15+ Years of Experience
           </span>
         </div>
 
@@ -226,7 +226,7 @@ export default function HeroSection({ company }: { company: CompanyData }) {
         <p className="hero-sub max-w-lg text-lg leading-relaxed mb-12" style={{ color: "rgba(255,255,255,0.42)" }}>
           From emergency breakdowns to full system installs —
           we keep{" "}
-          <span className="font-medium" style={{ color: "rgba(255,255,255,0.72)" }}>{company.zone}</span>{" "}
+          <span className="font-medium" style={{ color: "rgba(255,255,255,0.72)" }}>{company.city}</span>{" "}
           homes comfortable, year-round. Free estimate, no obligation.
         </p>
 

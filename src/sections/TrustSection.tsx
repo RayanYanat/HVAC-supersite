@@ -36,19 +36,13 @@ function StarRow({ count }: { count: number }) {
 export default function TrustSection({ company }: { company: CompanyData }) {
   const sectionRef = useRef<HTMLElement>(null);
 
-  /* ── City extraction ─────────────────────────────────────────────
-   * zone = "Dallas & Surrounding Areas, TX"
-   * city → "Dallas"   |   state → "TX"
-   * ──────────────────────────────────────────────────────────────── */
-  const city       = company.zone.split(" & ")[0];
-  const stateMatch = company.zone.match(/, ([A-Z]{2})$/);
-  const state      = stateMatch ? stateMatch[1] : "TX";
-  const loc        = `${city}, ${state}`;
+  /* ── Location label derived from DB city field ─────────────────── */
+  const loc = company.city;
 
   /* REASONS references company.zone → defined inside component */
   const REASONS = [
     { icon: ShieldCheck, text: "NATE Certified & EPA 608 Licensed — the highest industry standard" },
-    { icon: Clock,       text: `Guaranteed response within 4 hours across ${company.zone}` },
+    { icon: Clock,       text: `Guaranteed response within 4 hours across ${company.city} & surrounding areas` },
     { icon: Award,       text: "15+ years of HVAC expertise — residential & commercial" },
     { icon: ThumbsUp,    text: "98% customer satisfaction — verified Google & BBB reviews" },
   ];
