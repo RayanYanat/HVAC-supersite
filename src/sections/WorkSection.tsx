@@ -15,7 +15,7 @@ import type { CompanyData } from "@/lib/types";
 const COL_MAP = [1, 2, 3, 2, 3, 1] as const;
 
 export default function WorkSection({ company }: { company: CompanyData }) {
-  /* ── Location label derived from DB city field ─────────────────── */
+  /* ── Location label: city only (card tags stay compact) ────────── */
   const loc = company.city;
 
   const PROJECTS = [
@@ -215,7 +215,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
               style={{ color: "rgba(255,255,255,0.35)" }}
             >
               A selection of recent installations and service calls across{" "}
-              <span style={{ color: "rgba(255,255,255,0.6)" }}>{company.city} &amp; surrounding areas</span>.
+              <span style={{ color: "rgba(255,255,255,0.6)" }}>{company.zone}</span>.
             </p>
             <a
               href="#contact"
@@ -326,7 +326,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
             className="font-data text-[11px] tracking-wider uppercase"
             style={{ color: "rgba(255,255,255,0.25)" }}
           >
-            180+ projects completed across {company.city} &amp; surrounding areas
+            180+ projects completed across {company.zone}
           </p>
           <a
             href="#contact"

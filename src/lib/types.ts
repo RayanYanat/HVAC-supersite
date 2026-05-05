@@ -6,7 +6,8 @@
 export interface CompanyData {
   slug:     string;
   name:     string;
-  city:     string;
+  city:     string;      // raw DB column — e.g. "Dallas"
+  zone:     string;      // computed in page.tsx — e.g. "Dallas & surrounding areas"
   phone:    string;
   email:    string | null;
   license:  string | null;

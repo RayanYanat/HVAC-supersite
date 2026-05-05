@@ -36,13 +36,13 @@ function StarRow({ count }: { count: number }) {
 export default function TrustSection({ company }: { company: CompanyData }) {
   const sectionRef = useRef<HTMLElement>(null);
 
-  /* ── Location label derived from DB city field ─────────────────── */
+  /* ── Review location: city only (fits the compact review card) ─── */
   const loc = company.city;
 
   /* REASONS references company.zone → defined inside component */
   const REASONS = [
     { icon: ShieldCheck, text: "NATE Certified & EPA 608 Licensed — the highest industry standard" },
-    { icon: Clock,       text: `Guaranteed response within 4 hours across ${company.city} & surrounding areas` },
+    { icon: Clock,       text: `Guaranteed response within 4 hours across ${company.zone}` },
     { icon: Award,       text: "15+ years of HVAC expertise — residential & commercial" },
     { icon: ThumbsUp,    text: "98% customer satisfaction — verified Google & BBB reviews" },
   ];

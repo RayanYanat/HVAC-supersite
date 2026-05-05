@@ -43,7 +43,10 @@ async function getCompany(slug: string): Promise<CompanyData | null> {
     .single();
 
   if (error || !data) return null;
-  return data as CompanyData;
+  /* Compute `zone` from the raw `city` field — never stored in the DB.
+   * Every component that shows a service-area label uses company.zone. */
+  const row = data as Omit<CompanyData, "zone">;
+  return { ...row, zone: `${row.city} & surrounding areas` };
 }
 
 /* ── Dynamic metadata ─────────────────────────────────────────────────────── */

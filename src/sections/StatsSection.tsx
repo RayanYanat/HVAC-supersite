@@ -22,7 +22,7 @@ const STAT_COLORS = ["#FF6B1A", "#38BDF8", "#38BDF8", "#94A3B8"];
 
 export default function StatsSection({ company }: { company: CompanyData }) {
   const TICKER_ITEMS = [
-    `Service Area: ${company.city}`,
+    `Service Area: ${company.zone}`,
     `${company.city} County`,
     "Metro & Surrounding Area",
     "NATE Certified", "EPA 608 Licensed",

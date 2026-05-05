@@ -39,7 +39,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
   const CONTACT_DETAILS = [
     { icon: Phone,  label: "Phone",        value: company.phone,         href: `tel:${company.phone}` },
     { icon: Mail,   label: "Email",        value: company.email ?? "—",  href: company.email ? `mailto:${company.email}` : null },
-    { icon: MapPin, label: "Service Area", value: `${company.city} & surrounding areas`, href: null },
+    { icon: MapPin, label: "Service Area", value: company.zone, href: null },
     { icon: Clock,  label: "Hours",        value: "Mon–Sat · 8am–7pm · Emergency 24/7", href: null },
   ];
 
@@ -319,7 +319,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
                 AC down in the Texas heat?
                 We dispatch within{" "}
                 <span style={{ color: "rgba(255,255,255,0.85)", fontWeight: 600 }}>2 hours</span> across{" "}
-                <span style={{ color: "rgba(255,255,255,0.85)", fontWeight: 600 }}>{company.city} &amp; surrounding areas</span>.
+                <span style={{ color: "rgba(255,255,255,0.85)", fontWeight: 600 }}>{company.zone}</span>.
               </p>
               <a href={`tel:${company.phone}`}
                 className="flex items-center gap-2.5 text-sm font-bold tracking-wider transition-colors duration-200"
