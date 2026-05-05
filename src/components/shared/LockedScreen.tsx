@@ -200,7 +200,7 @@ export default function LockedScreen() {
           className="ls-sub text-sm leading-relaxed"
           style={{ color: "rgba(255,255,255,0.45)", maxWidth: "26rem" }}
         >
-          Please use the personalized URL provided in your outreach message.
+          Please use the personalized URL provided for you.
         </p>
 
         {/* Data strip */}
