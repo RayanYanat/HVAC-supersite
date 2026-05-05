@@ -1,19 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabase } from "@/lib/supabase";
 
-/**
- * POST /api/track
- *
- * Logs every real visit directly into the `leads` row.
- * No separate table needed — visit_count, first_visited_at,
- * last_visited_at live alongside the lead's contact data.
- *
- * Flow:
- *   1. Reject bots
- *   2. SELECT current lead (name + visit_count + first_visited_at)
- *   3. UPDATE lead with incremented count + timestamps
- *   4. POST to Slack (fire-and-forget)
- */
 export async function POST(req: NextRequest) {
   try {
     const { slug } = await req.json() as { slug: string };
@@ -35,23 +22,25 @@ export async function POST(req: NextRequest) {
       .eq("slug", slug)
       .single();
 
-    if (!lead) return NextResponse.json({ ok: false }, { status: 404 });
+    if (!lead) return NextResponse.json({ ok: false, reason: "lead not found" }, { status: 404 });
 
     const isFirstVisit = !lead.first_visited_at;
     const newCount     = (lead.visit_count ?? 0) + 1;
     const now          = new Date().toISOString();
 
-    /* ── Update lead ───────────────────────────────────────────────── */
-    const { error: updateError } = await supabase
+    /* ── Update lead — .select() returns affected rows so we can
+     *   detect silent RLS blocks (0 rows = policy blocked the write) ── */
+    const { data: updated, error: updateError } = await supabase
       .from("leads")
       .update({
         visit_count:      newCount,
         first_visited_at: isFirstVisit ? now : lead.first_visited_at,
         last_visited_at:  now,
       })
-      .eq("slug", slug);
+      .eq("slug", slug)
+      .select("visit_count");
 
-    /* ── Slack notification (fire-and-forget) ───────────────────────── */
+    /* ── Slack — awaited so Netlify doesn't kill it before it fires ── */
     const slackUrl = process.env.SLACK_WEBHOOK_URL;
     if (slackUrl) {
       const isMobile   = /mobile|android|iphone|ipad/i.test(userAgent);
@@ -63,33 +52,37 @@ export async function POST(req: NextRequest) {
         timeZone: "Europe/Paris",
       });
 
-      fetch(slackUrl, {
-        method:  "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          blocks: [
-            {
-              type: "section",
-              text: {
-                type: "mrkdwn",
-                text: [
-                  `${emoji} *${lead.name}* est sur son site`,
-                  `🕐 ${time}  ·  ${visitLabel}  ·  ${device}`,
-                ].join("\n"),
+      try {
+        await fetch(slackUrl, {
+          method:  "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            blocks: [
+              {
+                type: "section",
+                text: {
+                  type: "mrkdwn",
+                  text: [
+                    `${emoji} *${lead.name}* est sur son site`,
+                    `🕐 ${time}  ·  ${visitLabel}  ·  ${device}`,
+                  ].join("\n"),
+                },
               },
-            },
-          ],
-        }),
-      }).catch(() => {});
+            ],
+          }),
+        });
+      } catch {}
     }
 
-    /* ── DEBUG — remove once tracking is confirmed working ─────────── */
+    /* DEBUG — remove once confirmed working */
     return NextResponse.json({
-      ok:        true,
-      hasSlack:  !!slackUrl,
+      ok:          true,
+      rowsUpdated: updated?.length ?? 0,
       updateError: updateError ?? null,
+      hasSlack:    !!slackUrl,
       newCount,
     });
+
   } catch (e) {
     return NextResponse.json({ ok: false, caught: String(e) });
   }
