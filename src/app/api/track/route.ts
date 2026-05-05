@@ -4,14 +4,15 @@ import { getSupabase } from "@/lib/supabase";
 /**
  * POST /api/track
  *
- * Called client-side by <VisitTracker> on every real page load.
- * Runs server-side so the Slack webhook URL stays secret.
+ * Logs every real visit directly into the `leads` row.
+ * No separate table needed — visit_count, first_visited_at,
+ * last_visited_at live alongside the lead's contact data.
  *
  * Flow:
- *   1. Reject known bots (no INSERT, no Slack noise)
- *   2. COUNT existing visits for this slug → detect revisit
- *   3. INSERT new row into `visits`
- *   4. POST to Slack (fire-and-forget — never blocks the response)
+ *   1. Reject bots
+ *   2. SELECT current lead (name + visit_count + first_visited_at)
+ *   3. UPDATE lead with incremented count + timestamps
+ *   4. POST to Slack (fire-and-forget)
  */
 export async function POST(req: NextRequest) {
   try {
@@ -27,34 +28,41 @@ export async function POST(req: NextRequest) {
 
     const supabase = getSupabase();
 
-    /* ── Count previous visits for revisit detection ───────────────── */
-    const { count } = await supabase
-      .from("visits")
-      .select("*", { count: "exact", head: true })
+    /* ── Fetch current lead state ──────────────────────────────────── */
+    const { data: lead } = await supabase
+      .from("leads")
+      .select("name, visit_count, first_visited_at")
+      .eq("slug", slug)
+      .single();
+
+    if (!lead) return NextResponse.json({ ok: false }, { status: 404 });
+
+    const isFirstVisit = !lead.first_visited_at;
+    const newCount     = (lead.visit_count ?? 0) + 1;
+    const now          = new Date().toISOString();
+
+    /* ── Update lead ───────────────────────────────────────────────── */
+    await supabase
+      .from("leads")
+      .update({
+        visit_count:      newCount,
+        first_visited_at: isFirstVisit ? now : lead.first_visited_at,
+        last_visited_at:  now,
+      })
       .eq("slug", slug);
-
-    const previousVisits = count ?? 0;
-    const isRevisit      = previousVisits > 0;
-    const visitNumber    = previousVisits + 1;
-
-    /* ── Log the visit ──────────────────────────────────────────────── */
-    await supabase.from("visits").insert({ slug, user_agent: userAgent });
 
     /* ── Slack notification (fire-and-forget) ───────────────────────── */
     const slackUrl = process.env.SLACK_WEBHOOK_URL;
     if (slackUrl) {
       const isMobile   = /mobile|android|iphone|ipad/i.test(userAgent);
-      const emoji      = isRevisit ? "🔄" : "🔥";
-      const visitLabel = isRevisit
-        ? `Revisite #${visitNumber}`
-        : "Première visite";
-      const device = isMobile ? "📱 Mobile" : "🖥️ Desktop";
-      const time   = new Date().toLocaleTimeString("fr-FR", {
+      const emoji      = isFirstVisit ? "🔥" : "🔄";
+      const visitLabel = isFirstVisit ? "Première visite" : `Revisite #${newCount}`;
+      const device     = isMobile ? "📱 Mobile" : "🖥️ Desktop";
+      const time       = new Date().toLocaleTimeString("fr-FR", {
         hour: "2-digit", minute: "2-digit",
         timeZone: "Europe/Paris",
       });
 
-      /* Don't await — Slack latency must never slow down the tracker */
       fetch(slackUrl, {
         method:  "POST",
         headers: { "Content-Type": "application/json" },
@@ -65,7 +73,7 @@ export async function POST(req: NextRequest) {
               text: {
                 type: "mrkdwn",
                 text: [
-                  `${emoji} *Lead actif — \`${slug}\`*`,
+                  `${emoji} *${lead.name}* est sur son site`,
                   `🕐 ${time}  ·  ${visitLabel}  ·  ${device}`,
                 ].join("\n"),
               },
@@ -77,7 +85,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true });
   } catch {
-    /* Tracking must never break the page — swallow all errors silently */
     return NextResponse.json({ ok: true });
   }
 }
