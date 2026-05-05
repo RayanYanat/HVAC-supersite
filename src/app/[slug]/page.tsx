@@ -6,6 +6,7 @@ import type { CompanyData } from "@/lib/types";
 import AmbientCanvas    from "@/components/shared/AmbientCanvas";
 import CustomCursor     from "@/components/shared/CustomCursor";
 import GlobalTexture    from "@/components/shared/GlobalTexture";
+import VisitTracker     from "@/components/shared/VisitTracker";
 import GSAPConfig       from "@/components/shared/GSAPConfig";
 import ThermalNarrative from "@/components/shared/ThermalNarrative";
 import ThermalDivider   from "@/components/shared/ThermalDivider";
@@ -90,6 +91,7 @@ export default async function SlugPage({
       <CustomCursor />
 
       {/* Navbar outside <main> → root stacking context → iOS safe */}
+      <VisitTracker slug={slug} />
       <Navbar company={company} />
 
       <main style={{ position: "relative", zIndex: 1 }}>
