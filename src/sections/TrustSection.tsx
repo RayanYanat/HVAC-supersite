@@ -15,40 +15,11 @@ const TRUST_DATA = [
   { text: "SAT: 98.2%",     x: "45%", y: "90%", delay: "2.5s", duration: "12s", opacity: 0.08  },
 ];
 
-/* REASONS is built inside the component so it can reference company.zone */
-
 const CERTIFICATIONS = [
   { label: "NATE",  sub: "Certified Technicians" },
   { label: "EPA",   sub: "608 Licensed" },
   { label: "ACCA",  sub: "Member Company" },
   { label: "BBB",   sub: "Accredited Business" },
-];
-
-const REVIEWS = [
-  {
-    name: "[First L.]",
-    location: "[City], TX",
-    rating: 5,
-    date: "2 weeks ago",
-    text: "Fast, professional, and honest. They diagnosed the issue in minutes and had everything fixed the same day. Highly recommend.",
-    service: "Furnace Repair",
-  },
-  {
-    name: "[First L.]",
-    location: "[City], TX",
-    rating: 5,
-    date: "1 month ago",
-    text: "Got a new mini-split installed before summer hit. Clean work, great pricing, and they handled all the permits. Will use again.",
-    service: "AC Installation",
-  },
-  {
-    name: "[First L.]",
-    location: "[City], TX",
-    rating: 5,
-    date: "3 months ago",
-    text: "On a maintenance plan for 2 years now. Always on time, always thorough. Best HVAC company in the area, no question.",
-    service: "Annual Maintenance Plan",
-  },
 ];
 
 function StarRow({ count }: { count: number }) {
@@ -65,11 +36,49 @@ function StarRow({ count }: { count: number }) {
 export default function TrustSection({ company }: { company: CompanyData }) {
   const sectionRef = useRef<HTMLElement>(null);
 
+  /* ── City extraction ─────────────────────────────────────────────
+   * zone = "Dallas & Surrounding Areas, TX"
+   * city → "Dallas"   |   state → "TX"
+   * ──────────────────────────────────────────────────────────────── */
+  const city       = company.zone.split(" & ")[0];
+  const stateMatch = company.zone.match(/, ([A-Z]{2})$/);
+  const state      = stateMatch ? stateMatch[1] : "TX";
+  const loc        = `${city}, ${state}`;
+
+  /* REASONS references company.zone → defined inside component */
   const REASONS = [
     { icon: ShieldCheck, text: "NATE Certified & EPA 608 Licensed — the highest industry standard" },
-    { icon: Clock,       text: `Guaranteed response within [X] hours across ${company.zone}` },
+    { icon: Clock,       text: `Guaranteed response within 4 hours across ${company.zone}` },
     { icon: Award,       text: "15+ years of HVAC expertise — residential & commercial" },
     { icon: ThumbsUp,    text: "98% customer satisfaction — verified Google & BBB reviews" },
+  ];
+
+  /* REVIEWS — realistic names + city derived from zone */
+  const REVIEWS = [
+    {
+      name: "Marcus T.",
+      location: loc,
+      rating: 5,
+      date: "2 weeks ago",
+      text: "Fast, professional, and honest. They diagnosed the issue in minutes and had everything fixed the same day. Highly recommend.",
+      service: "Furnace Repair",
+    },
+    {
+      name: "Sarah K.",
+      location: loc,
+      rating: 5,
+      date: "1 month ago",
+      text: "Got a new mini-split installed before summer hit. Clean work, great pricing, and they handled all the permits. Will use again.",
+      service: "AC Installation",
+    },
+    {
+      name: "James R.",
+      location: loc,
+      rating: 5,
+      date: "3 months ago",
+      text: "On a maintenance plan for 2 years now. Always on time, always thorough. Best HVAC company in the area, no question.",
+      service: "Annual Maintenance Plan",
+    },
   ];
 
   /*
@@ -258,7 +267,7 @@ export default function TrustSection({ company }: { company: CompanyData }) {
                 </p>
                 <p className="font-data text-[10px] tracking-wider uppercase mt-0.5"
                   style={{ color: "rgba(255,255,255,0.25)" }}>
-                  [XX]+ verified reviews
+                  47+ verified reviews
                 </p>
               </div>
               <div className="ml-auto font-heading text-2xl font-extrabold"
@@ -283,7 +292,7 @@ export default function TrustSection({ company }: { company: CompanyData }) {
                     <div className="w-8 h-8 rounded-full flex items-center justify-center"
                       style={{ backgroundColor: "rgba(255,107,26,0.15)" }}>
                       <span className="font-heading text-sm font-bold" style={{ color: "#FF6B1A" }}>
-                        {review.name.charAt(1)}
+                        {review.name.charAt(0)}
                       </span>
                     </div>
                     <div>

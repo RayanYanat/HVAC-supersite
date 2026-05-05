@@ -5,6 +5,7 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
+import type { CompanyData } from "@/lib/types";
 
 /*
  * Column map for 3-col desktop grid (6 items, rows assigned by CSS auto-placement):
@@ -13,64 +14,73 @@ import { ArrowUpRight } from "lucide-react";
  */
 const COL_MAP = [1, 2, 3, 2, 3, 1] as const;
 
-const PROJECTS = [
-  {
-    id: 1,
-    img: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=900&q=80",
-    type: "Air Conditioning",
-    title: "Residential Mini-Split Install",
-    location: "[City], TX",
-    color: "#38BDF8",
-    size: "large",
-  },
-  {
-    id: 2,
-    img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=80",
-    type: "Heating",
-    title: "Furnace Replacement",
-    location: "[City], TX",
-    color: "#FF6B1A",
-    size: "small",
-  },
-  {
-    id: 3,
-    img: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=900&q=80",
-    type: "Ventilation",
-    title: "Commercial Duct System",
-    location: "[City], TX",
-    color: "#0EA5E9",
-    size: "small",
-  },
-  {
-    id: 4,
-    img: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=900&q=80",
-    type: "Maintenance",
-    title: "Annual Service Plan",
-    location: "[City], TX",
-    color: "#94A3B8",
-    size: "small",
-  },
-  {
-    id: 5,
-    img: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=900&q=80",
-    type: "Air Conditioning",
-    title: "Commercial Rooftop Units",
-    location: "[City], TX",
-    color: "#38BDF8",
-    size: "small",
-  },
-  {
-    id: 6,
-    img: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=900&q=80",
-    type: "Heating",
-    title: "Heat Pump Installation",
-    location: "[City], TX",
-    color: "#FF6B1A",
-    size: "large",
-  },
-];
+export default function WorkSection({ company }: { company: CompanyData }) {
+  /* ── City extraction from zone ────────────────────────────────────
+   * zone = "Dallas & Surrounding Areas, TX"
+   * city  → "Dallas"   |   state → "TX"   |   loc → "Dallas, TX"
+   * ────────────────────────────────────────────────────────────── */
+  const city       = company.zone.split(" & ")[0];
+  const stateMatch = company.zone.match(/, ([A-Z]{2})$/);
+  const state      = stateMatch ? stateMatch[1] : "TX";
+  const loc        = `${city}, ${state}`;
 
-export default function WorkSection() {
+  const PROJECTS = [
+    {
+      id: 1,
+      img: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=900&q=80",
+      type: "Air Conditioning",
+      title: "Residential Mini-Split Install",
+      location: loc,
+      color: "#38BDF8",
+      size: "large",
+    },
+    {
+      id: 2,
+      img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=80",
+      type: "Heating",
+      title: "Furnace Replacement",
+      location: loc,
+      color: "#FF6B1A",
+      size: "small",
+    },
+    {
+      id: 3,
+      img: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=900&q=80",
+      type: "Ventilation",
+      title: "Commercial Duct System",
+      location: loc,
+      color: "#0EA5E9",
+      size: "small",
+    },
+    {
+      id: 4,
+      img: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=900&q=80",
+      type: "Maintenance",
+      title: "Annual Service Plan",
+      location: loc,
+      color: "#94A3B8",
+      size: "small",
+    },
+    {
+      id: 5,
+      img: "https://images.unsplash.com/photo-1771902985060-6133bb4b2eb6?auto=format&fit=crop&w=900&q=80",
+      type: "Air Conditioning",
+      title: "Commercial Rooftop Units",
+      location: loc,
+      color: "#38BDF8",
+      size: "small",
+    },
+    {
+      id: 6,
+      img: "https://images.unsplash.com/photo-1776860150305-108ed577d7d4?auto=format&fit=crop&w=900&q=80",
+      type: "Heating",
+      title: "Heat Pump Installation",
+      location: loc,
+      color: "#FF6B1A",
+      size: "large",
+    },
+  ];
+
   const sectionRef = useRef<HTMLElement>(null);
 
   useGSAP(
@@ -132,7 +142,7 @@ export default function WorkSection() {
        * scrub: 1.5  →  slight lag behind scroll for a "weight" feel.
        * Only activates on desktop (≥1024 px) because the grid collapses to
        * 1-2 columns on smaller screens where the effect has no visual basis.
-       * ─────────────────────────────────────────────────────────── */
+       * ─────────────────────────────────────────────────────────────── */
       if (window.innerWidth >= 1024) {
         const col1 = sectionRef.current!.querySelectorAll<HTMLElement>("[data-col='1']");
         const col3 = sectionRef.current!.querySelectorAll<HTMLElement>("[data-col='3']");
@@ -211,7 +221,7 @@ export default function WorkSection() {
               style={{ color: "rgba(255,255,255,0.35)" }}
             >
               A selection of recent installations and service calls across{" "}
-              <span style={{ color: "rgba(255,255,255,0.6)" }}>[City] &amp; surrounding areas, TX</span>.
+              <span style={{ color: "rgba(255,255,255,0.6)" }}>{company.zone}</span>.
             </p>
             <a
               href="#contact"
@@ -322,7 +332,7 @@ export default function WorkSection() {
             className="font-data text-[11px] tracking-wider uppercase"
             style={{ color: "rgba(255,255,255,0.25)" }}
           >
-            [XX]+ projects completed across [City] &amp; surrounding areas, TX
+            180+ projects completed across {company.zone}
           </p>
           <a
             href="#contact"

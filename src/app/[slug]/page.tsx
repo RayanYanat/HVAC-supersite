@@ -97,8 +97,8 @@ export default async function SlugPage({
         <HeroSection     company={company} />
         <ServicesSection />
         <ThermalDivider  />
-        <WorkSection     />
-        <StatsSection    />
+        <WorkSection     company={company} />
+        <StatsSection    company={company} />
         <TrustSection    company={company} />
         <ContactSection  company={company} />
         <Footer          company={company} />

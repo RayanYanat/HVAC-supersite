@@ -5,6 +5,7 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { STATS } from "@/lib/constants";
 import FloatingData from "@/components/shared/FloatingData";
+import type { CompanyData } from "@/lib/types";
 
 const STATS_DATA = [
   { text: "COP: 4.2",      x: "4%",  y: "10%", delay: "0s",   duration: "10s", opacity: 0.09  },
@@ -19,15 +20,20 @@ const BARS = [92, 78, 98, 85];
 /* Transition zone — stats get cool steel tones */
 const STAT_COLORS = ["#FF6B1A", "#38BDF8", "#38BDF8", "#94A3B8"];
 
-const TICKER_ITEMS = [
-  "Service Area: [City], TX",
-  "[County]", "[Surrounding Cities]",
-  "NATE Certified", "EPA 608 Licensed",
-  "ACCA Member", "BBB Accredited",
-  "Same-Day Response",
-];
+export default function StatsSection({ company }: { company: CompanyData }) {
+  /* ── City extraction ───────────────────────────────────────────── */
+  const city       = company.zone.split(" & ")[0];
+  const stateMatch = company.zone.match(/, ([A-Z]{2})$/);
+  const state      = stateMatch ? stateMatch[1] : "TX";
 
-export default function StatsSection() {
+  const TICKER_ITEMS = [
+    `Service Area: ${city}, ${state}`,
+    `${city} County`,
+    "Metro & Surrounding Area",
+    "NATE Certified", "EPA 608 Licensed",
+    "ACCA Member", "BBB Accredited",
+    "Same-Day Response",
+  ];
   const sectionRef = useRef<HTMLElement>(null);
 
   /*
