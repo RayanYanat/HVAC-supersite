@@ -29,7 +29,7 @@ import ContactSection   from "@/sections/ContactSection";
  *                          every page is generated on-demand.
  * ─────────────────────────────────────────────────────────────────────────── */
 export const dynamicParams = true;
-export const revalidate    = 0;
+export const revalidate    = 86400;
 
 export async function generateStaticParams() {
   return [];
