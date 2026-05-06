@@ -73,14 +73,7 @@ export async function POST(req: NextRequest) {
       } catch {}
     }
 
-    /* DEBUG — remove once confirmed working */
-    return NextResponse.json({
-      ok:          true,
-      rowsUpdated: updated?.length ?? 0,
-      updateError: updateError ?? null,
-      hasSlack:    !!slackUrl,
-      newCount,
-    });
+    return NextResponse.json({ ok: true });
 
   } catch (e) {
     return NextResponse.json({ ok: false, caught: String(e) });

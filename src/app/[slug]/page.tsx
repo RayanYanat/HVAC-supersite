@@ -29,7 +29,7 @@ import ContactSection   from "@/sections/ContactSection";
  *                          every page is generated on-demand.
  * ─────────────────────────────────────────────────────────────────────────── */
 export const dynamicParams = true;
-export const revalidate    = 86400;
+export const revalidate    = 0;
 
 export async function generateStaticParams() {
   return [];
@@ -39,7 +39,7 @@ export async function generateStaticParams() {
 async function getCompany(slug: string): Promise<CompanyData | null> {
   const { data, error } = await getSupabase()
     .from("leads")
-    .select("slug, name, city, phone, email, license")
+    .select("slug, name, city, phone, email, license, address")
     .eq("slug", slug)
     .single();
 

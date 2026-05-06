@@ -39,6 +39,10 @@ export default function ContactSection({ company }: { company: CompanyData }) {
   const CONTACT_DETAILS = [
     { icon: Phone,  label: "Phone",        value: company.phone,         href: `tel:${company.phone}` },
     { icon: Mail,   label: "Email",        value: company.email ?? "—",  href: company.email ? `mailto:${company.email}` : null },
+    ...(company.address ? [{
+      icon: MapPin, label: "Address", value: company.address,
+      href: `https://maps.google.com/?q=${encodeURIComponent(company.address)}`,
+    }] : []),
     { icon: MapPin, label: "Service Area", value: company.zone, href: null },
     { icon: Clock,  label: "Hours",        value: "Mon–Sat · 8am–7pm · Emergency 24/7", href: null },
   ];

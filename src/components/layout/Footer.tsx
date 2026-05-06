@@ -107,7 +107,7 @@ export default function Footer({ company }: { company: CompanyData }) {
               </li>
               <li className="flex items-start gap-3 text-sm" style={{ color: "rgba(255,255,255,0.35)" }}>
                 <MapPin size={13} style={{ color: "rgba(255,107,26,0.5)", flexShrink: 0, marginTop: 2 }} />
-                <span>{company.zone}</span>
+                <span>{company.address ?? company.zone}</span>
               </li>
             </ul>
 

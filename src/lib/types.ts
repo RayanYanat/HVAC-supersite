@@ -11,4 +11,5 @@ export interface CompanyData {
   phone:    string;
   email:    string | null;
   license:  string | null;
+  address:  string | null;
 }
