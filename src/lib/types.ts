@@ -10,6 +10,5 @@ export interface CompanyData {
   zone:     string;      // computed in page.tsx — e.g. "Dallas & surrounding areas"
   phone:    string;
   email:    string | null;
-  license:  string | null;
   address:  string | null;
 }

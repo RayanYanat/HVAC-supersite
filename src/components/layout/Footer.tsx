@@ -128,7 +128,7 @@ export default function Footer({ company }: { company: CompanyData }) {
           style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
           <p className="font-data text-[10px] tracking-wider"
             style={{ color: "rgba(255,255,255,0.2)" }}>
-            © {year} {company.name} — All rights reserved · {company.license}
+            © {year} {company.name} — All rights reserved
           </p>
           <div className="flex items-center gap-6">
             {["Privacy Policy", "Terms of Service", "Sitemap"].map((item) => (

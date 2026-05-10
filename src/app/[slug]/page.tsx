@@ -39,7 +39,7 @@ export async function generateStaticParams() {
 async function getCompany(slug: string): Promise<CompanyData | null> {
   const { data, error } = await getSupabase()
     .from("leads")
-    .select("slug, name, city, phone, email, license, address")
+    .select("slug, name, city, phone, email, address")
     .eq("slug", slug)
     .single();
 
