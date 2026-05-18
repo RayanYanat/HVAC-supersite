@@ -13,6 +13,39 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: true });
     }
 
+    /* ── Geo: try Netlify header first, fallback to IP lookup ─────── */
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+            ?? req.headers.get("x-real-ip")
+            ?? "";
+
+    let city: string | null = null;
+    let region: string | null = null;
+    let country: string | null = null;
+
+    // Try Netlify x-nf-geo header
+    const nfGeo = req.headers.get("x-nf-geo");
+    if (nfGeo) {
+      try {
+        const geo = JSON.parse(nfGeo);
+        city = geo.city ?? null;
+        region = geo.subdivision?.name ?? null;
+        country = geo.country?.code ?? null;
+      } catch {}
+    }
+
+    // Fallback: free IP geolocation API
+    if (!city && ip && !ip.startsWith("127.") && !ip.startsWith("192.168.")) {
+      try {
+        const geo = await fetch(`http://ip-api.com/json/${ip}?fields=city,regionName,countryCode`, { signal: AbortSignal.timeout(2000) });
+        if (geo.ok) {
+          const data = await geo.json();
+          city = data.city ?? null;
+          region = data.regionName ?? null;
+          country = data.countryCode ?? null;
+        }
+      } catch {}
+    }
+
     const supabase = getSupabase();
 
     /* ── Fetch current lead state ──────────────────────────────────── */
@@ -44,11 +77,12 @@ export async function POST(req: NextRequest) {
     if (slackUrl) {
       const isMobile   = /mobile|android|iphone|ipad/i.test(userAgent);
       const emoji      = isFirstVisit ? "🔥" : "🔄";
-      const visitLabel = isFirstVisit ? "Première visite" : `Revisite #${newCount}`;
+      const visitLabel = isFirstVisit ? "First visit" : `Visit #${newCount}`;
       const device     = isMobile ? "📱 Mobile" : "🖥️ Desktop";
-      const time       = new Date().toLocaleTimeString("fr-FR", {
+      const location   = [city, region, country].filter(Boolean).join(", ") || "Unknown";
+      const time       = new Date().toLocaleTimeString("en-US", {
         hour: "2-digit", minute: "2-digit",
-        timeZone: "Europe/Paris",
+        timeZone: "America/Chicago",
       });
 
       try {
@@ -62,8 +96,8 @@ export async function POST(req: NextRequest) {
                 text: {
                   type: "mrkdwn",
                   text: [
-                    `${emoji} *${lead.name}* est sur son site`,
-                    `🕐 ${time}  ·  ${visitLabel}  ·  ${device}`,
+                    `${emoji} *${lead.name}* is on their site`,
+                    `📍 ${location}  ·  ${visitLabel}  ·  ${device}  ·  🕐 ${time}`,
                   ].join("\n"),
                 },
               },
