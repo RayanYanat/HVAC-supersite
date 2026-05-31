@@ -23,11 +23,12 @@ const STAT_COLORS = ["#FF6B1A", "#38BDF8", "#38BDF8", "#94A3B8"];
 export default function StatsSection({ company }: { company: CompanyData }) {
   const TICKER_ITEMS = [
     `Service Area: ${company.zone}`,
-    `${company.city} County`,
-    "Metro & Surrounding Area",
-    "NATE Certified", "EPA 608 Licensed",
-    "ACCA Member", "BBB Accredited",
+    `${company.city} & Surrounding Area`,
+    "Certified Technicians",
+    "Licensed & Insured",
     "Same-Day Response",
+    "Emergency 24/7",
+    "Free Estimates",
   ];
   const sectionRef = useRef<HTMLElement>(null);
 

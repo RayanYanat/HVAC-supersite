@@ -202,7 +202,7 @@ export default function HeroSection({ company }: { company: CompanyData }) {
             <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
           </span>
           <span className="font-data text-[11px] text-brand/75 tracking-[0.28em] uppercase">
-            NATE Certified &nbsp;·&nbsp; {company.city} &nbsp;·&nbsp; 15+ Years of Experience
+            Certified Technicians &nbsp;·&nbsp; {company.city} &nbsp;·&nbsp; Fast Response Guaranteed
           </span>
         </div>
 
@@ -215,7 +215,7 @@ export default function HeroSection({ company }: { company: CompanyData }) {
             HVAC Service
           </h1>
           <p className="hero-title-3 font-heading text-[clamp(1.6rem,4.5vw,4.2rem)] leading-[1.15] font-bold mt-3 pb-1" style={{ color: "rgba(255,255,255,0.22)" }}>
-            NATE-certified — same-day emergency response.
+            Licensed & certified — same-day emergency response.
           </p>
         </div>
 

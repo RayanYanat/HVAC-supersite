@@ -8,18 +8,18 @@ import type { CompanyData } from "@/lib/types";
 import FloatingData from "@/components/shared/FloatingData";
 
 const TRUST_DATA = [
-  { text: "NATE.CERT",      x: "3%",  y: "8%",  delay: "0s",   duration: "11s", opacity: 0.085 },
+  { text: "CERT.TECH",      x: "3%",  y: "8%",  delay: "0s",   duration: "11s", opacity: 0.085 },
   { text: "VERIFIED: YES",  x: "80%", y: "12%", delay: "3.5s", duration: "9s",  opacity: 0.07  },
-  { text: "EPA.608.LIC",    x: "6%",  y: "60%", delay: "1.5s", duration: "13s", opacity: 0.075 },
-  { text: "BBB: A+",        x: "72%", y: "78%", delay: "5s",   duration: "10s", opacity: 0.065 },
+  { text: "LIC.INSURED",    x: "6%",  y: "60%", delay: "1.5s", duration: "13s", opacity: 0.075 },
+  { text: "RATING: 5.0",    x: "72%", y: "78%", delay: "5s",   duration: "10s", opacity: 0.065 },
   { text: "SAT: 98.2%",     x: "45%", y: "90%", delay: "2.5s", duration: "12s", opacity: 0.08  },
 ];
 
 const CERTIFICATIONS = [
-  { label: "NATE",  sub: "Certified Technicians" },
-  { label: "EPA",   sub: "608 Licensed" },
-  { label: "ACCA",  sub: "Member Company" },
-  { label: "BBB",   sub: "Accredited Business" },
+  { label: "CERT", sub: "Certified Technicians" },
+  { label: "LIC",  sub: "Fully Licensed" },
+  { label: "INS",  sub: "Fully Insured" },
+  { label: "5★",   sub: "Top Rated" },
 ];
 
 function StarRow({ count }: { count: number }) {
@@ -41,10 +41,10 @@ export default function TrustSection({ company }: { company: CompanyData }) {
 
   /* REASONS references company.zone → defined inside component */
   const REASONS = [
-    { icon: ShieldCheck, text: "NATE Certified & EPA 608 Licensed — the highest industry standard" },
+    { icon: ShieldCheck, text: "Certified & fully licensed technicians — the highest industry standard" },
     { icon: Clock,       text: `Guaranteed response within 4 hours across ${company.zone}` },
     { icon: Award,       text: "15+ years of HVAC expertise — residential & commercial" },
-    { icon: ThumbsUp,    text: "98% customer satisfaction — verified Google & BBB reviews" },
+    { icon: ThumbsUp,    text: "98% customer satisfaction — verified Google reviews" },
   ];
 
   /* REVIEWS — realistic names + city derived from zone */

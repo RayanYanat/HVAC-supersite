@@ -3,7 +3,7 @@ import { Phone, Mail, MapPin } from "lucide-react";
 import { NAV_LINKS } from "@/lib/constants";
 import type { CompanyData } from "@/lib/types";
 
-const CERTIFS = ["NATE", "EPA 608", "ACCA", "BBB"];
+const CERTIFS = ["Certified", "Licensed", "Insured", "5★ Rated"];
 
 export default function Footer({ company }: { company: CompanyData }) {
   const year = new Date().getFullYear();

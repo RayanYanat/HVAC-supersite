@@ -44,7 +44,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
       href: `https://maps.google.com/?q=${encodeURIComponent(company.address)}`,
     }] : []),
     { icon: MapPin, label: "Service Area", value: company.zone, href: null },
-    { icon: Clock,  label: "Hours",        value: "Mon–Sat · 8am–7pm · Emergency 24/7", href: null },
+    { icon: Clock,  label: "Hours",        value: company.opening_hours ?? "Emergency 24/7", href: null },
   ];
 
   /*
@@ -320,7 +320,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
               </div>
               <p className="text-sm leading-relaxed mb-4"
                 style={{ color: "rgba(255,255,255,0.6)" }}>
-                AC down in the Texas heat?
+                HVAC emergency?
                 We dispatch within{" "}
                 <span style={{ color: "rgba(255,255,255,0.85)", fontWeight: 600 }}>2 hours</span> across{" "}
                 <span style={{ color: "rgba(255,255,255,0.85)", fontWeight: 600 }}>{company.zone}</span>.
