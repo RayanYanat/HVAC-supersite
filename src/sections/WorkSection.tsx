@@ -21,7 +21,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
   const PROJECTS = [
     {
       id: 1,
-      img: "/hvac/Gemini_Generated_Image_k3jcsok3jcsok3jc.png",
+      img: "/hvac/Gemini_Generated_Image_k3jcsok3jcsok3jc.webp",
       type: "Air Conditioning",
       title: "Residential Mini-Split Install",
       location: loc,
@@ -30,7 +30,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
     },
     {
       id: 2,
-      img: "/hvac/Gemini_Generated_Image_u72k8uu72k8uu72k.png",
+      img: "/hvac/Gemini_Generated_Image_u72k8uu72k8uu72k.webp",
       type: "Heating",
       title: "Furnace Replacement",
       location: loc,
@@ -39,7 +39,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
     },
     {
       id: 3,
-      img: "/hvac/Gemini_Generated_Image_d8mta1d8mta1d8mt.png",
+      img: "/hvac/Gemini_Generated_Image_d8mta1d8mta1d8mt.webp",
       type: "Ventilation",
       title: "Commercial Duct System",
       location: loc,
@@ -48,7 +48,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
     },
     {
       id: 4,
-      img: "/hvac/Gemini_Generated_Image_wg48zewg48zewg48.png",
+      img: "/hvac/Gemini_Generated_Image_wg48zewg48zewg48.webp",
       type: "Maintenance",
       title: "Annual Service Plan",
       location: loc,
@@ -57,7 +57,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
     },
     {
       id: 5,
-      img: "/hvac/Gemini_Generated_Image_dw1vrydw1vrydw1v.png",
+      img: "/hvac/Gemini_Generated_Image_dw1vrydw1vrydw1v.webp",
       type: "Air Conditioning",
       title: "Commercial Rooftop Units",
       location: loc,
@@ -66,7 +66,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
     },
     {
       id: 6,
-      img: "/hvac/Gemini_Generated_Image_rq2gcerq2gcerq2g.png",
+      img: "/hvac/Gemini_Generated_Image_rq2gcerq2gcerq2g.webp",
       type: "Heating",
       title: "Heat Pump Installation",
       location: loc,
