@@ -26,7 +26,7 @@ const PALETTE = {
 const SERVICES = [
   {
     num: "01", icon: Flame, color: PALETTE.heating,
-    img: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80",
+    img: "/hvac/Gemini_Generated_Image_ifqtwyifqtwyifqt.png",
     domain: "Heating",
     headline: "My heating system broke down",
     detail: "Furnace failure, no heat, cold rooms — we dispatch within 2 hours. Full diagnostic included, no hidden fees.",
@@ -36,7 +36,7 @@ const SERVICES = [
   },
   {
     num: "02", icon: Thermometer, color: PALETTE.aircon,
-    img: "https://images.unsplash.com/photo-1726614846573-c1ac2e6161d1?auto=format&fit=crop&w=800&q=80",
+    img: "/hvac/Gemini_Generated_Image_bs76gtbs76gtbs76.png",
     domain: "Air Conditioning",
     headline: "I need AC installed or repaired",
     detail: "Central AC, mini-split, ductless systems — NATE-certified installation. Free in-home estimate. Financing available.",
@@ -46,7 +46,7 @@ const SERVICES = [
   },
   {
     num: "03", icon: AirVent, color: PALETTE.ventilation,
-    img: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=800&q=80",
+    img: "/hvac/Gemini_Generated_Image_t77cryt77cryt77c.png",
     domain: "Ventilation",
     headline: "My indoor air quality is poor",
     detail: "ERV / HRV systems, duct cleaning, air purification — fresh, filtered air throughout your home, year-round.",
@@ -56,7 +56,7 @@ const SERVICES = [
   },
   {
     num: "04", icon: Wrench, color: PALETTE.maintenance,
-    img: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=800&q=80",
+    img: "/hvac/Gemini_Generated_Image_3gqvr93gqvr93gqv.png",
     domain: "Maintenance",
     headline: "I want to protect my equipment",
     detail: "Annual service plans — tune-ups, priority scheduling, parts discounts. One trusted partner for all your HVAC needs.",

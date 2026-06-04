@@ -21,7 +21,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
   const PROJECTS = [
     {
       id: 1,
-      img: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=900&q=80",
+      img: "/hvac/Gemini_Generated_Image_k3jcsok3jcsok3jc.png",
       type: "Air Conditioning",
       title: "Residential Mini-Split Install",
       location: loc,
@@ -30,7 +30,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
     },
     {
       id: 2,
-      img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=900&q=80",
+      img: "/hvac/Gemini_Generated_Image_u72k8uu72k8uu72k.png",
       type: "Heating",
       title: "Furnace Replacement",
       location: loc,
@@ -39,7 +39,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
     },
     {
       id: 3,
-      img: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=900&q=80",
+      img: "/hvac/Gemini_Generated_Image_d8mta1d8mta1d8mt.png",
       type: "Ventilation",
       title: "Commercial Duct System",
       location: loc,
@@ -48,7 +48,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
     },
     {
       id: 4,
-      img: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?auto=format&fit=crop&w=900&q=80",
+      img: "/hvac/Gemini_Generated_Image_wg48zewg48zewg48.png",
       type: "Maintenance",
       title: "Annual Service Plan",
       location: loc,
@@ -57,7 +57,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
     },
     {
       id: 5,
-      img: "https://images.unsplash.com/photo-1771902985060-6133bb4b2eb6?auto=format&fit=crop&w=900&q=80",
+      img: "/hvac/Gemini_Generated_Image_dw1vrydw1vrydw1v.png",
       type: "Air Conditioning",
       title: "Commercial Rooftop Units",
       location: loc,
@@ -66,7 +66,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
     },
     {
       id: 6,
-      img: "https://images.unsplash.com/photo-1776860150305-108ed577d7d4?auto=format&fit=crop&w=900&q=80",
+      img: "/hvac/Gemini_Generated_Image_rq2gcerq2gcerq2g.png",
       type: "Heating",
       title: "Heat Pump Installation",
       location: loc,
