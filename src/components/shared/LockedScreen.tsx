@@ -52,7 +52,7 @@ export default function LockedScreen() {
     <div
       ref={ref}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      style={{ backgroundColor: "#0A0C0F" }}
+      style={{ backgroundColor: "#100D0B" }}
     >
 
       {/* ── Fine grid ──────────────────────────────────────────────── */}

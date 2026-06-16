@@ -51,7 +51,8 @@
       "Bash(curl -s \"http://127.0.0.1:8787/prospects/list/\")",
       "Bash(curl -s \"http://127.0.0.1:8787/prospects/map/\")",
       "Bash(curl -s \"http://127.0.0.1:8787/_next/static/chunks/app/prospects/map/page-adb932ccc54eda52.js\")",
-      "Bash(head -3 \"/Users/rayan/Library/Application Support/Prospects/exports/export-20260507-225102.ndjson\" | python3 -m json.tool 2>&1 | head -80)"
+      "Bash(head -3 \"/Users/rayan/Library/Application Support/Prospects/exports/export-20260507-225102.ndjson\" | python3 -m json.tool 2>&1 | head -80)",
+      "mcp__Claude_Preview__preview_start"
     ]
   }
 }

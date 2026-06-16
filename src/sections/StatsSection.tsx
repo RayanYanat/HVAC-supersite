@@ -4,16 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { STATS } from "@/lib/constants";
-import FloatingData from "@/components/shared/FloatingData";
 import type { CompanyData } from "@/lib/types";
-
-const STATS_DATA = [
-  { text: "COP: 4.2",      x: "4%",  y: "10%", delay: "0s",   duration: "10s", opacity: 0.09  },
-  { text: "TEMP: 72.4°F",  x: "82%", y: "15%", delay: "4s",   duration: "12s", opacity: 0.08  },
-  { text: "RH: 48.2%",     x: "55%", y: "82%", delay: "2s",   duration: "9s",  opacity: 0.07  },
-  { text: "PSI: 14.7",     x: "7%",  y: "68%", delay: "6s",   duration: "11s", opacity: 0.06  },
-  { text: "DELTA.T: 20°",  x: "70%", y: "45%", delay: "1s",   duration: "14s", opacity: 0.075 },
-];
 
 const BARS = [92, 78, 98, 85];
 
@@ -128,9 +119,7 @@ export default function StatsSection({ company }: { company: CompanyData }) {
   return (
     <section ref={sectionRef} id="stats"
       className="relative section-padding overflow-hidden"
-      style={{ backgroundColor: "rgba(10,12,15,0.83)" }}>
-
-      <FloatingData points={STATS_DATA} />
+      style={{ backgroundColor: "rgba(16,13,11,0.83)" }}>
 
       {/*
        * Bascule diagonale : la chaleur résiduelle vit en haut-gauche
@@ -219,7 +208,7 @@ export default function StatsSection({ company }: { company: CompanyData }) {
 
         {/* Ticker */}
         <div className="flex items-center gap-4 px-6 py-4"
-          style={{ border: "1px solid rgba(56,189,248,0.08)", backgroundColor: "#090B0E" }}>
+          style={{ border: "1px solid rgba(56,189,248,0.08)", backgroundColor: "#0E0B09" }}>
           <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full animate-pulse"
             style={{ backgroundColor: "#38BDF8" }} />
           <div className="flex flex-wrap gap-x-8 gap-y-1">

@@ -45,7 +45,7 @@
 
 :root {
   /* HVAC Brand Palette */
-  --background:        #0A0C0F;
+  --background:        #100D0B;
   --foreground:        #F0F2F5;
   --brand:             #FF6B1A;
   --brand-dim:         #C4420A;
@@ -60,13 +60,13 @@
   --popover:           #111318;
   --popover-foreground:#F0F2F5;
   --primary:           #FF6B1A;
-  --primary-foreground:#0A0C0F;
+  --primary-foreground:#100D0B;
   --secondary:         #181C23;
   --secondary-foreground: #F0F2F5;
   --muted:             #181C23;
   --muted-foreground:  #6B7280;
   --accent:            #FF6B1A;
-  --accent-foreground: #0A0C0F;
+  --accent-foreground: #100D0B;
   --destructive:       oklch(0.577 0.245 27.325);
   --border:            rgba(255, 255, 255, 0.07);
   --input:             rgba(255, 255, 255, 0.07);
@@ -81,7 +81,7 @@
   }
 
   html {
-    background-color: #0A0C0F;
+    background-color: #100D0B;
     scroll-behavior: smooth;
     /* Offset anchor-link targets so they don't hide under the fixed navbar.
        Mobile navbar = h-16 (64px), desktop = h-20 (80px). */
@@ -95,7 +95,7 @@
   }
 
   body {
-    background-color: #0A0C0F;
+    background-color: #100D0B;
     color: #F0F2F5;
     font-family: var(--font-inter), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
