@@ -180,7 +180,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
             </span>
           </h2>
           <p className="max-w-lg text-base leading-relaxed"
-            style={{ color: "rgba(255,255,255,0.4)" }}>
+            style={{ color: "rgba(255,255,255,0.68)" }}>
             Describe your situation. We&apos;ll call you back within{" "}
             <span style={{ color: "rgba(255,255,255,0.75)" }}>24 hours</span> with
             a concrete solution — no obligation, no pressure.
@@ -197,7 +197,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
                 <CheckCircle size={32} style={{ color: COLD }} />
                 <div>
                   <h3 className="font-heading text-2xl text-white font-bold mb-2">REQUEST RECEIVED</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.45)" }}>
+                  <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.72)" }}>
                     We&apos;ve got your request. A technician will reach out within{" "}
                     <span style={{ color: "rgba(255,255,255,0.75)" }}>24 hours</span> to
                     schedule your service or estimate.
@@ -217,7 +217,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
                   {/* Name */}
                   <div>
                     <label className="block font-data text-[10px] tracking-[0.25em] uppercase mb-2"
-                      style={{ color: "rgba(255,255,255,0.3)" }}>
+                      style={{ color: "rgba(255,255,255,0.62)" }}>
                       Full Name <span style={{ color: COLD }}>*</span>
                     </label>
                     <input required type="text" placeholder="[Jane Smith]"
@@ -229,7 +229,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
                   {/* Phone */}
                   <div>
                     <label className="block font-data text-[10px] tracking-[0.25em] uppercase mb-2"
-                      style={{ color: "rgba(255,255,255,0.3)" }}>
+                      style={{ color: "rgba(255,255,255,0.62)" }}>
                       Phone Number <span style={{ color: COLD }}>*</span>
                     </label>
                     <input required type="tel" placeholder="[(XXX) XXX-XXXX]"
@@ -243,7 +243,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
                 {/* Need */}
                 <div className="contact-row">
                   <label className="block font-data text-[10px] tracking-[0.25em] uppercase mb-2"
-                    style={{ color: "rgba(255,255,255,0.3)" }}>
+                    style={{ color: "rgba(255,255,255,0.62)" }}>
                     Service Needed <span style={{ color: COLD }}>*</span>
                   </label>
                   <div className="relative">
@@ -270,7 +270,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
                 {/* Message */}
                 <div className="contact-row">
                   <label className="block font-data text-[10px] tracking-[0.25em] uppercase mb-2"
-                    style={{ color: "rgba(255,255,255,0.3)" }}>
+                    style={{ color: "rgba(255,255,255,0.62)" }}>
                     Description (optional)
                   </label>
                   <textarea rows={4}
@@ -294,7 +294,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
                 </button>
 
                 <p className="contact-row font-data text-[10px] tracking-wider"
-                  style={{ color: "rgba(255,255,255,0.18)" }}>
+                  style={{ color: "rgba(255,255,255,0.48)" }}>
                   Your information is kept private — no spam, no cold calls.
                 </p>
               </form>
@@ -346,7 +346,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
                     style={{ color: `${COLD}70` }} />
                   <div className="min-w-0">
                     <p className="font-data text-[9px] tracking-[0.22em] uppercase mb-1"
-                      style={{ color: "rgba(255,255,255,0.22)" }}>{label}</p>
+                      style={{ color: "rgba(255,255,255,0.52)" }}>{label}</p>
                     {href ? (
                       <a href={href} className="text-sm truncate block transition-colors duration-200"
                         style={{ color: "rgba(255,255,255,0.55)" }}

@@ -229,7 +229,7 @@ export default function TrustSection({ company }: { company: CompanyData }) {
             {/* Certifications */}
             <div>
               <p className="font-data text-[10px] tracking-[0.28em] uppercase mb-5"
-                style={{ color: "rgba(255,255,255,0.25)" }}>
+                style={{ color: "rgba(255,255,255,0.58)" }}>
                 Certifications &amp; Licenses
               </p>
               <div className="flex flex-wrap gap-3">
@@ -241,7 +241,7 @@ export default function TrustSection({ company }: { company: CompanyData }) {
                     <div className="font-heading text-xl font-extrabold mb-0.5"
                       style={{ color: "#FF6B1A" }}>{cert.label}</div>
                     <div className="font-data text-[9px] tracking-wider uppercase"
-                      style={{ color: "rgba(255,255,255,0.25)" }}>{cert.sub}</div>
+                      style={{ color: "rgba(255,255,255,0.58)" }}>{cert.sub}</div>
                   </div>
                 ))}
               </div>
@@ -260,12 +260,12 @@ export default function TrustSection({ company }: { company: CompanyData }) {
                   5-star rated on Google
                 </p>
                 <p className="font-data text-[10px] tracking-wider uppercase mt-0.5"
-                  style={{ color: "rgba(255,255,255,0.25)" }}>
+                  style={{ color: "rgba(255,255,255,0.58)" }}>
                   47+ verified reviews
                 </p>
               </div>
               <div className="ml-auto font-heading text-2xl font-extrabold"
-                style={{ color: "rgba(255,255,255,0.08)" }}>G</div>
+                style={{ color: "rgba(255,255,255,0.35)" }}>G</div>
             </div>
           </div>
 
@@ -291,17 +291,17 @@ export default function TrustSection({ company }: { company: CompanyData }) {
                     </div>
                     <div>
                       <p className="text-sm font-semibold" style={{ color: "rgba(255,255,255,0.7)" }}>{review.name}</p>
-                      <p className="font-data text-[10px] tracking-wider" style={{ color: "rgba(255,255,255,0.25)" }}>{review.location}</p>
+                      <p className="font-data text-[10px] tracking-wider" style={{ color: "rgba(255,255,255,0.58)" }}>{review.location}</p>
                     </div>
                   </div>
                   <span className="font-data text-[9px] tracking-wider uppercase"
-                    style={{ color: "rgba(255,255,255,0.2)" }}>{review.date}</span>
+                    style={{ color: "rgba(255,255,255,0.48)" }}>{review.date}</span>
                 </div>
 
                 <StarRow count={review.rating} />
 
                 <p className="text-sm leading-relaxed mt-3 mb-4"
-                  style={{ color: "rgba(255,255,255,0.45)" }}>
+                  style={{ color: "rgba(255,255,255,0.72)" }}>
                   &ldquo;{review.text}&rdquo;
                 </p>
 

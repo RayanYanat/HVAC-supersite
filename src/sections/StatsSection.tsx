@@ -179,7 +179,7 @@ export default function StatsSection({ company }: { company: CompanyData }) {
             </h2>
           </div>
           <p className="max-w-xs text-sm leading-relaxed lg:text-right"
-            style={{ color: "rgba(255,255,255,0.35)" }}>
+            style={{ color: "rgba(255,255,255,0.62)" }}>
             Real numbers, verifiable facts — because trust
             is built on transparency, not promises.
           </p>
@@ -199,7 +199,7 @@ export default function StatsSection({ company }: { company: CompanyData }) {
                 </span>
               </div>
               <p className="font-data text-[11px] tracking-[0.22em] uppercase mb-5"
-                style={{ color: "rgba(255,255,255,0.35)" }}>
+                style={{ color: "rgba(255,255,255,0.62)" }}>
                 {stat.label}
               </p>
               <div className="w-full h-px relative overflow-hidden"
@@ -209,7 +209,7 @@ export default function StatsSection({ company }: { company: CompanyData }) {
               </div>
               <div className="mt-2 text-right">
                 <span className="font-data text-[9px] tracking-wider"
-                  style={{ color: "rgba(255,255,255,0.14)" }}>
+                  style={{ color: "rgba(255,255,255,0.38)" }}>
                   {BARS[i]}%
                 </span>
               </div>
@@ -225,7 +225,7 @@ export default function StatsSection({ company }: { company: CompanyData }) {
           <div className="flex flex-wrap gap-x-8 gap-y-1">
             {TICKER_ITEMS.map((item) => (
               <span key={item} className="font-data text-[11px] tracking-wider uppercase"
-                style={{ color: "rgba(255,255,255,0.22)" }}>
+                style={{ color: "rgba(255,255,255,0.52)" }}>
                 {item}
               </span>
             ))}

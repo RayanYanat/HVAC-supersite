@@ -24,7 +24,7 @@ export default function Footer({ company }: { company: CompanyData }) {
               </span>
             </a>
             <p className="text-sm leading-relaxed max-w-xs mb-7"
-              style={{ color: "rgba(255,255,255,0.35)" }}>
+              style={{ color: "rgba(255,255,255,0.62)" }}>
               Licensed HVAC contractor serving {company.zone}.
               Heating, air conditioning, ventilation, and maintenance —
               done right, every time.
@@ -51,7 +51,7 @@ export default function Footer({ company }: { company: CompanyData }) {
           {/* Navigation */}
           <div>
             <p className="font-data text-[10px] tracking-[0.28em] uppercase mb-6"
-              style={{ color: "rgba(255,255,255,0.25)" }}>
+              style={{ color: "rgba(255,255,255,0.58)" }}>
               Navigation
             </p>
             <ul className="space-y-3">
@@ -59,7 +59,7 @@ export default function Footer({ company }: { company: CompanyData }) {
                 <li key={link.href}>
                   <a href={link.href}
                     className="text-sm font-medium transition-colors duration-200"
-                    style={{ color: "rgba(255,255,255,0.4)" }}
+                    style={{ color: "rgba(255,255,255,0.68)" }}
                     onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "#FF6B1A")}
                     onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.4)")}>
                     {link.label}
@@ -81,7 +81,7 @@ export default function Footer({ company }: { company: CompanyData }) {
           {/* Contact */}
           <div>
             <p className="font-data text-[10px] tracking-[0.28em] uppercase mb-6"
-              style={{ color: "rgba(255,255,255,0.25)" }}>
+              style={{ color: "rgba(255,255,255,0.58)" }}>
               Contact
             </p>
             <ul className="space-y-4">
@@ -105,7 +105,7 @@ export default function Footer({ company }: { company: CompanyData }) {
                   <span>{company.email}</span>
                 </a>
               </li>
-              <li className="flex items-start gap-3 text-sm" style={{ color: "rgba(255,255,255,0.35)" }}>
+              <li className="flex items-start gap-3 text-sm" style={{ color: "rgba(255,255,255,0.62)" }}>
                 <MapPin size={13} style={{ color: "rgba(255,107,26,0.5)", flexShrink: 0, marginTop: 2 }} />
                 <span>{company.address ?? company.zone}</span>
               </li>
@@ -127,14 +127,14 @@ export default function Footer({ company }: { company: CompanyData }) {
         <div className="py-6 flex flex-col sm:flex-row items-center justify-between gap-4"
           style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
           <p className="font-data text-[10px] tracking-wider"
-            style={{ color: "rgba(255,255,255,0.2)" }}>
+            style={{ color: "rgba(255,255,255,0.48)" }}>
             © {year} {company.name} — All rights reserved
           </p>
           <div className="flex items-center gap-6">
             {["Privacy Policy", "Terms of Service", "Sitemap"].map((item) => (
               <a key={item} href="#"
                 className="font-data text-[10px] tracking-wider transition-colors duration-200"
-                style={{ color: "rgba(255,255,255,0.2)" }}
+                style={{ color: "rgba(255,255,255,0.48)" }}
                 onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.45)")}
                 onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.2)")}>
                 {item}

@@ -169,7 +169,7 @@ export default function ServicesSection() {
             <span style={{ color: "#FF6B1A" }}>NEED TODAY?</span>
           </h2>
           <p className="max-w-xl text-base leading-relaxed"
-            style={{ color: "rgba(255,255,255,0.4)" }}>
+            style={{ color: "rgba(255,255,255,0.68)" }}>
             Every situation is different. Pick what matches your problem —
             we&apos;ll handle everything else.
           </p>
@@ -212,7 +212,7 @@ export default function ServicesSection() {
 
                 {/* Number watermark */}
                 <span className="absolute top-5 right-7 font-heading text-[6rem] leading-none font-extrabold select-none pointer-events-none"
-                  style={{ color: "rgba(255,255,255,0.022)" }}>
+                  style={{ color: "rgba(255,255,255,0.55)" }}>
                   {svc.num}
                 </span>
 
@@ -241,7 +241,7 @@ export default function ServicesSection() {
 
                 {/* Detail */}
                 <p className="text-sm leading-relaxed mb-7 flex-1"
-                  style={{ color: "rgba(255,255,255,0.38)" }}>
+                  style={{ color: "rgba(255,255,255,0.65)" }}>
                   {svc.detail}
                 </p>
 
@@ -274,7 +274,7 @@ export default function ServicesSection() {
         <div className="mt-10 flex items-center gap-4">
           <div className="flex-1 h-px" style={{ backgroundColor: "rgba(255,255,255,0.05)" }} />
           <p className="font-data text-[11px] tracking-wider uppercase text-center"
-            style={{ color: "rgba(255,255,255,0.2)" }}>
+            style={{ color: "rgba(255,255,255,0.48)" }}>
             All work fully guaranteed — Free estimates, no commitment
           </p>
           <div className="flex-1 h-px" style={{ backgroundColor: "rgba(255,255,255,0.05)" }} />

@@ -214,7 +214,7 @@ export default function HeroSection({ company }: { company: CompanyData }) {
           <h1 className="hero-title-2 font-heading text-[clamp(4rem,11vw,10.5rem)] leading-[0.88] text-brand font-extrabold text-glow-brand">
             HVAC Service
           </h1>
-          <p className="hero-title-3 font-heading text-[clamp(1.6rem,4.5vw,4.2rem)] leading-[1.15] font-bold mt-3 pb-1" style={{ color: "rgba(255,255,255,0.22)" }}>
+          <p className="hero-title-3 font-heading text-[clamp(1.6rem,4.5vw,4.2rem)] leading-[1.15] font-bold mt-3 pb-1" style={{ color: "rgba(255,255,255,0.52)" }}>
             Licensed & certified — same-day emergency response.
           </p>
         </div>
@@ -223,7 +223,7 @@ export default function HeroSection({ company }: { company: CompanyData }) {
         <div className="hero-divider w-20 h-[2px] bg-brand origin-left mb-8" />
 
         {/* Subtitle */}
-        <p className="hero-sub max-w-lg text-lg leading-relaxed mb-12" style={{ color: "rgba(255,255,255,0.42)" }}>
+        <p className="hero-sub max-w-lg text-lg leading-relaxed mb-12" style={{ color: "rgba(255,255,255,0.68)" }}>
           From emergency breakdowns to full system installs —
           we keep{" "}
           <span className="font-medium" style={{ color: "rgba(255,255,255,0.72)" }}>{company.zone}</span>{" "}
@@ -289,14 +289,14 @@ export default function HeroSection({ company }: { company: CompanyData }) {
             <div className="w-2 h-px" style={{ backgroundColor: "rgba(255,107,26,0.3)" }} />
             <div className="w-px h-8" style={{ backgroundColor: "rgba(255,107,26,0.15)" }} />
           </div>
-          <span className="font-data text-[9px]" style={{ color: "rgba(255,255,255,0.2)" }}>·</span>
+          <span className="font-data text-[9px]" style={{ color: "rgba(255,255,255,0.48)" }}>·</span>
           <div className="w-px h-8 my-1" style={{ backgroundColor: "rgba(255,107,26,0.12)" }} />
           <span className="font-data text-[9px]" style={{ color: "rgba(255,107,26,0.4)" }}>72°F</span>
           <div className="flex items-center gap-1.5 my-1.5">
             <div className="w-2 h-px" style={{ backgroundColor: "rgba(255,107,26,0.25)" }} />
             <div className="w-px h-8" style={{ backgroundColor: "rgba(255,107,26,0.1)" }} />
           </div>
-          <span className="font-data text-[9px]" style={{ color: "rgba(255,255,255,0.15)" }}>AMBIENT</span>
+          <span className="font-data text-[9px]" style={{ color: "rgba(255,255,255,0.40)" }}>AMBIENT</span>
         </div>
       </div>
 

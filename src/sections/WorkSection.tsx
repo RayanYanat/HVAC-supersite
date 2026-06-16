@@ -212,7 +212,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
           <div className="flex flex-col items-start lg:items-end gap-3">
             <p
               className="max-w-xs text-sm leading-relaxed lg:text-right"
-              style={{ color: "rgba(255,255,255,0.35)" }}
+              style={{ color: "rgba(255,255,255,0.62)" }}
             >
               A selection of recent installations and service calls across{" "}
               <span style={{ color: "rgba(255,255,255,0.6)" }}>{company.zone}</span>.
@@ -289,7 +289,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
                 </h3>
                 <p
                   className="font-data text-[10px] tracking-wider uppercase"
-                  style={{ color: "rgba(255,255,255,0.35)" }}
+                  style={{ color: "rgba(255,255,255,0.62)" }}
                 >
                   {project.location}
                 </p>
@@ -324,7 +324,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
         >
           <p
             className="font-data text-[11px] tracking-wider uppercase"
-            style={{ color: "rgba(255,255,255,0.25)" }}
+            style={{ color: "rgba(255,255,255,0.58)" }}
           >
             180+ projects completed across {company.zone}
           </p>
