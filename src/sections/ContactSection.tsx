@@ -110,7 +110,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
   };
 
   const inputBase = {
-    backgroundColor: "#0D0906",
+    backgroundColor: "#0D1117",
     border: "1px solid rgba(56,189,248,0.12)",
     color: "rgba(255,255,255,0.8)",
   };
@@ -127,7 +127,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
   return (
     <section ref={sectionRef} id="contact"
       className="relative section-padding overflow-hidden"
-      style={{ backgroundColor: "rgba(13,9,6,0.95)" }}>
+      style={{ backgroundColor: "rgba(9,12,18,0.84)" }}>
 
       <FloatingData points={CONTACT_DATA} />
 
@@ -254,7 +254,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
                       style={inputBase}>
                       {NEEDS.map((n) => (
                         <option key={n.value} value={n.value} disabled={n.value === ""}
-                          style={{ backgroundColor: "#0D0906" }}>
+                          style={{ backgroundColor: "#0D1117" }}>
                           {n.label}
                         </option>
                       ))}
@@ -339,7 +339,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
             <div className="space-y-1">
               {CONTACT_DETAILS.map(({ icon: Icon, label, value, href }) => (
                 <div key={label} className="flex items-start gap-4 px-5 py-4 transition-colors duration-200"
-                  style={{ border: "1px solid rgba(56,189,248,0.07)", backgroundColor: "#0D0906" }}
+                  style={{ border: "1px solid rgba(56,189,248,0.07)", backgroundColor: "#0D1117" }}
                   onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.borderColor = `${COLD}22`)}
                   onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(56,189,248,0.07)")}>
                   <Icon size={14} className="flex-shrink-0 mt-0.5"

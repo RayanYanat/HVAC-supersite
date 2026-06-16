@@ -21,7 +21,9 @@ export default function HeroSection({ company }: { company: CompanyData }) {
    */
   useGSAP(
     () => {
-      const isMobile = window.innerWidth < 768;
+      const isMobile  = window.innerWidth < 768;
+      const isDesktop = window.innerWidth >= 1024;
+      const isXL      = window.innerWidth >= 1280;
 
       /*
        * Y-translate amounts proportional to viewport height.
@@ -43,6 +45,18 @@ export default function HeroSection({ company }: { company: CompanyData }) {
       gsap.set(".hero-scroll",     { opacity: 0 });
       gsap.set(".hero-data-strip", { y: subY, opacity: 0 });
 
+      /*
+       * hero-frame and hero-rightbar are hidden via CSS (hidden lg:block / hidden xl:flex)
+       * on mobile, but GSAP inline styles can leak through display:none in some iOS versions.
+       * Guard: only set + animate them when the breakpoint actually shows them.
+       */
+      if (isDesktop) {
+        gsap.set(".hero-frame", { opacity: 0, scale: 0.94 });
+      }
+      if (isXL) {
+        gsap.set(".hero-rightbar", { opacity: 0, x: 16 });
+      }
+
       // Animate to final state
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
@@ -56,6 +70,12 @@ export default function HeroSection({ company }: { company: CompanyData }) {
         .to(".hero-scroll",     { opacity: 1, duration: 0.8 }, "-=0.2")
         .to(".hero-data-strip", { y: 0, opacity: 1, duration: 0.6 }, "-=0.6");
 
+      if (isDesktop) {
+        tl.to(".hero-frame", { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out" }, "-=1.0");
+      }
+      if (isXL) {
+        tl.to(".hero-rightbar", { opacity: 1, x: 0, duration: 0.8, ease: "power3.out" }, "-=0.8");
+      }
     },
     { scope: containerRef }
   );
@@ -80,7 +100,7 @@ export default function HeroSection({ company }: { company: CompanyData }) {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen flex flex-col overflow-hidden bg-[#0D0906]"
+      className="relative min-h-screen flex flex-col overflow-hidden bg-[#0A0C0F]"
     >
       {/* ── Layer 1 : canvas + grid (deepest) ── */}
       <div ref={layer1Ref} className="absolute inset-0 will-change-transform">
@@ -134,16 +154,41 @@ export default function HeroSection({ company }: { company: CompanyData }) {
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 85% 75% at 50% 40%, transparent 45%, rgba(13,9,6,0.85) 100%)",
+              "radial-gradient(ellipse 85% 75% at 50% 40%, transparent 45%, rgba(10,12,15,0.85) 100%)",
           }}
         />
 
         {/* Top fade */}
-        <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#0D0906] to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#0A0C0F] to-transparent" />
         {/* Bottom fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-52 bg-gradient-to-t from-[#0D0906] to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-52 bg-gradient-to-t from-[#0A0C0F] to-transparent" />
       </div>
 
+      {/* Film grain now global via GlobalTexture — removed from hero */}
+
+      {/* ── Thermal viewfinder frame — corner brackets (desktop only) ── */}
+      <div className="absolute inset-5 pointer-events-none z-10 hidden lg:block">
+        {/* Top-left */}
+        <div
+          className="hero-frame absolute top-0 left-0 w-10 h-10"
+          style={{ borderTop: "1px solid rgba(255,107,26,0.35)", borderLeft: "1px solid rgba(255,107,26,0.35)" }}
+        />
+        {/* Top-right */}
+        <div
+          className="hero-frame absolute top-0 right-0 w-10 h-10"
+          style={{ borderTop: "1px solid rgba(255,107,26,0.35)", borderRight: "1px solid rgba(255,107,26,0.35)" }}
+        />
+        {/* Bottom-left */}
+        <div
+          className="hero-frame absolute bottom-0 left-0 w-10 h-10"
+          style={{ borderBottom: "1px solid rgba(255,107,26,0.35)", borderLeft: "1px solid rgba(255,107,26,0.35)" }}
+        />
+        {/* Bottom-right */}
+        <div
+          className="hero-frame absolute bottom-0 right-0 w-10 h-10"
+          style={{ borderBottom: "1px solid rgba(255,107,26,0.35)", borderRight: "1px solid rgba(255,107,26,0.35)" }}
+        />
+      </div>
 
       {/* ── Layer 3 : content (closest) ── */}
       <div
@@ -226,6 +271,32 @@ export default function HeroSection({ company }: { company: CompanyData }) {
               <span className="font-data text-white/25 text-[11px] tracking-wider uppercase">{label}</span>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* ── Right-side thermal data bar (desktop only) ── */}
+      <div className="hero-rightbar absolute right-8 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-end gap-0 z-20 pointer-events-none select-none">
+        <span
+          className="font-data text-[9px] tracking-[0.3em] uppercase mb-4"
+          style={{ color: "rgba(255,107,26,0.4)", writingMode: "vertical-rl", transform: "rotate(180deg)", letterSpacing: "0.3em" }}
+        >
+          THERMAL RANGE
+        </span>
+        <div className="flex flex-col items-center gap-0">
+          {/* Scale ticks */}
+          <span className="font-data text-[9px]" style={{ color: "rgba(255,107,26,0.55)" }}>104°F</span>
+          <div className="flex items-center gap-1.5 my-1.5">
+            <div className="w-2 h-px" style={{ backgroundColor: "rgba(255,107,26,0.3)" }} />
+            <div className="w-px h-8" style={{ backgroundColor: "rgba(255,107,26,0.15)" }} />
+          </div>
+          <span className="font-data text-[9px]" style={{ color: "rgba(255,255,255,0.2)" }}>·</span>
+          <div className="w-px h-8 my-1" style={{ backgroundColor: "rgba(255,107,26,0.12)" }} />
+          <span className="font-data text-[9px]" style={{ color: "rgba(255,107,26,0.4)" }}>72°F</span>
+          <div className="flex items-center gap-1.5 my-1.5">
+            <div className="w-2 h-px" style={{ backgroundColor: "rgba(255,107,26,0.25)" }} />
+            <div className="w-px h-8" style={{ backgroundColor: "rgba(255,107,26,0.1)" }} />
+          </div>
+          <span className="font-data text-[9px]" style={{ color: "rgba(255,255,255,0.15)" }}>AMBIENT</span>
         </div>
       </div>
 

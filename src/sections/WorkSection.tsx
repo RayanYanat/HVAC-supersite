@@ -163,7 +163,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
       ref={sectionRef}
       id="work"
       className="relative section-padding overflow-hidden"
-      style={{ backgroundColor: "rgba(28,21,16,1.0)" }}
+      style={{ backgroundColor: "rgba(13,15,18,0.85)" }}
     >
       {/* Top edge */}
       <div
@@ -255,7 +255,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
                 className="absolute inset-0 transition-opacity duration-500"
                 style={{
                   background:
-                    "linear-gradient(to top, rgba(28,21,16,0.92) 0%, rgba(28,21,16,0.45) 50%, rgba(28,21,16,0.15) 100%)",
+                    "linear-gradient(to top, rgba(10,12,15,0.92) 0%, rgba(10,12,15,0.45) 50%, rgba(10,12,15,0.15) 100%)",
                 }}
               />
 
@@ -274,7 +274,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
                   style={{
                     color: project.color,
                     border: `1px solid ${project.color}50`,
-                    backgroundColor: "rgba(28,21,16,0.65)",
+                    backgroundColor: "rgba(10,12,15,0.65)",
                     backdropFilter: "blur(6px)",
                   }}
                 >
@@ -309,7 +309,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
               {/* Corner arrow */}
               <div
                 className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-1 -translate-y-1 group-hover:translate-x-0 group-hover:translate-y-0"
-                style={{ backgroundColor: "rgba(28,21,16,0.7)", backdropFilter: "blur(6px)" }}
+                style={{ backgroundColor: "rgba(10,12,15,0.7)", backdropFilter: "blur(6px)" }}
               >
                 <ArrowUpRight size={14} style={{ color: project.color }} />
               </div>
@@ -320,7 +320,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
         {/* Bottom CTA strip */}
         <div
           className="mt-8 flex items-center justify-between gap-4 px-6 py-5"
-          style={{ border: "1px solid rgba(56,189,248,0.08)", backgroundColor: "#0E0B09" }}
+          style={{ border: "1px solid rgba(56,189,248,0.08)", backgroundColor: "#090B0E" }}
         >
           <p
             className="font-data text-[11px] tracking-wider uppercase"

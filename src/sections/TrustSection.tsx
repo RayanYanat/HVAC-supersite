@@ -157,7 +157,7 @@ export default function TrustSection({ company }: { company: CompanyData }) {
   return (
     <section ref={sectionRef} id="confiance"
       className="relative section-padding overflow-hidden"
-      style={{ backgroundColor: "rgba(28,21,16,1.0)" }}>
+      style={{ backgroundColor: "rgba(13,15,18,0.84)" }}>
 
       <FloatingData points={TRUST_DATA} />
 
@@ -235,7 +235,7 @@ export default function TrustSection({ company }: { company: CompanyData }) {
               <div className="flex flex-wrap gap-3">
                 {CERTIFICATIONS.map((cert) => (
                   <div key={cert.label} className="cert-badge px-5 py-4 transition-colors duration-300"
-                    style={{ border: "1px solid rgba(255,255,255,0.08)", backgroundColor: "#17110B" }}
+                    style={{ border: "1px solid rgba(255,255,255,0.08)", backgroundColor: "#0A0C0F" }}
                     onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(255,107,26,0.3)")}
                     onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.08)")}>
                     <div className="font-heading text-xl font-extrabold mb-0.5"
@@ -249,7 +249,7 @@ export default function TrustSection({ company }: { company: CompanyData }) {
 
             {/* Google aggregate */}
             <div className="mt-10 flex items-center gap-4 px-6 py-4"
-              style={{ border: "1px solid rgba(255,255,255,0.05)", backgroundColor: "#17110B" }}>
+              style={{ border: "1px solid rgba(255,255,255,0.05)", backgroundColor: "#0A0C0F" }}>
               <div>
                 <div className="font-heading text-3xl font-extrabold text-white">5.0</div>
                 <StarRow count={5} />
@@ -273,7 +273,7 @@ export default function TrustSection({ company }: { company: CompanyData }) {
           <div className="space-y-4">
             {REVIEWS.map((review, i) => (
               <div key={`review-${i}`} className="review-card relative p-6 overflow-hidden group transition-colors duration-300"
-                style={{ border: "1px solid rgba(255,255,255,0.05)", backgroundColor: "#17110B" }}
+                style={{ border: "1px solid rgba(255,255,255,0.05)", backgroundColor: "#0A0C0F" }}
                 onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.10)")}
                 onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.05)")}>
 

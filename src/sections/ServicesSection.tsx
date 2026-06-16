@@ -5,6 +5,15 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import Image from "next/image";
 import { Flame, Thermometer, AirVent, Wrench, ArrowRight } from "lucide-react";
+import FloatingData from "@/components/shared/FloatingData";
+
+const SVC_DATA = [
+  { text: "SYS.HEATING", x: "3%",  y: "12%", delay: "0s",   duration: "9s",  opacity: 0.09  },
+  { text: "BTU: 80K",    x: "78%", y: "8%",  delay: "3s",   duration: "11s", opacity: 0.07  },
+  { text: "EFF: 96.4%",  x: "60%", y: "88%", delay: "1.5s", duration: "8s",  opacity: 0.08  },
+  { text: "FLOW.OK",     x: "5%",  y: "75%", delay: "5s",   duration: "13s", opacity: 0.065 },
+  { text: "TX.ZONE.A",   x: "88%", y: "55%", delay: "2s",   duration: "10s", opacity: 0.07  },
+];
 
 /* ─── Per-service color tokens ──────────────────────────── */
 const PALETTE = {
@@ -115,7 +124,10 @@ export default function ServicesSection() {
   return (
     <section ref={sectionRef} id="services"
       className="relative section-padding overflow-hidden"
-      style={{ backgroundColor: "rgba(34,26,20,1.0)" }}>
+      style={{ backgroundColor: "rgba(13,15,18,0.84)" }}>
+
+      {/* Floating ambient data */}
+      <FloatingData points={SVC_DATA} />
 
       {/* Animated ambient blobs */}
       <div className="absolute -left-48 top-1/4 w-[600px] h-[600px] rounded-full pointer-events-none"
@@ -172,7 +184,7 @@ export default function ServicesSection() {
               <div key={svc.num}
                 className="svc-card group relative flex flex-col p-8 lg:p-10 overflow-hidden transition-all duration-500"
                 style={{
-                  backgroundColor: "#1A1208",
+                  backgroundColor: "#0A0C0F",
                   border: `1px solid ${svc.featured ? `${c.accent}28` : "rgba(255,255,255,0.05)"}`,
                 }}
                 onMouseEnter={(e) => {
