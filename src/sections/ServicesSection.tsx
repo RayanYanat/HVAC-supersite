@@ -203,7 +203,7 @@ export default function ServicesSection() {
                   src={svc.img}
                   alt={svc.domain}
                   fill
-                  className="object-cover opacity-[0.07] grayscale group-hover:opacity-[0.13] transition-opacity duration-700"
+                  className="object-cover opacity-[0.28] group-hover:opacity-[0.50] transition-opacity duration-700"
                   sizes="(max-width: 640px) 100vw, 50vw"
                 />
                 {/* Colour tint overlay — accent on hover */}
