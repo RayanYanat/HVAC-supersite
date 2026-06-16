@@ -182,7 +182,7 @@ export default function ServicesSection() {
             const c = svc.color;
             return (
               <div key={svc.num}
-                className="svc-card group relative flex flex-col p-8 lg:p-10 overflow-hidden transition-all duration-500"
+                className="svc-card group relative flex flex-col overflow-hidden transition-all duration-500"
                 style={{
                   backgroundColor: "#0A0C0F",
                   border: `1px solid ${svc.featured ? `${c.accent}28` : "rgba(255,255,255,0.05)"}`,
@@ -198,29 +198,34 @@ export default function ServicesSection() {
                   el.style.boxShadow = "none";
                 }}
               >
-                {/* Background image — treated as duotone texture */}
+                {/* Background image */}
                 <Image
                   src={svc.img}
                   alt={svc.domain}
                   fill
-                  className="object-cover opacity-[0.28] group-hover:opacity-[0.50] transition-opacity duration-700"
+                  className="object-cover opacity-[0.22] group-hover:opacity-[0.38] transition-opacity duration-700"
                   sizes="(max-width: 640px) 100vw, 50vw"
                 />
-                {/* Colour tint overlay — accent on hover */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                  style={{ background: `radial-gradient(ellipse at 50% 110%, ${c.accent}12 0%, transparent 70%)` }} />
+                {/* Dark scrim — always present, ensures text readability over image */}
+                <div className="absolute inset-0 pointer-events-none"
+                  style={{ background: "linear-gradient(135deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 100%)" }} />
 
-                {/* Number watermark */}
+                {/* Accent tint on hover */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                  style={{ background: `radial-gradient(ellipse at 50% 110%, ${c.accent}18 0%, transparent 65%)` }} />
+
+                {/* Number watermark — purely decorative */}
                 <span className="absolute top-5 right-7 font-heading text-[6rem] leading-none font-extrabold select-none pointer-events-none"
-                  style={{ color: "rgba(255,255,255,0.55)" }}>
+                  style={{ color: "rgba(255,255,255,0.06)" }}>
                   {svc.num}
                 </span>
 
                 {/* Bottom accent line */}
                 <div className="absolute bottom-0 left-0 right-0 h-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   style={{ backgroundColor: `${c.accent}80` }} />
-                <div className="absolute bottom-0 left-0 right-0 h-20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                  style={{ background: `linear-gradient(to top, ${c.accent}0D, transparent)` }} />
+
+                {/* Content wrapper — explicit z-index above all absolute layers */}
+                <div className="relative z-10 flex flex-col flex-1 p-8 lg:p-10">
 
                 {/* Top row */}
                 <div className="flex items-center justify-between mb-8">
@@ -259,12 +264,13 @@ export default function ServicesSection() {
                 {/* CTA */}
                 <a href="#contact"
                   className="flex items-center gap-2.5 text-[11px] font-bold tracking-[0.2em] uppercase transition-colors duration-300 group/cta w-fit"
-                  style={{ color: `${c.accent}80` }}
+                  style={{ color: c.accent }}
                   onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = c.accent)}
-                  onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = `${c.accent}80`)}>
+                  onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = c.accent)}>
                   <span>{svc.cta}</span>
                   <ArrowRight size={12} className="group-hover/cta:translate-x-1.5 transition-transform duration-200" />
                 </a>
+                </div>{/* end content wrapper */}
               </div>
             );
           })}
