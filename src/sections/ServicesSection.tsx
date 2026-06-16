@@ -115,7 +115,7 @@ export default function ServicesSection() {
   return (
     <section ref={sectionRef} id="services"
       className="relative section-padding overflow-hidden"
-      style={{ backgroundColor: "rgba(19,16,14,0.84)" }}>
+      style={{ backgroundColor: "rgba(34,26,20,1.0)" }}>
 
       {/* Animated ambient blobs */}
       <div className="absolute -left-48 top-1/4 w-[600px] h-[600px] rounded-full pointer-events-none"
@@ -172,7 +172,7 @@ export default function ServicesSection() {
               <div key={svc.num}
                 className="svc-card group relative flex flex-col p-8 lg:p-10 overflow-hidden transition-all duration-500"
                 style={{
-                  backgroundColor: "#100D0B",
+                  backgroundColor: "#1A1208",
                   border: `1px solid ${svc.featured ? `${c.accent}28` : "rgba(255,255,255,0.05)"}`,
                 }}
                 onMouseEnter={(e) => {

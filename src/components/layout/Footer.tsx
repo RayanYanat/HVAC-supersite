@@ -9,7 +9,7 @@ export default function Footer({ company }: { company: CompanyData }) {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden" style={{ backgroundColor: "#07090C", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+    <footer className="relative overflow-hidden" style={{ backgroundColor: "#080503", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
       <div className="h-px" style={{ background: "linear-gradient(to right, transparent, rgba(255,107,26,0.4), transparent)" }} />
 
       <div className="max-w-7xl mx-auto px-5 lg:px-8">

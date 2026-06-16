@@ -119,7 +119,7 @@ export default function StatsSection({ company }: { company: CompanyData }) {
   return (
     <section ref={sectionRef} id="stats"
       className="relative section-padding overflow-hidden"
-      style={{ backgroundColor: "rgba(16,13,11,0.83)" }}>
+      style={{ backgroundColor: "rgba(24,18,9,1.0)" }}>
 
       {/*
        * Bascule diagonale : la chaleur résiduelle vit en haut-gauche

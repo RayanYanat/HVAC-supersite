@@ -1,6 +1,6 @@
 export default function ThermalDivider() {
   return (
-    <div className="relative w-full overflow-hidden" style={{ backgroundColor: "#100D0B" }}>
+    <div className="relative w-full overflow-hidden" style={{ backgroundColor: "#181209" }}>
       {/* Gradient line warm → cold */}
       <div
         className="w-full h-px"
@@ -13,7 +13,7 @@ export default function ThermalDivider() {
       {/* Label strip */}
       <div
         className="w-full flex items-center justify-center gap-0 py-4 overflow-hidden"
-        style={{ backgroundColor: "#0E0B09" }}
+        style={{ backgroundColor: "#130E06" }}
       >
         {[
           { label: "HEATING",       warm: true  },

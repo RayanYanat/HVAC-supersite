@@ -80,7 +80,7 @@ export default function HeroSection({ company }: { company: CompanyData }) {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen flex flex-col overflow-hidden bg-[#100D0B]"
+      className="relative min-h-screen flex flex-col overflow-hidden bg-[#0D0906]"
     >
       {/* ── Layer 1 : canvas + grid (deepest) ── */}
       <div ref={layer1Ref} className="absolute inset-0 will-change-transform">
@@ -134,14 +134,14 @@ export default function HeroSection({ company }: { company: CompanyData }) {
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 85% 75% at 50% 40%, transparent 45%, rgba(16,13,11,0.85) 100%)",
+              "radial-gradient(ellipse 85% 75% at 50% 40%, transparent 45%, rgba(13,9,6,0.85) 100%)",
           }}
         />
 
         {/* Top fade */}
-        <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#100D0B] to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#0D0906] to-transparent" />
         {/* Bottom fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-52 bg-gradient-to-t from-[#100D0B] to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-52 bg-gradient-to-t from-[#0D0906] to-transparent" />
       </div>
 
 
