@@ -233,8 +233,8 @@ export default function ServicesSection() {
                     style={{ color: `${c.accent}B0` }}>
                     {svc.domain}
                   </span>
-                  <div className="relative w-11 h-11 flex items-center justify-center transition-colors duration-300"
-                    style={{ backgroundColor: c.bgIcon }}>
+                  <div className="relative w-11 h-11 flex items-center justify-center"
+                    style={{ border: `1px solid ${c.accent}35` }}>
                     <Icon size={18} style={{ color: c.accent }} />
                   </div>
                 </div>
