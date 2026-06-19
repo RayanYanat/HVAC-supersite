@@ -39,29 +39,29 @@ export default function ConceptBanner({ name }: { name: string }) {
         }}
       >
         <div
-          className="relative flex items-start gap-3 rounded-lg border px-4 py-3"
+          className="relative flex items-start gap-3 rounded-xl border px-4 py-3"
           style={{
-            background: "rgba(24,28,35,0.94)",
+            background: "rgba(255,255,255,0.96)",
             backdropFilter: "blur(8px)",
             WebkitBackdropFilter: "blur(8px)",
-            borderColor: "rgba(255,255,255,0.09)",
-            boxShadow: "0 16px 48px -16px rgba(0,0,0,0.7)",
+            borderColor: "rgba(28,26,23,0.10)",
+            boxShadow: "0 18px 48px -16px rgba(28,26,23,0.28)",
           }}
         >
           <span
-            className="mt-[5px] h-1.5 w-1.5 shrink-0 rounded-full"
-            style={{ backgroundColor: "#FF6B1A", boxShadow: "0 0 10px rgba(255,107,26,0.6)" }}
+            className="mt-[6px] h-2 w-2 shrink-0 rounded-[3px]"
+            style={{ background: "linear-gradient(135deg, #C8511F 50%, #2B6E8F 50%)" }}
             aria-hidden
           />
 
           <div className="min-w-0">
             <p
-              className="font-semibold uppercase"
-              style={{ fontSize: "10px", letterSpacing: "0.16em", color: "#FF6B1A" }}
+              className="font-medium uppercase"
+              style={{ fontSize: "10px", letterSpacing: "0.12em", color: "#C8511F" }}
             >
               A design draft · for {name}
             </p>
-            <p className="mt-1 leading-snug" style={{ fontSize: "12.5px", color: "rgba(240,242,245,0.92)" }}>
+            <p className="mt-1 leading-snug" style={{ fontSize: "12.5px", color: "rgba(28,26,23,0.78)" }}>
               Fully mobile-ready. Your services, branding and photos come in the final build.
             </p>
           </div>
@@ -71,7 +71,7 @@ export default function ConceptBanner({ name }: { name: string }) {
             onClick={() => setClosed(true)}
             aria-label="Dismiss"
             className="-mr-1 -mt-1 ml-1 shrink-0 rounded p-1 text-base leading-none transition-opacity hover:opacity-60"
-            style={{ color: "#6B7280" }}
+            style={{ color: "#9A9286" }}
           >
             ×
           </button>

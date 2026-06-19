@@ -1,309 +1,154 @@
 "use client";
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
+import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { Phone, ArrowRight, Settings } from "lucide-react";
-import ThermalCanvas from "@/components/shared/ThermalCanvas";
+import { Phone, ArrowRight, MapPin, ShieldCheck, Star, Flame, Snowflake } from "lucide-react";
 import type { CompanyData } from "@/lib/types";
 
 export default function HeroSection({ company }: { company: CompanyData }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const layer1Ref = useRef<HTMLDivElement>(null); // deep — slowest
-  const layer2Ref = useRef<HTMLDivElement>(null); // mid
-  const layer3Ref = useRef<HTMLDivElement>(null); // content — closest
 
-  /* ── Entrance animation ─────────────────────────────── */
-  /*
-   * gsap.set() runs inside useGSAP which uses useLayoutEffect — it fires
-   * synchronously BEFORE the browser paints. Elements are hidden before the
-   * first frame, eliminating the 0.5s flash of visible content that gsap.from()
-   * caused (from() sets initial state too late, after SSR HTML is already painted).
-   */
+  /* ── Calm editorial entrance ──────────────────────────────────────
+   * Gentle upward fades, no violent parallax. Premium = restraint.
+   * Classes are pre-hidden in globals.css (FOUC guard); GSAP reveals. */
   useGSAP(
     () => {
-      const isMobile  = window.innerWidth < 768;
-      const isDesktop = window.innerWidth >= 1024;
-      const isXL      = window.innerWidth >= 1280;
+      gsap.set([".hero-badge", ".hero-sub", ".hero-cta", ".hero-data-strip"], { y: 14 });
+      gsap.set([".hero-title-1", ".hero-title-2"], { y: 24 });
+      gsap.set(".hero-frame", { scale: 0.97 });
 
-      /*
-       * Y-translate amounts proportional to viewport height.
-       * 80 px on desktop = ~6% of 1080 px — subtle.
-       * 80 px on iPhone 15 = ~9% of 844 px — too violent.
-       * 35 px on mobile = same perceived weight as desktop.
-       */
-      const titleY = isMobile ? 35 : 80;
-      const subY   = isMobile ? 12 : 20;
-      const badgeY = isMobile ? 12 : 24;
-
-      gsap.set(".hero-badge",      { y: badgeY, opacity: 0 });
-      gsap.set(".hero-title-1",    { y: titleY, opacity: 0 });
-      gsap.set(".hero-title-2",    { y: titleY, opacity: 0 });
-      gsap.set(".hero-title-3",    { y: isMobile ? 18 : 40, opacity: 0 });
-      gsap.set(".hero-divider",    { scaleX: 0 });
-      gsap.set(".hero-sub",        { y: subY, opacity: 0 });
-      gsap.set(".hero-cta",        { y: subY, opacity: 0 });
-      gsap.set(".hero-scroll",     { opacity: 0 });
-      gsap.set(".hero-data-strip", { y: subY, opacity: 0 });
-
-      /*
-       * hero-frame and hero-rightbar are hidden via CSS (hidden lg:block / hidden xl:flex)
-       * on mobile, but GSAP inline styles can leak through display:none in some iOS versions.
-       * Guard: only set + animate them when the breakpoint actually shows them.
-       */
-      if (isDesktop) {
-        gsap.set(".hero-frame", { opacity: 0, scale: 0.94 });
-      }
-      if (isXL) {
-        gsap.set(".hero-rightbar", { opacity: 0, x: 16 });
-      }
-
-      // Animate to final state
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-
-      tl.to(".hero-badge",      { y: 0, opacity: 1, duration: 0.7 })
-        .to(".hero-title-1",    { y: 0, opacity: 1, duration: 1.0 }, "-=0.2")
-        .to(".hero-title-2",    { y: 0, opacity: 1, duration: 1.0 }, "-=0.75")
-        .to(".hero-title-3",    { y: 0, opacity: 1, duration: 0.7 }, "-=0.6")
-        .to(".hero-divider",    { scaleX: 1, duration: 1.0, ease: "expo.out" }, "-=0.5")
-        .to(".hero-sub",        { y: 0, opacity: 1, duration: 0.6 }, "-=0.5")
-        .to(".hero-cta",        { y: 0, opacity: 1, duration: 0.5, stagger: 0.12 }, "-=0.3")
-        .to(".hero-scroll",     { opacity: 1, duration: 0.8 }, "-=0.2")
-        .to(".hero-data-strip", { y: 0, opacity: 1, duration: 0.6 }, "-=0.6");
-
-      if (isDesktop) {
-        tl.to(".hero-frame", { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out" }, "-=1.0");
-      }
-      if (isXL) {
-        tl.to(".hero-rightbar", { opacity: 1, x: 0, duration: 0.8, ease: "power3.out" }, "-=0.8");
-      }
+      const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+      tl.to(".hero-badge", { y: 0, opacity: 1, duration: 0.6 })
+        .to(".hero-title-1", { y: 0, opacity: 1, duration: 0.8 }, "-=0.3")
+        .to(".hero-title-2", { y: 0, opacity: 1, duration: 0.8 }, "-=0.6")
+        .to(".hero-sub", { y: 0, opacity: 1, duration: 0.6 }, "-=0.5")
+        .to(".hero-cta", { y: 0, opacity: 1, duration: 0.5, stagger: 0.1 }, "-=0.35")
+        .to(".hero-data-strip", { y: 0, opacity: 1, duration: 0.6 }, "-=0.3")
+        .to(".hero-frame", { opacity: 1, scale: 1, duration: 0.9, ease: "power3.out" }, "-=0.8");
     },
     { scope: containerRef }
   );
 
-  /* ── Mouse parallax ─────────────────────────────────── */
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      const cx = window.innerWidth / 2;
-      const cy = window.innerHeight / 2;
-      const dx = (e.clientX - cx) / cx;
-      const dy = (e.clientY - cy) / cy;
-
-      gsap.to(layer1Ref.current, { x: dx * -18, y: dy * -12, duration: 2, ease: "power2.out" });
-      gsap.to(layer2Ref.current, { x: dx * -9,  y: dy * -6,  duration: 1.8, ease: "power2.out" });
-      gsap.to(layer3Ref.current, { x: dx * 6,   y: dy * 4,   duration: 1.6, ease: "power2.out" });
-    };
-
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
-  }, []);
-
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen flex flex-col overflow-hidden bg-[#0A0C0F]"
+      className="relative overflow-hidden bg-bone"
     >
-      {/* ── Layer 1 : canvas + grid (deepest) ── */}
-      <div ref={layer1Ref} className="absolute inset-0 will-change-transform">
-        <ThermalCanvas />
-
-        {/* Grid */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(255,107,26,0.035) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,107,26,0.035) 1px, transparent 1px)
-            `,
-            backgroundSize: "64px 64px",
-          }}
-        />
-      </div>
-
-      {/* ── Layer 2 : atmospheric glows (mid) ── */}
-      <div ref={layer2Ref} className="absolute inset-0 pointer-events-none will-change-transform">
-        {/* Central deep glow — breathes slowly */}
-        <div
-          className="hero-atmo-central absolute bottom-[-10%] left-[48%] -translate-x-1/2 w-[900px] h-[700px] rounded-full opacity-30"
-          style={{
-            background:
-              "radial-gradient(ellipse at center, rgba(255,107,26,0.28) 0%, rgba(196,66,10,0.12) 35%, transparent 70%)",
-            animation: "breathe 6s ease-in-out infinite",
-          }}
-        />
-        {/* Left heat column */}
-        <div
-          className="hero-atmo-side absolute bottom-0 left-[18%] w-[280px] h-[65%] opacity-20"
-          style={{
-            background:
-              "radial-gradient(ellipse at bottom, rgba(255,107,26,0.4) 0%, transparent 70%)",
-            animation: "breathe 8s ease-in-out infinite 1s",
-          }}
-        />
-        {/* Right heat column */}
-        <div
-          className="hero-atmo-side absolute bottom-0 right-[16%] w-[220px] h-[50%] opacity-15"
-          style={{
-            background:
-              "radial-gradient(ellipse at bottom, rgba(255,133,52,0.35) 0%, transparent 70%)",
-            animation: "breathe 7s ease-in-out infinite 2.5s",
-          }}
-        />
-
-        {/* Vignette — corners darkened */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 85% 75% at 50% 40%, transparent 45%, rgba(10,12,15,0.85) 100%)",
-          }}
-        />
-
-        {/* Top fade */}
-        <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#0A0C0F] to-transparent" />
-        {/* Bottom fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-52 bg-gradient-to-t from-[#0A0C0F] to-transparent" />
-      </div>
-
-      {/* Film grain now global via GlobalTexture — removed from hero */}
-
-      {/* ── Thermal viewfinder frame — corner brackets (desktop only) ── */}
-      <div className="absolute inset-5 pointer-events-none z-10 hidden lg:block">
-        {/* Top-left */}
-        <div
-          className="hero-frame absolute top-0 left-0 w-10 h-10"
-          style={{ borderTop: "1px solid rgba(255,107,26,0.35)", borderLeft: "1px solid rgba(255,107,26,0.35)" }}
-        />
-        {/* Top-right */}
-        <div
-          className="hero-frame absolute top-0 right-0 w-10 h-10"
-          style={{ borderTop: "1px solid rgba(255,107,26,0.35)", borderRight: "1px solid rgba(255,107,26,0.35)" }}
-        />
-        {/* Bottom-left */}
-        <div
-          className="hero-frame absolute bottom-0 left-0 w-10 h-10"
-          style={{ borderBottom: "1px solid rgba(255,107,26,0.35)", borderLeft: "1px solid rgba(255,107,26,0.35)" }}
-        />
-        {/* Bottom-right */}
-        <div
-          className="hero-frame absolute bottom-0 right-0 w-10 h-10"
-          style={{ borderBottom: "1px solid rgba(255,107,26,0.35)", borderRight: "1px solid rgba(255,107,26,0.35)" }}
-        />
-      </div>
-
-      {/* ── Layer 3 : content (closest) ── */}
+      {/* Top hairline — the hot/cold signature, woven in quietly */}
       <div
-        ref={layer3Ref}
-        className="relative z-20 flex-1 flex flex-col justify-center max-w-7xl mx-auto w-full px-5 lg:px-8 pt-28 pb-24 will-change-transform"
-      >
-        {/* Badge */}
-        <div className="hero-badge flex items-center gap-3 mb-10">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full rounded-full bg-brand opacity-75 animate-ping" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-brand" />
-          </span>
-          <span className="font-data text-[11px] text-brand/75 tracking-[0.28em] uppercase">
-            Certified Technicians &nbsp;·&nbsp; {company.city} &nbsp;·&nbsp; Fast Response Guaranteed
-          </span>
-        </div>
+        className="absolute top-0 left-0 right-0 h-[3px] z-10"
+        style={{ background: "linear-gradient(to right, #C8511F 0%, #C8511F 50%, #2B6E8F 50%, #2B6E8F 100%)" }}
+      />
 
-        {/* Title */}
-        <div className="mb-8 overflow-x-hidden">
-          <h1 className="hero-title-1 font-heading text-[clamp(4rem,11vw,10.5rem)] leading-[0.88] text-white font-extrabold">
-            Fast, Reliable
-          </h1>
-          <h1 className="hero-title-2 font-heading text-[clamp(4rem,11vw,10.5rem)] leading-[0.88] text-brand font-extrabold text-glow-brand">
-            HVAC Service
-          </h1>
-          <p className="hero-title-3 font-heading text-[clamp(1.6rem,4.5vw,4.2rem)] leading-[1.15] font-bold mt-3 pb-1" style={{ color: "rgba(255,255,255,0.52)" }}>
-            Licensed & certified — same-day emergency response.
-          </p>
-        </div>
+      {/* Soft warm light, upper area — barely there */}
+      <div
+        className="absolute -top-40 right-[-10%] w-[680px] h-[680px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle at center, rgba(200,81,31,0.07) 0%, transparent 65%)" }}
+      />
 
-        {/* Divider */}
-        <div className="hero-divider w-20 h-[2px] bg-brand origin-left mb-8" />
+      <div className="relative max-w-7xl mx-auto px-5 lg:px-8 pt-28 lg:pt-36 pb-16 lg:pb-24">
+        <div className="grid lg:grid-cols-[1.05fr_1fr] gap-12 lg:gap-16 items-center">
 
-        {/* Subtitle */}
-        <p className="hero-sub max-w-lg text-lg leading-relaxed mb-12" style={{ color: "rgba(255,255,255,0.68)" }}>
-          From emergency breakdowns to full system installs —
-          we keep{" "}
-          <span className="font-medium" style={{ color: "rgba(255,255,255,0.72)" }}>{company.zone}</span>{" "}
-          comfortable, year-round. Free estimate, no obligation.
-        </p>
-
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row flex-wrap gap-4 mb-16">
-          <a
-            href={`tel:${company.phone}`}
-            className="hero-cta group relative flex items-center gap-3 px-7 py-4 bg-brand text-white text-xs font-bold tracking-[0.18em] uppercase overflow-hidden transition-all duration-300 hover:bg-brand-dim glow-brand"
-          >
-            <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/15 to-transparent" />
-            <Phone size={14} />
-            <span>Emergency — Call Now</span>
-          </a>
-
-          <a
-            href="#contact"
-            className="hero-cta group flex items-center gap-3 px-7 py-4 border border-white/15 text-white/75 text-xs font-bold tracking-[0.18em] uppercase hover:border-brand hover:text-brand transition-all duration-300"
-          >
-            <span>Get a Free Estimate</span>
-            <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform duration-200" />
-          </a>
-
-          <a
-            href="#services"
-            className="hero-cta flex items-center gap-2.5 px-7 py-4 text-white/30 text-xs font-bold tracking-[0.18em] uppercase hover:text-white/60 transition-colors duration-300"
-          >
-            <Settings size={13} />
-            <span>Our Services</span>
-          </a>
-        </div>
-
-        {/* Data strip */}
-        <div className="hero-data-strip flex flex-wrap gap-x-10 gap-y-3 border-t border-white/5 pt-7">
-          {[
-            ["15+", "Years of experience"],
-            ["500+", "Customers served"],
-            ["< 4h", "Response time"],
-            ["98%", "Satisfaction rate"],
-          ].map(([val, label]) => (
-            <div key={label} className="flex items-baseline gap-2">
-              <span className="font-data text-brand text-sm font-medium">{val}</span>
-              <span className="font-data text-white/25 text-[11px] tracking-wider uppercase">{label}</span>
+          {/* ── Left: editorial content ── */}
+          <div>
+            {/* Eyebrow */}
+            <div className="hero-badge flex items-center gap-2.5 mb-7">
+              <MapPin size={15} className="text-cool" />
+              <span className="font-data text-[12px] tracking-[0.12em] uppercase" style={{ color: "var(--cool)" }}>
+                Serving {company.city} &amp; surrounding areas
+              </span>
             </div>
-          ))}
-        </div>
-      </div>
 
-      {/* ── Right-side thermal data bar (desktop only) ── */}
-      <div className="hero-rightbar absolute right-8 top-1/2 -translate-y-1/2 hidden xl:flex flex-col items-end gap-0 z-20 pointer-events-none select-none">
-        <span
-          className="font-data text-[9px] tracking-[0.3em] uppercase mb-4"
-          style={{ color: "rgba(255,107,26,0.4)", writingMode: "vertical-rl", transform: "rotate(180deg)", letterSpacing: "0.3em" }}
-        >
-          THERMAL RANGE
-        </span>
-        <div className="flex flex-col items-center gap-0">
-          {/* Scale ticks */}
-          <span className="font-data text-[9px]" style={{ color: "rgba(255,107,26,0.55)" }}>104°F</span>
-          <div className="flex items-center gap-1.5 my-1.5">
-            <div className="w-2 h-px" style={{ backgroundColor: "rgba(255,107,26,0.3)" }} />
-            <div className="w-px h-8" style={{ backgroundColor: "rgba(255,107,26,0.15)" }} />
-          </div>
-          <span className="font-data text-[9px]" style={{ color: "rgba(255,255,255,0.48)" }}>·</span>
-          <div className="w-px h-8 my-1" style={{ backgroundColor: "rgba(255,107,26,0.12)" }} />
-          <span className="font-data text-[9px]" style={{ color: "rgba(255,107,26,0.4)" }}>72°F</span>
-          <div className="flex items-center gap-1.5 my-1.5">
-            <div className="w-2 h-px" style={{ backgroundColor: "rgba(255,107,26,0.25)" }} />
-            <div className="w-px h-8" style={{ backgroundColor: "rgba(255,107,26,0.1)" }} />
-          </div>
-          <span className="font-data text-[9px]" style={{ color: "rgba(255,255,255,0.40)" }}>AMBIENT</span>
-        </div>
-      </div>
+            {/* Headline — editorial serif, sentence case */}
+            <h1 className="font-heading text-[clamp(2.9rem,6vw,5rem)] leading-[1.02] font-semibold tracking-[-0.02em]" style={{ color: "var(--foreground)" }}>
+              <span className="hero-title-1 block">Heating &amp; cooling</span>
+              <span className="hero-title-2 block">
+                you can{" "}
+                <span className="italic" style={{ color: "var(--brand)" }}>count&nbsp;on</span>.
+              </span>
+            </h1>
 
-      {/* Scroll indicator */}
-      <div className="hero-scroll absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20">
-        <span className="font-data text-[9px] tracking-[0.35em] uppercase text-white/25">Scroll</span>
-        <div className="w-px h-10 bg-gradient-to-b from-white/20 to-transparent" />
+            {/* Subhead */}
+            <p className="hero-sub max-w-md text-[1.06rem] leading-relaxed mt-7" style={{ color: "var(--text-muted)" }}>
+              Furnace down or AC out? Licensed local technicians, same-day
+              service, and a free estimate — no surprises, across{" "}
+              <span style={{ color: "var(--foreground)", fontWeight: 500 }}>{company.zone}</span>.
+            </p>
+
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-3.5 mt-9">
+              <a
+                href={`tel:${company.phone}`}
+                className="group inline-flex items-center justify-center gap-2.5 px-7 py-4 text-white text-[0.95rem] font-medium rounded-[var(--radius)] transition-all duration-300 shadow-soft"
+                style={{ backgroundColor: "var(--brand)" }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--brand-dim)")}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--brand)")}
+              >
+                <Phone size={17} />
+                <span>Call now — {company.phone}</span>
+              </a>
+              <a
+                href="#contact"
+                className="group inline-flex items-center justify-center gap-2.5 px-7 py-4 text-[0.95rem] font-medium rounded-[var(--radius)] transition-all duration-300"
+                style={{ color: "var(--foreground)", border: "1px solid var(--border-strong)" }}
+              >
+                <span>Free estimate</span>
+                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-200" />
+              </a>
+            </div>
+
+            {/* Heating / cooling duality pills */}
+            <div className="hero-data-strip flex flex-wrap items-center gap-x-8 gap-y-4 mt-12 pt-8" style={{ borderTop: "1px solid var(--border-subtle)" }}>
+              <div className="flex items-center gap-2.5">
+                <Flame size={17} className="text-brand" />
+                <span className="text-sm font-medium" style={{ color: "var(--foreground)" }}>Heating</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Snowflake size={17} className="text-cool" />
+                <span className="text-sm font-medium" style={{ color: "var(--foreground)" }}>Cooling</span>
+              </div>
+              <div className="h-8 w-px hidden sm:block" style={{ backgroundColor: "var(--border-subtle)" }} />
+              <div className="flex items-baseline gap-2">
+                <span className="font-heading text-xl font-semibold" style={{ color: "var(--foreground)" }}>15+</span>
+                <span className="text-xs" style={{ color: "var(--text-muted)" }}>years local</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Star size={15} fill="#E2611E" className="text-brand-bright" style={{ color: "#E2611E" }} />
+                <span className="font-heading text-xl font-semibold" style={{ color: "var(--foreground)" }}>4.9</span>
+                <span className="text-xs" style={{ color: "var(--text-muted)" }}>500+ reviews</span>
+              </div>
+            </div>
+          </div>
+
+          {/* ── Right: comfort photo ── */}
+          <div className="hero-frame relative">
+            <div className="relative aspect-[4/5] sm:aspect-[5/5] lg:aspect-[4/5] rounded-[1.1rem] overflow-hidden shadow-card" style={{ backgroundColor: "var(--surface-warm)" }}>
+              <Image
+                src="/hvac/hero-comfort.webp"
+                alt="Comfortable, evenly heated home interior"
+                fill
+                priority
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+              {/* gentle bottom scrim for badge legibility */}
+              <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to top, rgba(28,26,23,0.28) 0%, transparent 38%)" }} />
+
+              {/* Floating trust badge */}
+              <div className="absolute left-4 bottom-4 flex items-center gap-3 px-4 py-3 rounded-[var(--radius)] shadow-soft" style={{ backgroundColor: "var(--surface)" }}>
+                <span className="flex items-center justify-center w-9 h-9 rounded-md text-white" style={{ backgroundColor: "var(--cool)" }}>
+                  <ShieldCheck size={19} />
+                </span>
+                <div>
+                  <div className="text-[0.9rem] font-medium leading-tight" style={{ color: "var(--foreground)" }}>Licensed &amp; insured</div>
+                  <div className="text-[0.78rem]" style={{ color: "var(--text-muted)" }}>Background-checked techs</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
   );

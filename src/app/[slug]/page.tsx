@@ -3,14 +3,9 @@ import type { Metadata } from "next";
 import { getSupabase } from "@/lib/supabase";
 import type { CompanyData } from "@/lib/types";
 
-import AmbientCanvas    from "@/components/shared/AmbientCanvas";
-import CustomCursor     from "@/components/shared/CustomCursor";
-import GlobalTexture    from "@/components/shared/GlobalTexture";
 import VisitTracker     from "@/components/shared/VisitTracker";
 import ConceptBanner    from "@/components/shared/ConceptBanner";
 import GSAPConfig       from "@/components/shared/GSAPConfig";
-import ThermalNarrative from "@/components/shared/ThermalNarrative";
-import ThermalDivider   from "@/components/shared/ThermalDivider";
 import Navbar           from "@/components/layout/Navbar";
 import Footer           from "@/components/layout/Footer";
 import HeroSection      from "@/sections/HeroSection";
@@ -86,11 +81,6 @@ export default async function SlugPage({
 
   return (
     <>
-      {/* Global atmospheric layers — fixed, behind everything */}
-      <AmbientCanvas />
-      <GlobalTexture />
-      <CustomCursor />
-
       {/* Navbar outside <main> → root stacking context → iOS safe */}
       <VisitTracker slug={slug} />
       <Navbar company={company} />
@@ -99,10 +89,8 @@ export default async function SlugPage({
         {/* GSAPConfig first child — registers plugins before ScrollTriggers */}
         <GSAPConfig />
 
-        <ThermalNarrative />
         <HeroSection     company={company} />
         <ServicesSection />
-        <ThermalDivider  />
         <WorkSection     company={company} />
         <StatsSection    company={company} />
         <TrustSection    company={company} />

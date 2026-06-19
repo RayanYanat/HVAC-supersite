@@ -9,7 +9,7 @@ export default function Navbar({ company }: { company: CompanyData }) {
   const [menuOpen, setMenuOpen]           = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
 
-  /* ── Scroll: shrink trigger ─────────────────────────────────────── */
+  /* ── Scroll: shrink + surface trigger ───────────────────────────── */
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 5);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -19,29 +19,18 @@ export default function Navbar({ company }: { company: CompanyData }) {
   /* ── Active section: IntersectionObserver ───────────────────────── */
   useEffect(() => {
     const sectionIds = NAV_LINKS.map((l) => l.href.slice(1));
-
-    /*
-     * rootMargin "-30% 0px -65% 0px" creates a narrow band ~30% from
-     * the top of the viewport. The section whose heading crosses that
-     * band becomes "active" — gives a tight, accurate reading-position
-     * indicator without needing scroll event math.
-     */
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(`#${entry.target.id}`);
-          }
+          if (entry.isIntersecting) setActiveSection(`#${entry.target.id}`);
         });
       },
       { rootMargin: "-30% 0px -65% 0px", threshold: 0 }
     );
-
     sectionIds.forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
-
     return () => observer.disconnect();
   }, []);
 
@@ -49,25 +38,27 @@ export default function Navbar({ company }: { company: CompanyData }) {
     <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
-        backgroundColor: scrolled ? "rgba(10,12,15,0.92)" : "transparent",
+        backgroundColor: scrolled ? "rgba(250,247,242,0.88)" : "transparent",
         backdropFilter:        scrolled ? "blur(12px)" : "none",
         WebkitBackdropFilter:  scrolled ? "blur(12px)" : "none",
-        borderBottom:          scrolled ? "1px solid rgba(255,255,255,0.05)" : "none",
+        borderBottom:          scrolled ? "1px solid var(--border-subtle)" : "1px solid transparent",
       }}
     >
-      {/* Inner row — height shrinks on scroll */}
       <div
         className="max-w-7xl mx-auto px-5 lg:px-8 flex items-center justify-between gap-8 transition-all duration-500"
-        style={{ height: scrolled ? "48px" : "80px" }}
+        style={{ height: scrolled ? "60px" : "80px" }}
       >
 
         {/* Logo */}
         <a
           href="#"
-          className="font-heading font-bold tracking-widest uppercase text-white flex items-center gap-2 transition-all duration-500"
-          style={{ fontSize: scrolled ? "1rem" : "1.25rem" }}
+          className="font-heading font-semibold flex items-center gap-2 transition-all duration-500"
+          style={{ fontSize: scrolled ? "1.2rem" : "1.4rem", color: "var(--foreground)", letterSpacing: "-0.02em" }}
         >
-          <span className="text-brand">▸</span>
+          <span
+            className="inline-block w-2.5 h-2.5 rounded-[3px]"
+            style={{ background: "linear-gradient(135deg, var(--brand) 50%, var(--cool) 50%)" }}
+          />
           {company.name}
         </a>
 
@@ -79,20 +70,15 @@ export default function Navbar({ company }: { company: CompanyData }) {
               <a
                 key={link.href}
                 href={link.href}
-                className="relative text-sm font-medium tracking-widest uppercase transition-colors duration-200 group"
-                style={{ color: isActive ? "#FF6B1A" : "rgba(255,255,255,0.5)" }}
-                onMouseEnter={(e) => {
-                  if (!isActive) (e.currentTarget as HTMLElement).style.color = "#FF6B1A";
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive) (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.5)";
-                }}
+                className="relative text-[0.92rem] font-medium transition-colors duration-200"
+                style={{ color: isActive ? "var(--brand)" : "var(--text-muted)" }}
+                onMouseEnter={(e) => { if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--foreground)"; }}
+                onMouseLeave={(e) => { if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--text-muted)"; }}
               >
                 {link.label}
-                {/* Animated underline */}
                 <span
-                  className="absolute -bottom-1 left-0 h-px bg-brand transition-all duration-300 ease-out"
-                  style={{ width: isActive ? "100%" : "0%" }}
+                  className="absolute -bottom-1.5 left-0 h-px transition-all duration-300 ease-out"
+                  style={{ width: isActive ? "100%" : "0%", backgroundColor: "var(--brand)" }}
                 />
               </a>
             );
@@ -104,19 +90,21 @@ export default function Navbar({ company }: { company: CompanyData }) {
           <a
             href={`tel:${company.phone}`}
             className="flex items-center gap-2 transition-colors duration-200"
-            style={{ color: "rgba(255,255,255,0.7)" }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "#FF6B1A"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.7)"; }}
+            style={{ color: "var(--foreground)" }}
+            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--brand)"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--foreground)"; }}
           >
-            <Phone size={14} className="text-brand" />
-            <span className="font-data text-sm tracking-wider">{company.phone}</span>
+            <Phone size={15} className="text-brand" />
+            <span className="font-data text-[0.85rem] tracking-wide">{company.phone}</span>
           </a>
           <a
             href="#contact"
-            className="px-5 py-2.5 bg-brand text-white text-xs font-bold tracking-widest uppercase rounded-none hover:bg-brand-dim transition-all duration-300 glow-brand"
-            style={{ paddingBlock: scrolled ? "0.5rem" : "0.625rem" }}
+            className="px-5 py-2.5 text-white text-[0.85rem] font-medium rounded-[var(--radius)] transition-all duration-300"
+            style={{ backgroundColor: "var(--brand)" }}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--brand-dim)")}
+            onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--brand)")}
           >
-            Free Estimate
+            Free estimate
           </a>
         </div>
 
@@ -132,7 +120,8 @@ export default function Navbar({ company }: { company: CompanyData }) {
           </a>
           <button
             onClick={() => setMenuOpen((v) => !v)}
-            className="text-white/70 hover:text-white transition-colors"
+            className="transition-colors"
+            style={{ color: "var(--foreground)" }}
             aria-label="Menu"
           >
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -145,10 +134,10 @@ export default function Navbar({ company }: { company: CompanyData }) {
         <div
           className="lg:hidden px-5 py-6 flex flex-col gap-5"
           style={{
-            backgroundColor:       "rgba(10,12,15,0.97)",
+            backgroundColor:       "rgba(250,247,242,0.98)",
             backdropFilter:        "blur(16px)",
             WebkitBackdropFilter:  "blur(16px)",
-            borderTop:             "1px solid rgba(255,255,255,0.05)",
+            borderTop:             "1px solid var(--border-subtle)",
           }}
         >
           {NAV_LINKS.map((link) => {
@@ -158,10 +147,9 @@ export default function Navbar({ company }: { company: CompanyData }) {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="text-sm font-bold tracking-widest uppercase transition-colors"
-                style={{ color: isActive ? "#FF6B1A" : "rgba(255,255,255,0.6)" }}
+                className="text-[0.95rem] font-medium transition-colors"
+                style={{ color: isActive ? "var(--brand)" : "var(--foreground)" }}
               >
-                {isActive && <span className="mr-2 text-brand">▸</span>}
                 {link.label}
               </a>
             );
@@ -169,9 +157,10 @@ export default function Navbar({ company }: { company: CompanyData }) {
           <a
             href="#contact"
             onClick={() => setMenuOpen(false)}
-            className="mt-2 px-5 py-3 bg-brand text-white text-xs font-bold tracking-widest uppercase text-center"
+            className="mt-2 px-5 py-3 text-white text-[0.9rem] font-medium text-center rounded-[var(--radius)]"
+            style={{ backgroundColor: "var(--brand)" }}
           >
-            Free Estimate
+            Free estimate
           </a>
         </div>
       )}

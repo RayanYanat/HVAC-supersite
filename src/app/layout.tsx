@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
-import { Barlow_Condensed, Inter, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const barlow = Barlow_Condensed({
-  variable: "--font-barlow",
+/* Editorial display serif — warm, premium, magazine-grade.
+   Replaces the old uppercase condensed heading face. */
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
 });
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
 });
 
 const jetbrains = JetBrains_Mono({
@@ -34,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${barlow.variable} ${inter.variable} ${jetbrains.variable} h-full`}
+      className={`${fraunces.variable} ${inter.variable} ${jetbrains.variable} h-full`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground antialiased">
         {children}
