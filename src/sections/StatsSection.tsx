@@ -70,7 +70,7 @@ export default function StatsSection({ company }: { company: CompanyData }) {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-6">
           {STATS.map((stat, i) => (
             <div key={stat.label} className="stat-item" style={{ borderTop: "1px solid var(--border-subtle)", paddingTop: "1.25rem" }}>
-              <div className="stat-num font-heading text-[clamp(2.8rem,5vw,4rem)] leading-none font-semibold" style={{ color: ACCENTS[i] }}>
+              <div className="stat-num tabular font-heading text-[clamp(2.8rem,5vw,4rem)] leading-none font-semibold" style={{ color: ACCENTS[i] }}>
                 0{stat.suffix}
               </div>
               <p className="text-[0.92rem] mt-3" style={{ color: "var(--text-muted)" }}>

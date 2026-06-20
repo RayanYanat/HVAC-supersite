@@ -3,6 +3,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import { Phone, ArrowRight, MapPin, ShieldCheck, Star, Flame, Snowflake } from "lucide-react";
 import type { CompanyData } from "@/lib/types";
 
@@ -26,6 +27,23 @@ export default function HeroSection({ company }: { company: CompanyData }) {
         .to(".hero-cta", { y: 0, opacity: 1, duration: 0.5, stagger: 0.1 }, "-=0.35")
         .to(".hero-data-strip", { y: 0, opacity: 1, duration: 0.6 }, "-=0.3")
         .to(".hero-frame", { opacity: 1, scale: 1, duration: 0.9, ease: "power3.out" }, "-=0.8");
+
+      /* Gentle scroll parallax on the hero photo — image is pre-scaled so the
+         drift never reveals an edge. Skipped under reduced-motion. */
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (!reduce) {
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.to(".hero-photo", {
+          yPercent: -9,
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+      }
     },
     { scope: containerRef }
   );
@@ -41,10 +59,10 @@ export default function HeroSection({ company }: { company: CompanyData }) {
         style={{ background: "linear-gradient(to right, #C8511F 0%, #C8511F 50%, #2B6E8F 50%, #2B6E8F 100%)" }}
       />
 
-      {/* Soft warm light, upper area — barely there */}
+      {/* Soft cool light, upper area — leads on freshness / cooling */}
       <div
         className="absolute -top-40 right-[-10%] w-[680px] h-[680px] rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle at center, rgba(200,81,31,0.07) 0%, transparent 65%)" }}
+        style={{ background: "radial-gradient(circle at center, rgba(43,110,143,0.09) 0%, transparent 65%)" }}
       />
 
       <div className="relative max-w-7xl mx-auto px-5 lg:px-8 pt-28 lg:pt-36 pb-16 lg:pb-24">
@@ -80,7 +98,7 @@ export default function HeroSection({ company }: { company: CompanyData }) {
             <div className="flex flex-col sm:flex-row gap-3.5 mt-9">
               <a
                 href={`tel:${company.phone}`}
-                className="group inline-flex items-center justify-center gap-2.5 px-7 py-4 text-white text-[0.95rem] font-medium rounded-[var(--radius)] transition-all duration-300 shadow-soft"
+                className="group press inline-flex items-center justify-center gap-2.5 px-7 py-4 text-white text-[0.95rem] font-medium rounded-[var(--radius)] transition-all duration-300 shadow-soft"
                 style={{ backgroundColor: "var(--brand)" }}
                 onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--brand-dim)")}
                 onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--brand)")}
@@ -90,7 +108,7 @@ export default function HeroSection({ company }: { company: CompanyData }) {
               </a>
               <a
                 href="#contact"
-                className="group inline-flex items-center justify-center gap-2.5 px-7 py-4 text-[0.95rem] font-medium rounded-[var(--radius)] transition-all duration-300"
+                className="group press inline-flex items-center justify-center gap-2.5 px-7 py-4 text-[0.95rem] font-medium rounded-[var(--radius)] transition-all duration-300 hover:bg-[rgba(28,26,23,0.04)]"
                 style={{ color: "var(--foreground)", border: "1px solid var(--border-strong)" }}
               >
                 <span>Free estimate</span>
@@ -101,12 +119,12 @@ export default function HeroSection({ company }: { company: CompanyData }) {
             {/* Heating / cooling duality pills */}
             <div className="hero-data-strip flex flex-wrap items-center gap-x-8 gap-y-4 mt-12 pt-8" style={{ borderTop: "1px solid var(--border-subtle)" }}>
               <div className="flex items-center gap-2.5">
-                <Flame size={17} className="text-brand" />
-                <span className="text-sm font-medium" style={{ color: "var(--foreground)" }}>Heating</span>
-              </div>
-              <div className="flex items-center gap-2.5">
                 <Snowflake size={17} className="text-cool" />
                 <span className="text-sm font-medium" style={{ color: "var(--foreground)" }}>Cooling</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Flame size={17} className="text-brand" />
+                <span className="text-sm font-medium" style={{ color: "var(--foreground)" }}>Heating</span>
               </div>
               <div className="h-8 w-px hidden sm:block" style={{ backgroundColor: "var(--border-subtle)" }} />
               <div className="flex items-baseline gap-2">
@@ -126,10 +144,10 @@ export default function HeroSection({ company }: { company: CompanyData }) {
             <div className="relative aspect-[4/5] sm:aspect-[5/5] lg:aspect-[4/5] rounded-[1.1rem] overflow-hidden shadow-card" style={{ backgroundColor: "var(--surface-warm)" }}>
               <Image
                 src="/hvac/hero-comfort.webp"
-                alt="Comfortable, evenly heated home interior"
+                alt="Cool, fresh, comfortable home interior on a hot day"
                 fill
                 priority
-                className="object-cover"
+                className="hero-photo object-cover scale-[1.12] will-change-transform"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
               {/* gentle bottom scrim for badge legibility */}

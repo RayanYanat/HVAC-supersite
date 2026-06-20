@@ -108,7 +108,7 @@ export default function TrustSection({ company }: { company: CompanyData }) {
             {/* Certifications */}
             <div className="flex flex-wrap gap-3 mb-8">
               {CERTIFICATIONS.map((cert) => (
-                <div key={cert.label} className="cert-badge px-5 py-4 rounded-[var(--radius)] bg-surface" style={{ border: "1px solid var(--border-subtle)" }}>
+                <div key={cert.label} className="cert-badge px-5 py-4 rounded-[var(--radius)] bg-surface shadow-soft" style={{ border: "1px solid var(--border-subtle)" }}>
                   <div className="font-heading text-[1.15rem] font-semibold" style={{ color: "var(--foreground)" }}>{cert.label}</div>
                   <div className="text-[0.78rem]" style={{ color: "var(--text-muted)" }}>{cert.sub}</div>
                 </div>
@@ -116,7 +116,7 @@ export default function TrustSection({ company }: { company: CompanyData }) {
             </div>
 
             {/* Google aggregate */}
-            <div className="flex items-center gap-5 px-6 py-5 rounded-[var(--radius)] bg-surface" style={{ border: "1px solid var(--border-subtle)" }}>
+            <div className="flex items-center gap-5 px-6 py-5 rounded-[var(--radius)] bg-surface shadow-soft" style={{ border: "1px solid var(--border-subtle)" }}>
               <div>
                 <div className="font-heading text-[2rem] font-semibold leading-none mb-1.5" style={{ color: "var(--foreground)" }}>5.0</div>
                 <StarRow count={5} />
@@ -132,7 +132,7 @@ export default function TrustSection({ company }: { company: CompanyData }) {
           {/* Right — reviews */}
           <div className="space-y-4">
             {REVIEWS.map((review, i) => (
-              <div key={`review-${i}`} className="review-card p-6 rounded-[var(--radius)] bg-surface transition-all duration-300" style={{ border: "1px solid var(--border-subtle)" }}>
+              <div key={`review-${i}`} className="review-card lift p-6 rounded-[var(--radius)] bg-surface shadow-soft" style={{ border: "1px solid var(--border-subtle)" }}>
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <span className="w-9 h-9 rounded-full flex items-center justify-center font-heading text-[0.95rem] font-semibold" style={{ backgroundColor: "var(--surface-warm)", color: "var(--brand)" }}>

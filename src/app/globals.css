@@ -47,18 +47,18 @@
   /* ── HVAC editorial palette — warm light ──────────────────────────
      Base bone/oatmeal, warm charcoal ink, ember (heating) + slate-teal
      (cooling) as the signature hot/cold duality. */
-  --background:        #FAF7F2;   /* warm bone */
+  --background:        #F4EEE4;   /* warm bone — deepened so white cards lift off it */
   --foreground:        #1C1A17;   /* warm charcoal ink */
   --brand:             #C8511F;   /* ember / terracotta — HEATING */
   --brand-dim:         #A23F14;   /* deeper ember — hover */
   --brand-bright:      #E2611E;   /* brighter ember — accents */
   --cool:              #2B6E8F;   /* slate teal-blue — COOLING */
   --cool-deep:         #1F5067;
-  --surface:           #FFFFFF;   /* white card */
-  --surface-warm:      #F2ECE3;   /* warm panel */
-  --surface-elevated:  #FFFFFF;
-  --border-subtle:     rgba(28, 26, 23, 0.10);
-  --border-strong:     rgba(28, 26, 23, 0.18);
+  --surface:           #FFFEFC;   /* near-white card — warm white */
+  --surface-warm:      #ECE3D6;   /* warm panel for alternating bands */
+  --surface-elevated:  #FFFEFC;
+  --border-subtle:     rgba(28, 26, 23, 0.08);
+  --border-strong:     rgba(28, 26, 23, 0.16);
   --text-muted:        #6B6459;   /* warm muted gray */
   --text-faint:        #9A9286;
 
@@ -82,6 +82,14 @@
   --radius:            0.6rem;
 }
 
+/* ── Lenis smooth scroll ─────────────────────────────────────────────────── */
+html.lenis,
+html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -89,7 +97,7 @@
   }
 
   html {
-    background-color: #FAF7F2;
+    background-color: #F4EEE4;
     scroll-behavior: smooth;
     /* Offset anchor-link targets so they don't hide under the fixed navbar.
        Mobile navbar = h-16 (64px), desktop = h-20 (80px). */
@@ -103,11 +111,31 @@
   }
 
   body {
-    background-color: #FAF7F2;
+    background-color: #F4EEE4;
     color: #1C1A17;
     font-family: var(--font-inter), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Warm ember text selection — a small premium tell */
+  ::selection { background-color: rgba(200, 81, 31, 0.18); color: #1C1A17; }
+
+  /* Tabular figures for stats/data so numbers align crisply */
+  .font-data, .tabular { font-variant-numeric: tabular-nums; }
+
+  /* Whisper of paper grain over the whole page — kills the flat "digital"
+     feel and gives the warm editorial surface real material. Fixed overlay
+     above content (multiply), below the navbar/banner. Never interactive.
+     Tuned very low so it reads as texture, not noise. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
   }
 
   /* Editorial serif headings — warm, premium, sentence-cased by content.
@@ -214,17 +242,39 @@
   /* Soft warm elevation — replaces the old neon glows.
      Premium = restraint: a quiet lift, not a glow. */
   .shadow-soft {
-    box-shadow: 0 1px 2px rgba(28, 26, 23, 0.04),
-                0 8px 24px rgba(28, 26, 23, 0.06);
+    box-shadow: 0 1px 1px rgba(74, 49, 28, 0.05),
+                0 6px 16px rgba(74, 49, 28, 0.07),
+                0 14px 38px rgba(74, 49, 28, 0.07);
   }
   .shadow-card {
-    box-shadow: 0 1px 2px rgba(28, 26, 23, 0.05),
-                0 18px 40px rgba(28, 26, 23, 0.10);
+    box-shadow: 0 2px 4px rgba(74, 49, 28, 0.06),
+                0 12px 28px rgba(74, 49, 28, 0.10),
+                0 30px 60px rgba(74, 49, 28, 0.12);
   }
   /* Kept for back-compat with components still referencing it during migration */
   .glow-brand {
     box-shadow: 0 6px 20px rgba(200, 81, 31, 0.28);
   }
+
+  /* Micro-interaction helpers */
+  .lift {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .lift:hover { transform: translateY(-3px); }
+
+  .press { transition: transform 0.18s ease; }
+  .press:active { transform: scale(0.975); }
+
+  /* Animated link underline that draws left → right on hover */
+  .underline-grow {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition: background-size 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .underline-grow:hover { background-size: 100% 1px; }
 
   /* Section spacing */
   .section-padding {

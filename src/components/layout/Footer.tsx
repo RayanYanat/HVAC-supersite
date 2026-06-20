@@ -53,7 +53,7 @@ export default function Footer({ company }: { company: CompanyData }) {
             <ul className="space-y-3">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="text-[0.95rem] transition-colors duration-200" style={{ color: ON_INK_MUTED }}
+                  <a href={link.href} className="underline-grow text-[0.95rem] transition-colors duration-200" style={{ color: ON_INK_MUTED }}
                     onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--brand-bright)")}
                     onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = ON_INK_MUTED)}>
                     {link.label}

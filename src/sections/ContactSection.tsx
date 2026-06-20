@@ -168,7 +168,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
                 </div>
 
                 <button type="submit"
-                  className="inline-flex items-center gap-2.5 px-8 py-3.5 text-white text-[0.95rem] font-medium rounded-[var(--radius)] transition-all duration-300 shadow-soft"
+                  className="press inline-flex items-center gap-2.5 px-8 py-3.5 text-white text-[0.95rem] font-medium rounded-[var(--radius)] transition-all duration-300 shadow-soft"
                   style={{ backgroundColor: "var(--brand)" }}
                   onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--brand-dim)")}
                   onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--brand)")}>
@@ -209,7 +209,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
             {/* Details */}
             <div className="space-y-2">
               {CONTACT_DETAILS.map(({ icon: Icon, label, value, href }) => (
-                <div key={label} className="flex items-start gap-3.5 px-5 py-4 rounded-[var(--radius)] bg-surface" style={{ border: "1px solid var(--border-subtle)" }}>
+                <div key={label} className="lift flex items-start gap-3.5 px-5 py-4 rounded-[var(--radius)] bg-surface shadow-soft" style={{ border: "1px solid var(--border-subtle)" }}>
                   <Icon size={16} className="flex-shrink-0 mt-0.5" style={{ color: "var(--cool)" }} />
                   <div className="min-w-0">
                     <p className="text-[0.78rem] mb-0.5" style={{ color: "var(--text-faint)" }}>{label}</p>

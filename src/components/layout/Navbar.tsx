@@ -99,7 +99,7 @@ export default function Navbar({ company }: { company: CompanyData }) {
           </a>
           <a
             href="#contact"
-            className="px-5 py-2.5 text-white text-[0.85rem] font-medium rounded-[var(--radius)] transition-all duration-300"
+            className="press px-5 py-2.5 text-white text-[0.85rem] font-medium rounded-[var(--radius)] transition-all duration-300"
             style={{ backgroundColor: "var(--brand)" }}
             onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--brand-dim)")}
             onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--brand)")}

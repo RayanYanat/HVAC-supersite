@@ -11,7 +11,7 @@ import { Flame, Thermometer, AirVent, Wrench, ArrowRight } from "lucide-react";
 const SERVICES = [
   {
     icon: Flame, accent: "var(--brand)", tone: "hot",
-    img: "/hvac/Gemini_Generated_Image_ifqtwyifqtwyifqt.webp",
+    img: "/hvac/service-heating.webp",
     domain: "Heating",
     headline: "My heating system broke down",
     detail: "Furnace failure, no heat, cold rooms — we dispatch fast. Full diagnostic included, no hidden fees.",
@@ -20,7 +20,7 @@ const SERVICES = [
   },
   {
     icon: Thermometer, accent: "var(--cool)", tone: "cold",
-    img: "/hvac/Gemini_Generated_Image_bs76gtbs76gtbs76.webp",
+    img: "/hvac/service-cooling.webp",
     domain: "Air conditioning",
     headline: "I need AC installed or repaired",
     detail: "Central AC, mini-split, ductless systems — clean installation, free in-home estimate, financing available.",
@@ -29,7 +29,7 @@ const SERVICES = [
   },
   {
     icon: AirVent, accent: "var(--cool)", tone: "cold",
-    img: "/hvac/Gemini_Generated_Image_t77cryt77cryt77c.webp",
+    img: "/hvac/service-ventilation.webp",
     domain: "Ventilation",
     headline: "My indoor air quality is poor",
     detail: "ERV / HRV systems, duct cleaning, air purification — fresh, filtered air throughout your home, year-round.",
@@ -38,7 +38,7 @@ const SERVICES = [
   },
   {
     icon: Wrench, accent: "var(--brand)", tone: "hot",
-    img: "/hvac/Gemini_Generated_Image_3gqvr93gqvr93gqv.webp",
+    img: "/hvac/service-maintenance.webp",
     domain: "Maintenance",
     headline: "I want to protect my equipment",
     detail: "Annual service plans — tune-ups, priority scheduling, parts discounts. One trusted partner for it all.",
@@ -96,10 +96,10 @@ export default function ServicesSection() {
             return (
               <article
                 key={svc.domain}
-                className="svc-card group flex flex-col rounded-[1rem] overflow-hidden transition-all duration-300 bg-surface"
+                className="svc-card group flex flex-col rounded-[1rem] overflow-hidden transition-all duration-300 bg-surface shadow-soft"
                 style={{ border: "1px solid var(--border-subtle)" }}
-                onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "var(--border-strong)"; el.style.transform = "translateY(-3px)"; }}
-                onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.borderColor = "var(--border-subtle)"; el.style.transform = "translateY(0)"; }}
+                onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.transform = "translateY(-4px)"; el.style.boxShadow = "0 4px 8px rgba(74,49,28,0.08), 0 18px 36px rgba(74,49,28,0.13), 0 40px 70px rgba(74,49,28,0.14)"; }}
+                onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.transform = "translateY(0)"; el.style.boxShadow = ""; }}
               >
                 {/* Photo */}
                 <div className="relative h-44 lg:h-52 overflow-hidden" style={{ backgroundColor: "var(--surface-warm)" }}>

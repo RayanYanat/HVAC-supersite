@@ -4,12 +4,8 @@ import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import { ArrowLeftRight, Check, ArrowRight } from "lucide-react";
+import { ArrowLeftRight, Snowflake, Sun, ArrowRight } from "lucide-react";
 import type { CompanyData } from "@/lib/types";
-
-/* Comfort outcomes shown on the "after" side — the credible install image
-   carries the comfort message via these captions. */
-const OUTCOMES = ["Even heat in every room", "Up to 40% lower bills", "Whisper-quiet operation"];
 
 export default function WorkSection({ company }: { company: CompanyData }) {
   const sectionRef = useRef<HTMLElement>(null);
@@ -49,17 +45,18 @@ export default function WorkSection({ company }: { company: CompanyData }) {
         {/* Header */}
         <div className="work-header max-w-2xl mb-12">
           <div className="flex items-center gap-2.5 mb-5">
-            <span className="w-7 h-px" style={{ backgroundColor: "var(--cool)" }} />
+            <span className="w-7 h-px" style={{ background: "linear-gradient(to right, var(--brand), var(--cool))" }} />
             <span className="font-data text-[12px] tracking-[0.12em] uppercase" style={{ color: "var(--cool)" }}>
-              Proof, not promises
+              Comfort in any weather
             </span>
           </div>
           <h2 className="font-heading text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[1.05] font-semibold" style={{ color: "var(--foreground)" }}>
-            See the difference for yourself.
+            Cozy when it&apos;s freezing. <span className="italic" style={{ color: "var(--cool)" }}>Cool</span> when it&apos;s blazing.
           </h2>
           <p className="text-[1.05rem] leading-relaxed mt-4" style={{ color: "var(--text-muted)" }}>
-            A real installation from a customer&apos;s home in {company.city}. Drag the handle —
-            old, struggling equipment on one side, our finished work on the other.
+            The same room, all year round across {company.city}. Drag the handle —
+            warm and snug while it&apos;s snowing out, fresh and cool when it&apos;s scorching.
+            Heating and cooling, both handled.
           </p>
         </div>
 
@@ -73,31 +70,21 @@ export default function WorkSection({ company }: { company: CompanyData }) {
             onPointerMove={(e) => { if (dragging.current) setFromClientX(e.clientX); }}
             onPointerUp={() => { dragging.current = false; }}
           >
-            {/* After (full, underneath) */}
-            <Image src="/hvac/proof-after.webp" alt="After — clean new installation" fill className="object-cover pointer-events-none" sizes="(max-width: 1024px) 100vw, 1100px" />
+            {/* Summer / cooling (full, underneath) */}
+            <Image src="/hvac/comfort-summer.webp" alt="Cool and fresh inside while it's blazing hot outside" fill className="object-cover pointer-events-none" sizes="(max-width: 1024px) 100vw, 1100px" />
 
-            {/* Before (clipped overlay) */}
+            {/* Winter / heating (clipped overlay, left) */}
             <div className="absolute inset-0 pointer-events-none" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
-              <Image src="/hvac/proof-before.webp" alt="Before — old, failing equipment" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 1100px" />
+              <Image src="/hvac/comfort-winter.webp" alt="Warm and cozy inside while it's freezing outside" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 1100px" />
             </div>
 
-            {/* Labels */}
-            <span className="absolute top-4 left-4 px-3 py-1.5 rounded-full text-[0.78rem] font-medium pointer-events-none" style={{ backgroundColor: "rgba(28,26,23,0.72)", color: "#EDE7DE" }}>
-              Before
+            {/* Weather labels */}
+            <span className="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[0.78rem] font-medium pointer-events-none" style={{ backgroundColor: "var(--brand)", color: "#fff" }}>
+              <Snowflake size={14} /> Freezing out · cozy in
             </span>
-            <span className="absolute top-4 right-4 px-3 py-1.5 rounded-full text-[0.78rem] font-medium pointer-events-none" style={{ backgroundColor: "var(--brand)", color: "#fff" }}>
-              After
+            <span className="absolute top-4 right-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[0.78rem] font-medium pointer-events-none" style={{ backgroundColor: "var(--cool)", color: "#fff" }}>
+              Blazing out · cool in <Sun size={14} />
             </span>
-
-            {/* Outcome chips on the after side */}
-            <div className="absolute left-0 right-4 bottom-4 flex flex-col items-end gap-2 pointer-events-none">
-              {OUTCOMES.map((o) => (
-                <span key={o} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[0.8rem] font-medium" style={{ backgroundColor: "var(--surface)", color: "var(--foreground)" }}>
-                  <Check size={14} style={{ color: "var(--brand)" }} />
-                  {o}
-                </span>
-              ))}
-            </div>
 
             {/* Handle */}
             <div className="absolute top-0 bottom-0 pointer-events-none" style={{ left: `${pos}%`, width: 2, backgroundColor: "#FAF7F2", transform: "translateX(-1px)" }}>
@@ -110,11 +97,11 @@ export default function WorkSection({ company }: { company: CompanyData }) {
           {/* Below: hint + CTA */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
             <p className="text-[0.92rem]" style={{ color: "var(--text-muted)" }}>
-              180+ installations completed across {company.zone}.
+              One trusted partner for heating &amp; cooling across {company.zone}.
             </p>
             <a
               href="#contact"
-              className="inline-flex items-center gap-2.5 px-6 py-3.5 text-white text-[0.92rem] font-medium rounded-[var(--radius)] transition-all duration-300 shadow-soft"
+              className="press inline-flex items-center gap-2.5 px-6 py-3.5 text-white text-[0.92rem] font-medium rounded-[var(--radius)] transition-all duration-300 shadow-soft"
               style={{ backgroundColor: "var(--brand)" }}
               onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--brand-dim)")}
               onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--brand)")}
