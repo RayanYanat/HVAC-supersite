@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Phone, Menu, X } from "lucide-react";
 import { NAV_LINKS } from "@/lib/constants";
 import type { CompanyData } from "@/lib/types";
@@ -39,10 +39,32 @@ export default function Navbar({ company }: { company: CompanyData }) {
   const textMain  = scrolled ? "var(--foreground)" : "#FBF7F1";
   const textMuted = scrolled ? "var(--text-muted)" : "rgba(245,240,233,0.82)";
 
-  /* Scraped business names are often long ("X HVAC - Air Conditioning … City").
-     Show just the brand (the part before a separator) so the logo never
-     crowds the nav; truncation is the safety net for long single tokens. */
-  const brandName = company.name.split(/\s[-–—|·,]\s/)[0].trim() || company.name;
+  /* Auto-fit the FULL business name: scraped names vary wildly in length and
+     we outreach without manual review, so the name is NEVER truncated or
+     ellipsised (that would kill the bespoke feel). Instead the font shrinks
+     just enough to keep the complete name on one line, within a width budget. */
+  const nameRef = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const el = nameRef.current;
+    if (!el) return;
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const fit = () => {
+      const base = scrolled ? 19.2 : 22.4; // px ≈ 1.2rem / 1.4rem
+      if (!ctx) { el.style.fontSize = base + "px"; return; }
+      // Width budget for the name: full row minus the right-side controls,
+      // the brand dot and gap. A 3% safety margin guarantees no clipping.
+      const budget = window.innerWidth >= 1024 ? 400 : window.innerWidth - 128;
+      const family = getComputedStyle(el).fontFamily || "serif";
+      ctx.font = `600 ${base}px ${family}`;
+      const natural = ctx.measureText(company.name).width * 1.03;
+      const size = natural > budget ? Math.max(11, (base * budget) / natural) : base;
+      el.style.fontSize = size + "px";
+    };
+    fit();
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
+  }, [scrolled, company.name]);
 
   return (
     <header
@@ -62,18 +84,20 @@ export default function Navbar({ company }: { company: CompanyData }) {
         {/* Logo */}
         <a
           href="#"
-          className="font-heading font-semibold flex items-center gap-2 min-w-0 transition-all duration-500"
-          style={{ fontSize: scrolled ? "1.2rem" : "1.4rem", color: textMain, letterSpacing: "-0.02em" }}
+          className="font-heading font-semibold flex items-center gap-2 flex-1 min-w-0 overflow-hidden transition-all duration-500"
+          style={{ color: textMain, letterSpacing: "-0.02em" }}
         >
           <span
             className="inline-block w-2.5 h-2.5 rounded-[3px] flex-shrink-0"
             style={{ background: "linear-gradient(135deg, var(--brand) 50%, var(--cool) 50%)" }}
           />
-          <span className="truncate max-w-[52vw] sm:max-w-[280px] lg:max-w-[340px]">{brandName}</span>
+          <span ref={nameRef} className="whitespace-nowrap" style={{ transition: "font-size 0.3s ease" }}>
+            {company.name}
+          </span>
         </a>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-8 flex-shrink-0">
           {NAV_LINKS.map((link) => {
             const isActive = activeSection === link.href;
             return (
@@ -96,7 +120,7 @@ export default function Navbar({ company }: { company: CompanyData }) {
         </nav>
 
         {/* Right: phone + CTA */}
-        <div className="hidden lg:flex items-center gap-5">
+        <div className="hidden lg:flex items-center gap-5 flex-shrink-0">
           <a
             href={`tel:${company.phone}`}
             className="flex items-center gap-2 transition-colors duration-200"
@@ -118,16 +142,9 @@ export default function Navbar({ company }: { company: CompanyData }) {
           </a>
         </div>
 
-        {/* Mobile: phone + burger */}
-        <div className="flex lg:hidden items-center gap-4">
-          <a
-            href={`tel:${company.phone}`}
-            className="flex items-center gap-1.5 text-brand whitespace-nowrap"
-            aria-label="Call us"
-          >
-            <Phone size={16} />
-            <span className="font-data text-xs">{company.phone}</span>
-          </a>
+        {/* Mobile: burger only — keeps full room for the business name.
+            The phone lives in the menu + the hero CTA. */}
+        <div className="flex lg:hidden items-center flex-shrink-0 pl-3">
           <button
             onClick={() => setMenuOpen((v) => !v)}
             className="transition-colors"
@@ -165,10 +182,19 @@ export default function Navbar({ company }: { company: CompanyData }) {
             );
           })}
           <a
+            href={`tel:${company.phone}`}
+            onClick={() => setMenuOpen(false)}
+            className="mt-2 flex items-center justify-center gap-2.5 px-5 py-3 text-white text-[0.9rem] font-medium rounded-[var(--radius)]"
+            style={{ backgroundColor: "var(--brand)" }}
+          >
+            <Phone size={16} />
+            Call now · {company.phone}
+          </a>
+          <a
             href="#contact"
             onClick={() => setMenuOpen(false)}
-            className="mt-2 px-5 py-3 text-white text-[0.9rem] font-medium text-center rounded-[var(--radius)]"
-            style={{ backgroundColor: "var(--brand)" }}
+            className="px-5 py-3 text-[0.9rem] font-medium text-center rounded-[var(--radius)]"
+            style={{ color: "var(--foreground)", border: "1px solid var(--border-strong)" }}
           >
             Free estimate
           </a>
