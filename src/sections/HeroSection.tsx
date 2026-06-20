@@ -89,9 +89,9 @@ export default function HeroSection({ company }: { company: CompanyData }) {
 
         {/* Headline */}
         <h1 className="font-heading font-semibold tracking-[-0.02em] max-w-4xl text-[clamp(3rem,7.5vw,6.5rem)] leading-[0.98]" style={{ color: "#FBF7F1" }}>
-          <span className="hero-title-1 block">Cool, calm comfort,</span>
+          <span className="hero-title-1 block">Fast repairs, expert installs,</span>
           <span className="hero-title-2 block">
-            <span className="italic" style={{ color: "#FFB27A" }}>whatever</span>{" "}it&apos;s doing outside.
+            year-round{" "}<span className="italic" style={{ color: "#FFB27A" }}>comfort</span>.
           </span>
         </h1>
 
