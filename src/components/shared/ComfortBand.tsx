@@ -44,8 +44,8 @@ export default function ComfortBand({ company }: { company: CompanyData }) {
     <section ref={ref} className="relative overflow-hidden h-[62vh] min-h-[460px] flex items-center">
       <div className="absolute inset-0">
         <Image
-          src="/hvac/comfort-winter.webp"
-          alt="A warm, comfortable home interior"
+          src="/hvac/comfort-band.webp"
+          alt="A serene, comfortable home with a wall-mounted unit at golden hour"
           fill
           className="band-photo object-cover scale-[1.18] will-change-transform"
           sizes="100vw"

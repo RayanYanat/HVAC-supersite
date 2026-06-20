@@ -39,6 +39,11 @@ export default function Navbar({ company }: { company: CompanyData }) {
   const textMain  = scrolled ? "var(--foreground)" : "#FBF7F1";
   const textMuted = scrolled ? "var(--text-muted)" : "rgba(245,240,233,0.82)";
 
+  /* Scraped business names are often long ("X HVAC - Air Conditioning … City").
+     Show just the brand (the part before a separator) so the logo never
+     crowds the nav; truncation is the safety net for long single tokens. */
+  const brandName = company.name.split(/\s[-–—|·,]\s/)[0].trim() || company.name;
+
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
@@ -57,14 +62,14 @@ export default function Navbar({ company }: { company: CompanyData }) {
         {/* Logo */}
         <a
           href="#"
-          className="font-heading font-semibold flex items-center gap-2 transition-all duration-500"
+          className="font-heading font-semibold flex items-center gap-2 min-w-0 transition-all duration-500"
           style={{ fontSize: scrolled ? "1.2rem" : "1.4rem", color: textMain, letterSpacing: "-0.02em" }}
         >
           <span
-            className="inline-block w-2.5 h-2.5 rounded-[3px]"
+            className="inline-block w-2.5 h-2.5 rounded-[3px] flex-shrink-0"
             style={{ background: "linear-gradient(135deg, var(--brand) 50%, var(--cool) 50%)" }}
           />
-          {company.name}
+          <span className="truncate max-w-[52vw] sm:max-w-[280px] lg:max-w-[340px]">{brandName}</span>
         </a>
 
         {/* Desktop Nav */}
