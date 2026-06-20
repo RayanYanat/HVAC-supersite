@@ -25,13 +25,16 @@ export default function WorkSection({ company }: { company: CompanyData }) {
     () => {
       gsap.registerPlugin(ScrollTrigger);
       gsap.set(".work-header", { opacity: 0, y: 24 });
-      gsap.set(".work-viewer", { opacity: 0, y: 30 });
+      gsap.set(".work-viewer", { opacity: 0, y: 24 });
+      gsap.set(".ba-box", { clipPath: "inset(100% 0% 0% 0%)" });
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top 80%", once: true,
         onEnter: () => {
           gsap.to(".work-header", { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
-          gsap.to(".work-viewer", { opacity: 1, y: 0, duration: 0.7, ease: "power2.out", delay: 0.1 });
+          gsap.to(".work-viewer", { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", delay: 0.1 });
+          // Cinematic clip-wipe reveal of the before/after frame
+          gsap.to(".ba-box", { clipPath: "inset(0% 0% 0% 0%)", duration: 1.1, ease: "power3.out", delay: 0.25 });
         },
       });
     },
@@ -64,7 +67,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
         <div className="work-viewer">
           <div
             ref={viewerRef}
-            className="relative w-full aspect-[16/10] rounded-[1.1rem] overflow-hidden shadow-card select-none"
+            className="ba-box relative w-full aspect-[16/10] rounded-[1.1rem] overflow-hidden shadow-card select-none"
             style={{ cursor: "ew-resize", touchAction: "none", border: "1px solid var(--border-subtle)" }}
             onPointerDown={(e) => { dragging.current = true; setFromClientX(e.clientX); (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); }}
             onPointerMove={(e) => { if (dragging.current) setFromClientX(e.clientX); }}

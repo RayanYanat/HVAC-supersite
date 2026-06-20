@@ -34,6 +34,11 @@ export default function Navbar({ company }: { company: CompanyData }) {
     return () => observer.disconnect();
   }, []);
 
+  /* Over the dark cinematic hero (top, not scrolled) text must be light;
+     once scrolled onto the bone surface it flips back to ink. */
+  const textMain  = scrolled ? "var(--foreground)" : "#FBF7F1";
+  const textMuted = scrolled ? "var(--text-muted)" : "rgba(245,240,233,0.82)";
+
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
@@ -53,7 +58,7 @@ export default function Navbar({ company }: { company: CompanyData }) {
         <a
           href="#"
           className="font-heading font-semibold flex items-center gap-2 transition-all duration-500"
-          style={{ fontSize: scrolled ? "1.2rem" : "1.4rem", color: "var(--foreground)", letterSpacing: "-0.02em" }}
+          style={{ fontSize: scrolled ? "1.2rem" : "1.4rem", color: textMain, letterSpacing: "-0.02em" }}
         >
           <span
             className="inline-block w-2.5 h-2.5 rounded-[3px]"
@@ -71,9 +76,9 @@ export default function Navbar({ company }: { company: CompanyData }) {
                 key={link.href}
                 href={link.href}
                 className="relative text-[0.92rem] font-medium transition-colors duration-200"
-                style={{ color: isActive ? "var(--brand)" : "var(--text-muted)" }}
-                onMouseEnter={(e) => { if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--foreground)"; }}
-                onMouseLeave={(e) => { if (!isActive) (e.currentTarget as HTMLElement).style.color = "var(--text-muted)"; }}
+                style={{ color: isActive ? "var(--brand)" : textMuted }}
+                onMouseEnter={(e) => { if (!isActive) (e.currentTarget as HTMLElement).style.color = textMain; }}
+                onMouseLeave={(e) => { if (!isActive) (e.currentTarget as HTMLElement).style.color = textMuted; }}
               >
                 {link.label}
                 <span
@@ -90,11 +95,11 @@ export default function Navbar({ company }: { company: CompanyData }) {
           <a
             href={`tel:${company.phone}`}
             className="flex items-center gap-2 transition-colors duration-200"
-            style={{ color: "var(--foreground)" }}
+            style={{ color: textMain }}
             onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--brand)"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "var(--foreground)"; }}
+            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = textMain; }}
           >
-            <Phone size={15} className="text-brand" />
+            <Phone size={15} style={{ color: scrolled ? "var(--brand)" : "#FFB27A" }} />
             <span className="font-data text-[0.85rem] tracking-wide">{company.phone}</span>
           </a>
           <a
@@ -121,7 +126,7 @@ export default function Navbar({ company }: { company: CompanyData }) {
           <button
             onClick={() => setMenuOpen((v) => !v)}
             className="transition-colors"
-            style={{ color: "var(--foreground)" }}
+            style={{ color: textMain }}
             aria-label="Menu"
           >
             {menuOpen ? <X size={22} /> : <Menu size={22} />}

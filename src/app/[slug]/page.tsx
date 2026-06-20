@@ -5,6 +5,7 @@ import type { CompanyData } from "@/lib/types";
 
 import VisitTracker     from "@/components/shared/VisitTracker";
 import ConceptBanner    from "@/components/shared/ConceptBanner";
+import ComfortBand      from "@/components/shared/ComfortBand";
 import GSAPConfig       from "@/components/shared/GSAPConfig";
 import Navbar           from "@/components/layout/Navbar";
 import Footer           from "@/components/layout/Footer";
@@ -14,6 +15,7 @@ import StatsSection     from "@/sections/StatsSection";
 import WorkSection      from "@/sections/WorkSection";
 import TrustSection     from "@/sections/TrustSection";
 import ContactSection   from "@/sections/ContactSection";
+import CTABand          from "@/sections/CTABand";
 
 /* ── ISR config ────────────────────────────────────────────────────────────
  * dynamicParams = true  → slugs not in generateStaticParams are rendered
@@ -92,9 +94,11 @@ export default async function SlugPage({
         <HeroSection     company={company} />
         <ServicesSection />
         <WorkSection     company={company} />
+        <ComfortBand     company={company} />
         <StatsSection    company={company} />
         <TrustSection    company={company} />
         <ContactSection  company={company} />
+        <CTABand         company={company} />
         <Footer          company={company} />
       </main>
 
