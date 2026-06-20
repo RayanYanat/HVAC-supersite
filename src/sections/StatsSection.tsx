@@ -61,7 +61,7 @@ export default function StatsSection({ company }: { company: CompanyData }) {
             </h2>
           </div>
           <p className="max-w-xs text-[0.98rem] leading-relaxed lg:text-right" style={{ color: "var(--text-muted)" }}>
-            Real numbers across {company.zone} — trust is built on
+            Real numbers across {company.zone}. Trust is built on
             transparency, not promises.
           </p>
         </div>

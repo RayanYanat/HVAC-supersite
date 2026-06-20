@@ -57,7 +57,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
             Cozy when it&apos;s freezing. <span className="italic" style={{ color: "var(--cool)" }}>Cool</span> when it&apos;s blazing.
           </h2>
           <p className="text-[1.05rem] leading-relaxed mt-4" style={{ color: "var(--text-muted)" }}>
-            The same room, all year round across {company.city}. Drag the handle —
+            The same room, all year round across {company.city}. Drag the handle:
             warm and snug while it&apos;s snowing out, fresh and cool when it&apos;s scorching.
             Heating and cooling, both handled.
           </p>

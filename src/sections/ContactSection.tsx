@@ -7,11 +7,11 @@ import { Phone, Mail, MapPin, Clock, ArrowRight, CheckCircle } from "lucide-reac
 import type { CompanyData } from "@/lib/types";
 
 const NEEDS = [
-  { value: "",            label: "— Select your service need —" },
-  { value: "aircon",      label: "Air conditioning — repair or installation" },
-  { value: "heating",     label: "Heating — furnace / heat pump repair or install" },
-  { value: "ventilation", label: "Ventilation — ERV / HRV / duct work" },
-  { value: "maintenance", label: "Maintenance — annual tune-up / service plan" },
+  { value: "",            label: "Select your service need…" },
+  { value: "aircon",      label: "Air conditioning · repair or installation" },
+  { value: "heating",     label: "Heating · furnace / heat pump repair or install" },
+  { value: "ventilation", label: "Ventilation · ERV / HRV / duct work" },
+  { value: "maintenance", label: "Maintenance · annual tune-up / service plan" },
   { value: "other",       label: "Other / general inquiry" },
 ];
 
@@ -22,7 +22,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
 
   const CONTACT_DETAILS = [
     { icon: Phone,  label: "Phone",        value: company.phone,         href: `tel:${company.phone}` },
-    { icon: Mail,   label: "Email",        value: company.email ?? "—",  href: company.email ? `mailto:${company.email}` : null },
+    { icon: Mail,   label: "Email",        value: company.email ?? "On request",  href: company.email ? `mailto:${company.email}` : null },
     ...(company.address ? [{
       icon: MapPin, label: "Address", value: company.address,
       href: `https://maps.google.com/?q=${encodeURIComponent(company.address)}`,
@@ -89,7 +89,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
             Request a free estimate.
           </h2>
           <p className="text-[1.05rem] leading-relaxed" style={{ color: "var(--text-muted)" }}>
-            Describe your situation — we&apos;ll call you back within{" "}
+            Describe your situation and we&apos;ll call you back within{" "}
             <span style={{ color: "var(--foreground)", fontWeight: 500 }}>24 hours</span> with
             a concrete solution. No obligation, no pressure.
           </p>
@@ -177,7 +177,7 @@ export default function ContactSection({ company }: { company: CompanyData }) {
                 </button>
 
                 <p className="text-[0.82rem]" style={{ color: "var(--text-faint)" }}>
-                  Your information is kept private — no spam, no cold calls.
+                  Your information is kept private. No spam, no cold calls.
                 </p>
               </form>
             )}

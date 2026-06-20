@@ -55,11 +55,11 @@ export default function ComfortBand({ company }: { company: CompanyData }) {
 
       <div className="band-quote relative z-10 max-w-4xl mx-auto px-5 lg:px-8 w-full">
         <p className="font-heading font-medium text-[clamp(1.8rem,4vw,3.4rem)] leading-[1.12]" style={{ color: "#FBF7F1" }}>
-          &ldquo;Warm when it&apos;s freezing, cool when it&apos;s blazing — that&apos;s the whole job,
+          &ldquo;Warm when it&apos;s freezing, cool when it&apos;s blazing. That&apos;s the whole job,
           and we do it <span className="italic" style={{ color: "#FFB27A" }}>right</span>.&rdquo;
         </p>
         <p className="font-data text-[12px] tracking-[0.14em] uppercase mt-6" style={{ color: "rgba(245,240,233,0.7)" }}>
-          {company.name} — serving {company.city}
+          {company.name}, serving {company.city}
         </p>
       </div>
     </section>

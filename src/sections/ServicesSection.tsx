@@ -14,7 +14,7 @@ const SERVICES = [
     img: "/hvac/service-heating.webp",
     domain: "Heating",
     headline: "My heating system broke down",
-    detail: "Furnace failure, no heat, cold rooms — we dispatch fast. Full diagnostic included, no hidden fees.",
+    detail: "Furnace failure, no heat, cold rooms. We dispatch fast. Full diagnostic included, no hidden fees.",
     tags: ["Furnace", "Heat pump", "Boiler"],
     cta: "Request emergency service",
   },
@@ -23,7 +23,7 @@ const SERVICES = [
     img: "/hvac/service-cooling.webp",
     domain: "Air conditioning",
     headline: "I need AC installed or repaired",
-    detail: "Central AC, mini-split, ductless systems — clean installation, free in-home estimate, financing available.",
+    detail: "Central AC, mini-split, ductless systems. Clean installation, free in-home estimate, financing available.",
     tags: ["Central AC", "Mini-split", "Repair"],
     cta: "Get a free estimate",
   },
@@ -32,7 +32,7 @@ const SERVICES = [
     img: "/hvac/service-ventilation.webp",
     domain: "Ventilation",
     headline: "My indoor air quality is poor",
-    detail: "ERV / HRV systems, duct cleaning, air purification — fresh, filtered air throughout your home, year-round.",
+    detail: "ERV / HRV systems, duct cleaning, air purification. Fresh, filtered air throughout your home, year-round.",
     tags: ["ERV / HRV", "Duct cleaning", "Purification"],
     cta: "Explore my options",
   },
@@ -41,7 +41,7 @@ const SERVICES = [
     img: "/hvac/service-maintenance.webp",
     domain: "Maintenance",
     headline: "I want to protect my equipment",
-    detail: "Annual service plans — tune-ups, priority scheduling, parts discounts. One trusted partner for it all.",
+    detail: "Annual service plans: tune-ups, priority scheduling, parts discounts. One trusted partner for it all.",
     tags: ["Annual tune-up", "Priority", "Plans"],
     cta: "View service plans",
   },
@@ -84,7 +84,7 @@ export default function ServicesSection() {
             What do you need today?
           </h2>
           <p className="text-[1.05rem] leading-relaxed mt-4" style={{ color: "var(--text-muted)" }}>
-            Every situation is different. Pick what matches your problem —
+            Every situation is different. Pick what matches your problem.
             we&apos;ll handle everything else.
           </p>
         </div>
@@ -158,7 +158,7 @@ export default function ServicesSection() {
         {/* Reassurance strip */}
         <div className="mt-10 flex items-center justify-center gap-3 text-center">
           <span className="text-[0.9rem]" style={{ color: "var(--text-muted)" }}>
-            All work fully guaranteed — free estimates, no commitment.
+            All work fully guaranteed. Free estimates, no commitment.
           </span>
         </div>
       </div>

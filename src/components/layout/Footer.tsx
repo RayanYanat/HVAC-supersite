@@ -33,7 +33,7 @@ export default function Footer({ company }: { company: CompanyData }) {
             </a>
             <p className="text-[0.95rem] leading-relaxed max-w-xs mb-7" style={{ color: ON_INK_MUTED }}>
               Licensed HVAC contractor serving {company.zone}. Heating, air
-              conditioning, ventilation and maintenance — done right, every time.
+              conditioning, ventilation and maintenance, done right every time.
             </p>
             <div className="flex flex-wrap gap-2">
               {CERTIFS.map((c) => (
@@ -110,7 +110,7 @@ export default function Footer({ company }: { company: CompanyData }) {
         {/* Bottom bar */}
         <div className="py-6 flex flex-col sm:flex-row items-center justify-between gap-4" style={{ borderTop: "1px solid rgba(245,240,233,0.10)" }}>
           <p className="text-[0.82rem]" style={{ color: ON_INK_FAINT }}>
-            © {year} {company.name} — All rights reserved
+            © {year} {company.name}. All rights reserved
           </p>
           <div className="flex items-center gap-6">
             {["Privacy policy", "Terms of service", "Sitemap"].map((item) => (

@@ -61,7 +61,7 @@ export default function HeroSection({ company }: { company: CompanyData }) {
       <div className="absolute inset-0">
         <Image
           src="/hvac/hero-comfort.webp"
-          alt="Cool, fresh, comfortable home — climate under control on a hot day"
+          alt="Cool, fresh, comfortable home with climate under control on a hot day"
           fill
           priority
           className="hero-photo object-cover will-change-transform"
@@ -88,7 +88,7 @@ export default function HeroSection({ company }: { company: CompanyData }) {
 
         {/* Headline */}
         <h1 className="font-heading font-semibold tracking-[-0.02em] max-w-4xl text-[clamp(3rem,7.5vw,6.5rem)] leading-[0.98]" style={{ color: "#FBF7F1" }}>
-          <span className="hero-title-1 block">Cool, calm comfort —</span>
+          <span className="hero-title-1 block">Cool, calm comfort,</span>
           <span className="hero-title-2 block">
             <span className="italic" style={{ color: "#FFB27A" }}>whatever</span>{" "}it&apos;s doing outside.
           </span>
@@ -98,7 +98,7 @@ export default function HeroSection({ company }: { company: CompanyData }) {
         <p className="hero-sub max-w-xl text-[1.08rem] leading-relaxed mt-6" style={{ color: "rgba(245,240,233,0.82)" }}>
           Licensed local technicians, same-day service, free estimates. We keep{" "}
           <span style={{ color: "#FBF7F1", fontWeight: 500 }}>{company.zone}</span> comfortable
-          all year — heating and cooling, done right.
+          all year. Heating and cooling, done right.
         </p>
 
         {/* CTAs */}
@@ -111,7 +111,7 @@ export default function HeroSection({ company }: { company: CompanyData }) {
             onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "var(--brand)")}
           >
             <Phone size={17} />
-            <span>Call now — {company.phone}</span>
+            <span>Call now · {company.phone}</span>
           </a>
           <a
             href="#contact"

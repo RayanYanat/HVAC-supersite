@@ -30,10 +30,10 @@ export default function TrustSection({ company }: { company: CompanyData }) {
   const loc = company.city;
 
   const REASONS = [
-    { icon: ShieldCheck, text: "Certified & fully licensed technicians — the highest industry standard." },
+    { icon: ShieldCheck, text: "Certified & fully licensed technicians at the highest industry standard." },
     { icon: Clock,       text: `Guaranteed fast response across ${company.zone}.` },
-    { icon: Award,       text: "15+ years of HVAC expertise — residential & commercial." },
-    { icon: ThumbsUp,    text: "98% customer satisfaction — verified Google reviews." },
+    { icon: Award,       text: "15+ years of HVAC expertise across residential & commercial." },
+    { icon: ThumbsUp,    text: "98% customer satisfaction, verified on Google." },
   ];
 
   const REVIEWS = [

@@ -26,7 +26,7 @@ export default function CTABand({ company }: { company: CompanyData }) {
           Ready to feel comfortable again?
         </h2>
         <p className="max-w-xl mx-auto text-[1.08rem] leading-relaxed mt-5" style={{ color: "rgba(245,240,233,0.7)" }}>
-          Same-day service, upfront pricing, and a free estimate — no pressure.
+          Same-day service, upfront pricing, and a free estimate. No pressure.
           We keep {company.zone} comfortable, all year round.
         </p>
 
@@ -37,7 +37,7 @@ export default function CTABand({ company }: { company: CompanyData }) {
             style={{ backgroundColor: "var(--brand)" }}
           >
             <Phone size={17} />
-            <span>Call now — {company.phone}</span>
+            <span>Call now · {company.phone}</span>
           </a>
           <a
             href="#contact"
