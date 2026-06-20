@@ -187,6 +187,16 @@ html.lenis body { height: auto; }
   opacity: 0;
 }
 
+/* Hero photo starts pre-zoomed at the SAME scale GSAP animates FROM (1.18),
+   so the cinematic zoom never "snaps" when JS takes over — smooth launch. */
+.hero-photo {
+  transform: scale(1.18);
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-photo { transform: none; }
+}
+
 /* ── Mobile atmospheric blob overrides ──────────────────────────────────────
  * On smaller screens the 3 hero glows (2 side columns + 1 central) are too
  * heavy. Suppress the side columns entirely and freeze the central blob

@@ -50,6 +50,7 @@ export default function HeroSection({ company }: { company: CompanyData }) {
     <section
       ref={containerRef}
       className="relative min-h-[100svh] flex flex-col justify-end overflow-hidden"
+      style={{ backgroundColor: "#17120D" }}
     >
       {/* Top hot/cold hairline */}
       <div
@@ -58,7 +59,7 @@ export default function HeroSection({ company }: { company: CompanyData }) {
       />
 
       {/* ── Full-bleed image ── */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0" style={{ backgroundColor: "#17120D" }}>
         <Image
           src="/hvac/hero-comfort.webp"
           alt="Cool, fresh, comfortable home with climate under control on a hot day"
