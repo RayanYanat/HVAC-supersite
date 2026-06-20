@@ -81,7 +81,7 @@ export default function TrustSection({ company }: { company: CompanyData }) {
             </span>
           </div>
           <h2 className="font-heading text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[1.05] font-semibold" style={{ color: "var(--foreground)" }}>
-            An HVAC company you can <span className="italic" style={{ color: "var(--brand)" }}>actually</span> trust.
+            An HVAC company you can{" "}<span className="italic" style={{ color: "var(--brand)" }}>actually</span>{" "}trust.
           </h2>
         </div>
 

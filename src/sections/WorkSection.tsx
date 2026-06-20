@@ -54,7 +54,7 @@ export default function WorkSection({ company }: { company: CompanyData }) {
             </span>
           </div>
           <h2 className="font-heading text-[clamp(2.2rem,4.5vw,3.6rem)] leading-[1.05] font-semibold" style={{ color: "var(--foreground)" }}>
-            Cozy when it&apos;s freezing. <span className="italic" style={{ color: "var(--cool)" }}>Cool</span> when it&apos;s blazing.
+            Cozy when it&apos;s freezing.{" "}<span className="italic" style={{ color: "var(--cool)" }}>Cool</span>{" "}when it&apos;s blazing.
           </h2>
           <p className="text-[1.05rem] leading-relaxed mt-4" style={{ color: "var(--text-muted)" }}>
             The same room, all year round across {company.city}. Drag the handle:
@@ -81,12 +81,16 @@ export default function WorkSection({ company }: { company: CompanyData }) {
               <Image src="/hvac/comfort-winter.webp" alt="Warm and cozy inside while it's freezing outside" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 1100px" />
             </div>
 
-            {/* Weather labels */}
-            <span className="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[0.78rem] font-medium pointer-events-none" style={{ backgroundColor: "var(--brand)", color: "#fff" }}>
-              <Snowflake size={14} /> Freezing out · cozy in
+            {/* Weather labels — shortened on mobile so they never collide */}
+            <span className="absolute top-3 left-3 sm:top-4 sm:left-4 inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-full text-[0.72rem] sm:text-[0.78rem] font-medium pointer-events-none" style={{ backgroundColor: "var(--brand)", color: "#fff" }}>
+              <Snowflake size={13} />
+              <span className="sm:hidden">Heating</span>
+              <span className="hidden sm:inline">Freezing out · cozy in</span>
             </span>
-            <span className="absolute top-4 right-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[0.78rem] font-medium pointer-events-none" style={{ backgroundColor: "var(--cool)", color: "#fff" }}>
-              Blazing out · cool in <Sun size={14} />
+            <span className="absolute top-3 right-3 sm:top-4 sm:right-4 inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-full text-[0.72rem] sm:text-[0.78rem] font-medium pointer-events-none" style={{ backgroundColor: "var(--cool)", color: "#fff" }}>
+              <span className="sm:hidden">Cooling</span>
+              <span className="hidden sm:inline">Blazing out · cool in</span>
+              <Sun size={13} />
             </span>
 
             {/* Handle */}
