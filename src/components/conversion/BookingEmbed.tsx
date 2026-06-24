@@ -22,10 +22,14 @@ export default function BookingEmbed({ calLink }: { calLink: string }) {
   }, []);
 
   return (
-    <div className="rounded-[var(--radius)] overflow-hidden" style={{ minHeight: 560 }}>
+    <div
+      data-lenis-prevent
+      className="rounded-[var(--radius)] overflow-hidden"
+      style={{ minHeight: 560, overscrollBehavior: "contain" }}
+    >
       <Cal
         calLink={calLink}
-        style={{ width: "100%", height: "560px", overflow: "scroll" }}
+        style={{ width: "100%", height: "560px", overflow: "scroll", overscrollBehavior: "contain" }}
         config={{ layout: "month_view" }}
       />
     </div>
