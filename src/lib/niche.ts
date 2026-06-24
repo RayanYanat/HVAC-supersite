@@ -14,13 +14,22 @@ export type NicheKey = "painter" | "hvac" | "default";
 
 export type ContactField = "name" | "phone" | "email" | "address";
 
+type SingleBody  = { type: "single"; question: string; hint?: string;
+  options: { value: string; label: string; desc?: string; icon?: LucideIcon }[] };
+type CounterBody = { type: "counter"; question: string; hint?: string;
+  min: number; max: number; unit: string; default: number };
+
+/** Steps that an adaptive step can resolve to (no nesting). */
+export type BranchBody = SingleBody | CounterBody;
+
 export type Step =
-  | { id: string; type: "single"; question: string; hint?: string;
-      options: { value: string; label: string; desc?: string; icon?: LucideIcon }[] }
-  | { id: string; type: "counter"; question: string; hint?: string;
-      min: number; max: number; unit: string; default: number }
+  | ({ id: string } & SingleBody)
+  | ({ id: string } & CounterBody)
   | { id: string; type: "contact"; question: string; hint?: string;
-      fields: ContactField[] };
+      fields: ContactField[]; photos?: boolean }
+  // Resolves at runtime to the branch matching answers[dependsOn].
+  | { id: string; type: "adaptive"; dependsOn: string;
+      branches: Record<string, BranchBody>; fallback: BranchBody };
 
 export interface NicheConfig {
   /** Primary booking CTA label used in hero + CTA band */
@@ -57,7 +66,7 @@ export const NICHE_CONFIG: Record<NicheKey, NicheConfig> = {
     form: {
       eyebrow: "Free estimate",
       title: "Get your free estimate",
-      subtitle: "Answer 4 quick questions and we'll send a tailored quote within 24 hours.",
+      subtitle: "Answer a few quick questions and we'll send a tailored quote within 24 hours.",
       steps: [
         {
           id: "area", type: "single", question: "What needs painting?",
@@ -68,9 +77,32 @@ export const NICHE_CONFIG: Record<NicheKey, NicheConfig> = {
           ],
         },
         {
-          id: "size", type: "counter", question: "Roughly how many rooms?",
-          hint: "An estimate is fine — we'll confirm on site.",
-          min: 1, max: 15, unit: "rooms", default: 3,
+          // Adapts to the Interior / Exterior / Both choice above.
+          id: "size", type: "adaptive", dependsOn: "area",
+          branches: {
+            interior: {
+              type: "counter", question: "Roughly how many rooms?",
+              hint: "An estimate is fine — we'll confirm on site.",
+              min: 1, max: 15, unit: "rooms", default: 3,
+            },
+            exterior: {
+              type: "single", question: "What's the exterior scope?",
+              options: [
+                { value: "facade", label: "Facade / walls", desc: "Siding, render, masonry", icon: Building2 },
+                { value: "trim",   label: "Trim & doors",   desc: "Fascias, frames, shutters", icon: Brush },
+                { value: "full",   label: "Full exterior",  desc: "Everything outside", icon: Layers },
+              ],
+            },
+            both: {
+              type: "counter", question: "Roughly how many rooms inside?",
+              hint: "We'll assess the exterior on site.",
+              min: 1, max: 15, unit: "rooms", default: 3,
+            },
+          },
+          fallback: {
+            type: "counter", question: "Roughly how many rooms?",
+            min: 1, max: 15, unit: "rooms", default: 3,
+          },
         },
         {
           id: "work", type: "single", question: "What kind of work?",
@@ -81,8 +113,9 @@ export const NICHE_CONFIG: Record<NicheKey, NicheConfig> = {
           ],
         },
         {
-          id: "contact", type: "contact", question: "Where should we send your estimate?",
-          fields: ["name", "phone", "email", "address"],
+          id: "contact", type: "contact", question: "Your details",
+          hint: "Add a few photos to get a faster, more accurate quote.",
+          fields: ["name", "phone", "email", "address"], photos: true,
         },
       ],
       confirmation: {
@@ -133,8 +166,9 @@ export const NICHE_CONFIG: Record<NicheKey, NicheConfig> = {
           ],
         },
         {
-          id: "contact", type: "contact", question: "Where should we reach you?",
-          fields: ["name", "phone", "email", "address"],
+          id: "contact", type: "contact", question: "Your details",
+          hint: "Add a photo of the unit or the issue to speed things up.",
+          fields: ["name", "phone", "email", "address"], photos: true,
         },
       ],
       confirmation: {

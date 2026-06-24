@@ -1,9 +1,21 @@
 "use client";
-import { useState } from "react";
-import { ArrowRight, ArrowLeft, Minus, Plus, Check, CheckCircle2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowRight, ArrowLeft, Minus, Plus, Check, CheckCircle2, ImagePlus, X } from "lucide-react";
 import type { NicheConfig, Step, ContactField } from "@/lib/niche";
 
 type Answers = Record<string, string | number | Record<string, string>>;
+type Photo = { url: string; name: string };
+
+/** A step that can actually render (adaptive resolves to one of these). */
+type ResolvedStep = Exclude<Step, { type: "adaptive" }>;
+
+/* An adaptive step resolves to the branch matching a previous answer. */
+function resolveStep(raw: Step, answers: Answers): ResolvedStep {
+  if (raw.type !== "adaptive") return raw;
+  const key = answers[raw.dependsOn] as string | undefined;
+  const body = (key && raw.branches[key]) || raw.fallback;
+  return { id: raw.id, ...body };
+}
 
 const CONTACT_META: Record<ContactField, { label: string; placeholder: string; type: string; required: boolean }> = {
   name:    { label: "Full name",     placeholder: "Jane Smith",          type: "text",  required: true },
@@ -22,18 +34,24 @@ export default function EstimateForm({ form }: { form: NicheConfig["form"] }) {
     return seed;
   });
   const [submitted, setSubmitted] = useState(false);
+  const [photos, setPhotos] = useState<Record<string, Photo[]>>({});
 
-  const step = steps[current];
+  const step = resolveStep(steps[current], answers);
   const isLast = current === steps.length - 1;
   const progress = Math.round(((current + 1) / steps.length) * 100);
 
   const setAnswer = (id: string, val: Answers[string]) =>
     setAnswers((a) => ({ ...a, [id]: val }));
 
-  /* ── Per-step validation ─────────────────────────────────────────────── */
-  const stepValid = (s: Step): boolean => {
+  /* Revoke object URLs on unmount to avoid leaks */
+  useEffect(() => () => {
+    Object.values(photos).flat().forEach((p) => URL.revokeObjectURL(p.url));
+  }, [photos]);
+
+  /* ── Per-step validation (counter always valid — it shows a default) ──── */
+  const stepValid = (s: ResolvedStep): boolean => {
     if (s.type === "single") return typeof answers[s.id] === "string" && !!answers[s.id];
-    if (s.type === "counter") return typeof answers[s.id] === "number";
+    if (s.type === "counter") return true;
     if (s.type === "contact") {
       const c = (answers[s.id] as Record<string, string>) ?? {};
       return s.fields.every((f) => !CONTACT_META[f].required || (c[f] ?? "").trim().length > 0);
@@ -43,14 +61,17 @@ export default function EstimateForm({ form }: { form: NicheConfig["form"] }) {
 
   const next = () => {
     if (!stepValid(step)) return;
-    if (isLast) { submitEstimate(answers); setSubmitted(true); return; }
+    // Persist the counter's visible default if untouched
+    if (step.type === "counter" && typeof answers[step.id] !== "number") setAnswer(step.id, step.default);
+    if (isLast) { submitEstimate(); setSubmitted(true); return; }
     setCurrent((c) => c + 1);
   };
   const back = () => setCurrent((c) => Math.max(0, c - 1));
 
-  /* Integration seam — mockup: client-only. Later: POST /api/estimate. */
-  const submitEstimate = (data: Answers) => {
-    if (process.env.NODE_ENV !== "production") console.log("[estimate]", data);
+  /* Integration seam — mockup: client-only. Later: POST /api/estimate with
+     `answers` + the selected photos (FormData upload to the client's inbox). */
+  const submitEstimate = () => {
+    if (process.env.NODE_ENV !== "production") console.log("[estimate]", { answers, photos });
   };
 
   /* ── Confirmation ────────────────────────────────────────────────────── */
@@ -155,28 +176,72 @@ export default function EstimateForm({ form }: { form: NicheConfig["form"] }) {
           const c = (answers[step.id] as Record<string, string>) ?? {};
           const setField = (f: string, v: string) =>
             setAnswers((a) => ({ ...a, [step.id]: { ...((a[step.id] as Record<string, string>) ?? {}), [f]: v } }));
+          const list = photos[step.id] ?? [];
+          const onFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+            const files = Array.from(e.target.files ?? []).slice(0, 8);
+            const added = files.map((f) => ({ url: URL.createObjectURL(f), name: f.name }));
+            setPhotos((p) => ({ ...p, [step.id]: [...(p[step.id] ?? []), ...added].slice(0, 8) }));
+            e.target.value = "";
+          };
+          const removePhoto = (i: number) => setPhotos((p) => {
+            const next = [...(p[step.id] ?? [])];
+            const [rm] = next.splice(i, 1);
+            if (rm) URL.revokeObjectURL(rm.url);
+            return { ...p, [step.id]: next };
+          });
           return (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {step.fields.map((f) => {
-                const meta = CONTACT_META[f];
-                const full = f === "address";
-                return (
-                  <div key={f} className={full ? "sm:col-span-2" : ""}>
-                    <label className="block text-[0.82rem] font-medium mb-2" style={{ color: "var(--foreground)" }}>
-                      {meta.label} {meta.required && <span style={{ color: "var(--brand)" }}>*</span>}
-                    </label>
-                    <input
-                      type={meta.type} placeholder={meta.placeholder} value={c[f] ?? ""}
-                      onChange={(e) => setField(f, e.target.value)}
-                      onFocus={(e) => { e.target.style.borderColor = "var(--brand)"; e.target.style.boxShadow = "0 0 0 3px rgba(200,81,31,0.12)"; }}
-                      onBlur={(e) => { e.target.style.borderColor = "var(--input)"; e.target.style.boxShadow = "none"; }}
-                      className="w-full text-[0.95rem] px-4 py-3 outline-none transition-all duration-200"
-                      style={{ backgroundColor: "var(--surface)", border: "1px solid var(--input)", color: "var(--foreground)", borderRadius: "var(--radius)" }}
-                    />
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {step.fields.map((f) => {
+                  const meta = CONTACT_META[f];
+                  const full = f === "address";
+                  return (
+                    <div key={f} className={full ? "sm:col-span-2" : ""}>
+                      <label className="block text-[0.82rem] font-medium mb-2" style={{ color: "var(--foreground)" }}>
+                        {meta.label} {meta.required && <span style={{ color: "var(--brand)" }}>*</span>}
+                      </label>
+                      <input
+                        type={meta.type} placeholder={meta.placeholder} value={c[f] ?? ""}
+                        onChange={(e) => setField(f, e.target.value)}
+                        onFocus={(e) => { e.target.style.borderColor = "var(--brand)"; e.target.style.boxShadow = "0 0 0 3px rgba(200,81,31,0.12)"; }}
+                        onBlur={(e) => { e.target.style.borderColor = "var(--input)"; e.target.style.boxShadow = "none"; }}
+                        className="w-full text-[0.95rem] px-4 py-3 outline-none transition-all duration-200"
+                        style={{ backgroundColor: "var(--surface)", border: "1px solid var(--input)", color: "var(--foreground)", borderRadius: "var(--radius)" }}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+
+              {step.photos && (
+                <div className="mt-4">
+                  <label className="block text-[0.82rem] font-medium mb-2" style={{ color: "var(--foreground)" }}>
+                    Photos <span style={{ color: "var(--text-faint)" }}>(optional — helps us quote)</span>
+                  </label>
+                  <div className="flex flex-wrap gap-2.5">
+                    {list.map((ph, i) => (
+                      <div key={ph.url} className="relative w-16 h-16 rounded-[var(--radius)] overflow-hidden" style={{ border: "1px solid var(--border-subtle)" }}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={ph.url} alt={ph.name} className="w-full h-full object-cover" />
+                        <button type="button" onClick={() => removePhoto(i)} aria-label="Remove photo"
+                          className="absolute top-0.5 right-0.5 flex items-center justify-center w-5 h-5 rounded-full"
+                          style={{ backgroundColor: "rgba(28,26,23,0.78)", color: "#fff" }}>
+                          <X size={12} />
+                        </button>
+                      </div>
+                    ))}
+                    {list.length < 8 && (
+                      <label className="press flex flex-col items-center justify-center w-16 h-16 rounded-[var(--radius)] cursor-pointer transition-colors duration-200"
+                        style={{ border: "1.5px dashed var(--border-strong)", color: "var(--text-muted)" }}>
+                        <input type="file" accept="image/*" multiple className="hidden" onChange={onFiles} />
+                        <ImagePlus size={18} />
+                        <span className="text-[0.62rem] mt-0.5">Add</span>
+                      </label>
+                    )}
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              )}
+            </>
           );
         })()}
       </div>
