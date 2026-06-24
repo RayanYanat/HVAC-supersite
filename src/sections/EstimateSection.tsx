@@ -16,12 +16,22 @@ export default function EstimateSection({ company }: { company: CompanyData }) {
   const niche = getNiche(company.category);
   const [tab, setTab] = useState<"form" | "booking">("form");
 
-  /* Deep-link: a "Book…" CTA points at #book → open the booking tab. */
+  /* Open the booking tab when a "#book" CTA is used. The smooth-scroll handler
+     preventDefaults anchor clicks (so the hash never changes) — so we listen to
+     BOTH the hash (direct URL) and clicks on any #book link (the hero/CTA). */
   useEffect(() => {
-    const apply = () => { if (window.location.hash === "#book") setTab("booking"); };
-    apply();
-    window.addEventListener("hashchange", apply);
-    return () => window.removeEventListener("hashchange", apply);
+    const openBooking = () => setTab("booking");
+    const onHash = () => { if (window.location.hash === "#book") openBooking(); };
+    const onClick = (e: MouseEvent) => {
+      if ((e.target as Element)?.closest?.('a[href="#book"]')) openBooking();
+    };
+    onHash();
+    window.addEventListener("hashchange", onHash);
+    document.addEventListener("click", onClick);
+    return () => {
+      window.removeEventListener("hashchange", onHash);
+      document.removeEventListener("click", onClick);
+    };
   }, []);
 
   const CONTACT_DETAILS = [
@@ -74,7 +84,7 @@ export default function EstimateSection({ company }: { company: CompanyData }) {
   return (
     <section ref={sectionRef} id="contact" className="relative section-padding bg-bone">
       {/* booking deep-link anchor (offset under navbar) */}
-      <span id="book" className="absolute" style={{ top: "-5rem" }} aria-hidden />
+      <span id="book" className="absolute" style={{ top: 0 }} aria-hidden />
       <div id="estimate" className="relative max-w-7xl mx-auto px-5 lg:px-8">
 
         {/* Header */}
