@@ -6,9 +6,11 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { Phone, ArrowRight, MapPin, Star, Snowflake, Flame } from "lucide-react";
 import type { CompanyData } from "@/lib/types";
+import { getNiche } from "@/lib/niche";
 
 export default function HeroSection({ company }: { company: CompanyData }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const niche = getNiche(company.category);
 
   /* ── Cinematic entrance + slow zoom + scroll parallax ─────────────── */
   useGSAP(
@@ -115,13 +117,13 @@ export default function HeroSection({ company }: { company: CompanyData }) {
             <span>Call now · {company.phone}</span>
           </a>
           <a
-            href="#contact"
+            href="#book"
             className="press inline-flex items-center justify-center gap-2.5 px-7 py-4 text-[0.95rem] font-medium rounded-[var(--radius)] transition-all duration-300"
             style={{ color: "#FBF7F1", border: "1px solid rgba(245,240,233,0.35)", backdropFilter: "blur(2px)" }}
             onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "rgba(245,240,233,0.08)")}
             onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = "transparent")}
           >
-            <span>Free estimate</span>
+            <span>{niche.bookingCta}</span>
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-200" />
           </a>
         </div>

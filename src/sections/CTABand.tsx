@@ -1,5 +1,6 @@
 import { Phone, ArrowRight } from "lucide-react";
 import type { CompanyData } from "@/lib/types";
+import { getNiche } from "@/lib/niche";
 
 /**
  * Full-width deep-ink CTA band — the one dramatic dark moment in an otherwise
@@ -7,6 +8,7 @@ import type { CompanyData } from "@/lib/types";
  * than clashes. Sits just before the footer.
  */
 export default function CTABand({ company }: { company: CompanyData }) {
+  const niche = getNiche(company.category);
   return (
     <section className="relative overflow-hidden" style={{ backgroundColor: "#1B1714" }}>
       {/* hot/cold hairline */}
@@ -40,11 +42,11 @@ export default function CTABand({ company }: { company: CompanyData }) {
             <span>Call now · {company.phone}</span>
           </a>
           <a
-            href="#contact"
+            href="#book"
             className="press inline-flex items-center justify-center gap-2.5 px-8 py-4 text-[0.95rem] font-medium rounded-[var(--radius)] transition-colors duration-300 hover:bg-[rgba(245,240,233,0.08)]"
             style={{ color: "#FBF7F1", border: "1px solid rgba(245,240,233,0.35)" }}
           >
-            <span>Get a free estimate</span>
+            <span>{niche.bookingCta}</span>
             <ArrowRight size={16} />
           </a>
         </div>

@@ -12,4 +12,5 @@ export interface CompanyData {
   email:         string | null;
   address:       string | null;
   opening_hours: string | null;
+  category:      string | null;   // raw Supabase category → drives niche config
 }

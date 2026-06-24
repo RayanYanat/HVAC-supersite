@@ -14,7 +14,7 @@ import ServicesSection  from "@/sections/ServicesSection";
 import StatsSection     from "@/sections/StatsSection";
 import WorkSection      from "@/sections/WorkSection";
 import TrustSection     from "@/sections/TrustSection";
-import ContactSection   from "@/sections/ContactSection";
+import EstimateSection  from "@/sections/EstimateSection";
 import CTABand          from "@/sections/CTABand";
 
 /* ── ISR config ────────────────────────────────────────────────────────────
@@ -37,7 +37,7 @@ export async function generateStaticParams() {
 async function getCompany(slug: string): Promise<CompanyData | null> {
   const { data, error } = await getSupabase()
     .from("leads")
-    .select("slug, name, city, phone, email, address, opening_hours")
+    .select("slug, name, city, phone, email, address, opening_hours, category")
     .eq("slug", slug)
     .single();
 
@@ -97,7 +97,7 @@ export default async function SlugPage({
         <ComfortBand     company={company} />
         <StatsSection    company={company} />
         <TrustSection    company={company} />
-        <ContactSection  company={company} />
+        <EstimateSection company={company} />
         <CTABand         company={company} />
         <Footer          company={company} />
       </main>
