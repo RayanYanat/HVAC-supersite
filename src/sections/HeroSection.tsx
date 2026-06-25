@@ -6,11 +6,11 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { Phone, ArrowRight, MapPin, Star, Snowflake, Flame } from "lucide-react";
 import type { CompanyData } from "@/lib/types";
-import { getNiche } from "@/lib/niche";
+import { getTemplateNiche } from "@/lib/niche";
 
 export default function HeroSection({ company }: { company: CompanyData }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const niche = getNiche(company.category);
+  const niche = getTemplateNiche();
 
   /* ── Cinematic entrance + slow zoom + scroll parallax ─────────────── */
   useGSAP(

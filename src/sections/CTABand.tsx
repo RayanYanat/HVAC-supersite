@@ -1,6 +1,6 @@
 import { Phone, ArrowRight } from "lucide-react";
 import type { CompanyData } from "@/lib/types";
-import { getNiche } from "@/lib/niche";
+import { getTemplateNiche } from "@/lib/niche";
 
 /**
  * Full-width deep-ink CTA band — the one dramatic dark moment in an otherwise
@@ -8,7 +8,7 @@ import { getNiche } from "@/lib/niche";
  * than clashes. Sits just before the footer.
  */
 export default function CTABand({ company }: { company: CompanyData }) {
-  const niche = getNiche(company.category);
+  const niche = getTemplateNiche();
   return (
     <section className="relative overflow-hidden" style={{ backgroundColor: "#1B1714" }}>
       {/* hot/cold hairline */}
